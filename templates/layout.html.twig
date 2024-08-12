@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <header>
+            Header here
+        </header>
+        <main>
+            {% block body %}{% endblock %}
+        </main>
+        <footer>
+            Footer here
+        </footer>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
