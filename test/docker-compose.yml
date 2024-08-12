@@ -1,0 +1,44 @@
+services:
+  mediawiki-bundle:
+    image: amichiamoci-app
+    restart: always
+    volumes:
+      - ./uploads:/var/www/html/content/uploads:rw
+    ports:
+      - 80:80
+    networks:
+      db:
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3306:3306
+    volumes:
+     - ./data:/var/lib/mysql
+    networks:
+      db:
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    expose:
+      - "8080"
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306 
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      db:   
+    depends_on:
+      - mariadb 
+
+networks:
+  db:
+    driver: bridge
