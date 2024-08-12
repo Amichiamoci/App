@@ -2,6 +2,12 @@
 
 # Base image (contains server and http)
 FROM php:8.3-apache AS base
+
+# Add `www-data` to group `appuser`
+RUN addgroup --gid 1000 appuser; \
+  adduser --uid 1000 --gid 1000 --disabled-password appuser; \
+  adduser www-data appuser;
+
 WORKDIR /var/www/html/
 COPY . .
 COPY ./php.ini /usr/local/etc/php/
@@ -20,5 +26,4 @@ COPY --from=composer /var/www/html/vendor/ ./vendor/
 # Enable mod_rewrite.c
 RUN a2enmod rewrite
 
-RUN mkdir -p var/cache var/log
 RUN chmod +x bin/console

@@ -29,3 +29,9 @@ demo/uploads/*
 
 demo/data/*
 !demo/data/empty.txt
+
+demo/cache/*
+!demo/cahe/empty.txt
+
+demo/log/*
+!demo/log/empty.txt
