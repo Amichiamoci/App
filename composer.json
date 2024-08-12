@@ -1,0 +1,7 @@
+{
+    "require": {
+        "vlucas/phpdotenv": "^5.6",
+        "php-mvc-project/php-mvc": "^1.2",
+        "phpmailer/phpmailer": "^6.9"
+    }
+}

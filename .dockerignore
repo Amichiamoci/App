@@ -1,0 +1,5 @@
+vendor/*
+./.env.example
+./.gitignore
+./README.md
+./content/uploads/
