@@ -16,7 +16,7 @@
                 aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
 
-            <twig:ux:icon name="bi:list" />
+            <twig:ux:icon name="bi:list" height="20" />
         </button>
         <div id="navbar-collapse"
             class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -32,7 +32,7 @@
                 </li>
                 
                 <li class="nav-item">
-                    <a href="#" id="mode-toggle-btn" class="nav-link overflow-hidden">
+                    <a href="#" data-change-theme="true" class="nav-link overflow-hidden">
                         <span class="light-theme">
                             <twig:ux:icon name="bi:brightness-high" height="16" />
                             Tema chiaro
@@ -45,13 +45,14 @@
                 </li>
             </ul>
 
-            {#
-            {% if user.isLoggedIn %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <p class="nav">
-                    Ciao, {{ user.name }}!
+                    Ciao, <a href="{{ path('profile') }}">{{ app.user.email }}</a>!
                 </p>
+            {% else %}
+                <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                <a class="nav-link" href="{{ path('app_register') }}">Registrati</a>
             {% endif %}
-            #}
         </div>
     </div>
 </nav>

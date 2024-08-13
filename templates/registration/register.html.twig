@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registrati{% endblock %}
+{% block description %}Crea un account{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <h1 class="h3 mb-3 font-weight-normal">Registrati</h1>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+
+        <div class="form-floating mb-3">
+            <div class="form-error">
+                {{ form_errors(registrationForm.email) }}
+            </div>
+            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_label(registrationForm.email) }}
+        </div>
+        
+        <div class="form-floating mb-3">
+            <div class="form-error">
+                {{ form_errors(registrationForm.name) }}
+            </div>
+            {{ form_widget(registrationForm.name, {'attr': {'class': 'form-control'}}) }}
+            {{ form_label(registrationForm.name) }}
+        </div>
+        
+        <div class="form-floating mb-3">
+            <div class="form-error">
+                {{ form_errors(registrationForm.surname) }}
+            </div>
+            {{ form_widget(registrationForm.surname, {'attr': {'class': 'form-control'}}) }}
+            {{ form_label(registrationForm.surname) }}
+        </div>
+
+        <div class="form-floating mb-3">
+            <div class="form-error">
+                {{ form_errors(registrationForm.plainPassword) }}
+            </div>
+            {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+            {{ form_label(registrationForm.plainPassword, 'Password') }}
+        </div>
+        
+        <div class="form-check">
+            {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+            {{ form_label(registrationForm.agreeTerms) }}
+        </div>
+
+        <button type="submit" class="btn btn-lg btn-primary">
+            Registrati
+        </button>
+    {{ form_end(registrationForm) }}
+{% endblock %}

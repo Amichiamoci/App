@@ -1,0 +1,20 @@
+<a href="{{ path('home') }}">
+    <img src="{{ asset('logos/logo.png') }}" 
+        style="height: 70px; width: auto"
+        alt="Logo di Amichiamoci" 
+        title="Logo di Amichiamoci"  />
+</a>
+
+<h1>
+    Ciao, conferma la tua email
+</h1>
+
+<p>
+    Per favore, conferma la tua email cliccando sul seguente link: <br><br>
+    <a href="{{ signedUrl|raw }}">Conferma la mia email</a>.
+    Questo link scadrà in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+</p>
+
+<p>
+    Cordiali saluti, preghiamo di non rispondere alla seguente email
+</p>
