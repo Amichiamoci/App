@@ -3,11 +3,6 @@
 # Base image (contains server and http)
 FROM php:8.3-apache AS base
 
-# Add `www-data` to group `appuser`
-RUN addgroup --gid 1000 appuser; \
-  adduser --uid 1000 --gid 1000 --disabled-password appuser; \
-  adduser www-data appuser;
-
 WORKDIR /var/www/html/
 COPY . .
 COPY ./php.ini /usr/local/etc/php/
@@ -27,3 +22,6 @@ COPY --from=composer /var/www/html/vendor/ ./vendor/
 RUN a2enmod rewrite
 
 RUN chmod +x bin/console
+
+# Download packages
+RUN php bin/console importmap:install && php bin/console asset-map:compile

@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('home') }}">
+            <img src="{{ asset('logos/logo.png') }}" 
+                height="48"
+                alt="Logo di Amichiamoci" title="Vai alla pagina principale" 
+                class="d-inline-block align-text-top"/>
+        </a>
+        <button class="navbar-toggler" 
+                type="button"
+                role="button"
+                data-toggle="collapse"
+                data-bs-toggle="collapse"
+                data-target="#navbar-collapse"
+                data-bs-target="#navbar-collapse" 
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+
+            <twig:ux:icon name="bi:list" />
+        </button>
+        <div id="navbar-collapse"
+            class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link" href="">Partite</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('leaderboard') }}">Classifica</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Partecipa</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" id="mode-toggle-btn" class="nav-link overflow-hidden">
+                        <span class="light-theme">
+                            <twig:ux:icon name="bi:brightness-high" height="16" />
+                            Tema chiaro
+                        </span>
+                        <span class="dark-theme">
+                            <twig:ux:icon name="bi:moon" height="16" />
+                            Tema scuro
+                        </span>
+                    </a>
+                </li>
+            </ul>
+
+            {#
+            {% if user.isLoggedIn %}
+                <p class="nav">
+                    Ciao, {{ user.name }}!
+                </p>
+            {% endif %}
+            #}
+        </div>
+    </div>
+</nav>

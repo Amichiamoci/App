@@ -1,19 +1,44 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        <header>
-            Header here
-        </header>
-        <main>
+<html lang="it-it">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="{% block description %} App Amichiamoci {% endblock %}" />
+    <meta name="keywords" content="Amichiamoci, Livorno, Chiesa, Diocesi, Giovani, Sport" />
+
+    <link rel="icon" href={{ asset('logos/favicon.png') }} />
+    <link rel="shortcut icon" href={{ asset('logos/favicon.png') }} />
+    
+    <title>
+        {% block title %}Benvenuto{% endblock %} 
+        - Amichiamoci
+    </title>
+    {% block stylesheets %}
+    {% endblock %}
+</head>
+<body>
+    <header>
+        {% include('nav.html.twig') %}
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
             {% block body %}{% endblock %}
         </main>
-        <footer>
-            Footer here
-        </footer>
-        {% block javascripts %}{% endblock %}
-    </body>
+    </div>
+    <button type="button"
+            class="btn btn-secondary btn-floating btn-lg d-none position-fixed"
+            data-btn-to-top="true"
+            style="bottom: 20px; right: 20px;"
+            title="Torna su">
+        <twig:ux:icon name="bi:arrow-up" width="16" />
+    </button>
+
+    <footer class="border-top footer text-muted">
+        {% include('footer.html.twig') %}
+    </footer>
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+</body>
 </html>

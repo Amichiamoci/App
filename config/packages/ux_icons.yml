@@ -1,0 +1,7 @@
+ux_icons:
+    default_icon_attributes:
+        fill: currentColor
+        width: 16
+        height: 16
+        aria-hidden: true
+    ignore_not_found: true
