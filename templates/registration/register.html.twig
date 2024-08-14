@@ -51,6 +51,12 @@
             {{ form_label(registrationForm.agreeTerms) }}
         </div>
 
+        {% if registrationForm.captcha is defined %}
+            <div class="row">
+                {{ form_row(registrationForm.captcha) }}
+            </div>
+        {% endif %}
+
         <button type="submit" class="btn btn-lg btn-primary">
             Registrati
         </button>

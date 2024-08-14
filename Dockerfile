@@ -20,8 +20,11 @@ COPY --from=composer /var/www/html/vendor/ ./vendor/
 
 # Enable mod_rewrite.c
 RUN a2enmod rewrite
+RUN cp ./.htaccess.template ./.htaccess
+RUN sed -i 's/START_FOLDER_REPLACE//g' ./.htaccess
 
 RUN chmod +x bin/console
 
 # Download packages
-RUN php bin/console importmap:install && php bin/console asset-map:compile
+RUN php bin/console importmap:install
+RUN php bin/console asset-map:compile

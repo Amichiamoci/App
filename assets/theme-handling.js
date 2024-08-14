@@ -37,6 +37,7 @@ change_themes_links.forEach(a => {
         rotateTheme();
     }
     a.oncontextmenu = evt => evt.preventDefault();
+    a.href= "javascript:rotateTheme()";
 });
 
 

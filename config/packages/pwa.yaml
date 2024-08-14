@@ -10,14 +10,13 @@ pwa:
     start_url: "/"
     display: "standalone"
     background_color: "#ffffff"
-    theme_color: "#4285f4"
 
     dir: "ltr"
     lang: "it"
     orientation: "portrait"
 
     icons:
-      - src: "icons/favicon.png"
+      - src: "images/favicon.png"
         sizes: [256]
 
     

@@ -43,21 +43,24 @@ jobs:
         echo -e "LOCK_DSN=flock" >> ".env"
         echo -e "MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0" >> ".env"
         echo -e "MAILER_DSN=sendmail://default" >> ".env"
+
+        echo -e "RECAPTCHA3_KEY=${{ secrets.RECAPTCHA_SITE_KEY }}" >> ".env"
+        echo -e "RECAPTCHA3_SECRET=${{ secrets.RECAPTCHA_SECRET }}" >> ".env"
       env:
         REF: ${{ github.ref_name }}
 
     - name: Load contacts and urls into .env
       run: |
-        echo -e "WEBSITE_DOMAIN=\"www.${{ vars.DOMAIN }}\"" >> ".env"
-        echo -e "ISCRIZIONI_URL=\"${{ secrets.ISCRIZIONI_URL }}\"" >> ".env"
+        echo -e "WEBSITE_DOMAIN=www.${{ vars.DOMAIN }}" >> ".env"
+        echo -e "ISCRIZIONI_URL=${{ secrets.ISCRIZIONI_URL }}" >> ".env"
 
-        echo -e "INSTAGRAM_URL=\"${{ vars.INSTAGRAM_URL }}\"" >> ".env"
-        echo -e "WHATSAPP_URL=\"${{ vars.WHATSAPP_URL }}\"" >> ".env"
-        echo -e "WHATSAPP_URL=\"${{ vars.WHATSAPP_URL }}\"" >> ".env"
+        echo -e "INSTAGRAM_URL=${{ vars.INSTAGRAM_URL }}" >> ".env"
+        echo -e "WHATSAPP_URL=${{ vars.WHATSAPP_URL }}" >> ".env"
+        echo -e "FACEBOOK_URL=${{ vars.FACEBOOK_URL }}" >> ".env"
     
-        echo -e "NO_REPLY_EMAIL=no-reply@${{ vars.domain }}\"" >> ".env"
-        echo -e "DEV_EMAIL=\"${{ secrets.DEV_EMAIL_BASE }}@${{ vars.DOMAIN }}\"" >> ".env"
-        echo -e "CONTACT_EMAIL=\"${{ secrets.INFO_EMAIL_BASE }}@${{ vars.DOMAIN }}\"" >> ".env"
+        echo -e "NO_REPLY_EMAIL=no-reply@${{ vars.domain }}" >> ".env"
+        echo -e "DEV_EMAIL=${{ secrets.DEV_EMAIL_BASE }}@${{ vars.DOMAIN }}" >> ".env"
+        echo -e "CONTACT_EMAIL=${{ secrets.INFO_EMAIL_BASE }}@${{ vars.DOMAIN }}" >> ".env"
 
         echo -e "REPO_URL=\"${{ github.server_url }}/${{ github.repository }}\"" >> ".env"
 
@@ -77,7 +80,12 @@ jobs:
         REF: ${{ github.ref_name }}
     
     - name: Load DB connection string in .env
-      run: echo -e "DATABASE_URL=\"mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_ADDRESS }}:3306/${{ steps.deploy.outputs.db }}\"" >> ".env"
+      run: echo -e "DATABASE_URL=mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_ADDRESS }}/${{ steps.deploy.outputs.db }}" >> ".env"
+
+    - name: Build starting .htaccess file
+      run: |
+        cp ./.htaccess.template ./.htaccess
+        sed -i 's/START_FOLDER_REPLACE/${{ steps.deploy.outputs.path }}/g' ./.htaccess
 
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4

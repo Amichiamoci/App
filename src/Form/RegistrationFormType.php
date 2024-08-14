@@ -13,6 +13,8 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
+use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 
 class RegistrationFormType extends AbstractType
 {
@@ -57,7 +59,17 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+    
         ;
+        if (isset($_ENV["RECAPTCHA3_KEY"]) && isset($_ENV["RECAPTCHA3_SECRET"]))
+        {
+            $builder
+                ->add('captcha', Recaptcha3Type::class, [
+                    'constraints' => new Recaptcha3(),
+                    'action_name' => 'App Register',
+                    'locale' => 'it',
+                ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
