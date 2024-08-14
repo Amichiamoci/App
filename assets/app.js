@@ -11,6 +11,6 @@ console.log('Importing Bootstrap 5 styles and scripts');
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import './styles/bootstrap-nightshade.css';
-import { rotateTheme, setTheme } from './theme-handling.js';
+import './theme-handling.js';
 
 import './scroll.js';

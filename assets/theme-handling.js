@@ -32,12 +32,12 @@ function rotateTheme() {
 
 const change_themes_links = [...document.querySelectorAll('a[data-change-theme]')];
 change_themes_links.forEach(a => {
-    /*
+    
     a.onclick = evt => {
         evt.preventDefault();
         rotateTheme();
     }
-    */
+    
     a.oncontextmenu = evt => evt.preventDefault();
     a.href= "javascript:rotateTheme()";
 });
@@ -49,5 +49,3 @@ if (local_theme) {
 } else {
     setTheme(default_theme);
 }
-
-export { rotateTheme, setTheme }
