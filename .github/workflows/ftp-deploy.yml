@@ -25,12 +25,10 @@ jobs:
       env:
         update: true
     
-    - name: Install Dependencies
-      uses: nick-invision/retry@v2
-      with:
-        timeout_minutes: 5
-        max_attempts: 5
-        command: composer update --no-interaction --no-progress
+    - name: Install dependencies and compile assets
+      run: |
+        composer update --no-interaction --no-progress
+        php bin/console importmap:install && php bin/console asset-map:compile
     
     - name: Write app variables to .env
       run: |
@@ -38,9 +36,10 @@ jobs:
         then
           echo -e "APP_ENV=prod" > ".env"
         else
-          echo -e "APP_ENV=prod" > ".env"
+          echo -e "APP_ENV=dev" > ".env"
         fi
 
+        echo -e "APP_SECRET=${{ secrets.APP_SECRET }}" >> ".env"
         echo -e "LOCK_DSN=flock" >> ".env"
         echo -e "MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0" >> ".env"
         echo -e "MAILER_DSN=sendmail://default" >> ".env"
