@@ -49,3 +49,5 @@ if (local_theme) {
 } else {
     setTheme(default_theme);
 }
+
+export { rotateTheme, setTheme }
