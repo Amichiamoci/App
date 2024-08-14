@@ -1,0 +1,33 @@
+
+pwa:
+  manifest:
+    enabled: true
+
+    name: "Amichiamoci App"
+    description: "App di Amichiamoci per rimenere aggiornati sulla Manifestazione"
+    short_name: "Amichiamoci"
+    
+    start_url: "/"
+    display: "standalone"
+    background_color: "#ffffff"
+    theme_color: "#4285f4"
+
+    dir: "ltr"
+    lang: "it"
+    orientation: "portrait"
+
+    icons:
+      - src: "icons/favicon.png"
+        sizes: [256]
+
+    
+    shortcuts:
+      - name: "Vedi la classifica"
+        short_name: "Classifica"
+        description: "Apri l'app direttamente sulla classifica."
+        url: "/leaderboard"
+
+      - name: "Partite del giorno"
+        short_name: "Partite"
+        description: "Apri l'app direttamente sulle partite."
+        url: "/matches"

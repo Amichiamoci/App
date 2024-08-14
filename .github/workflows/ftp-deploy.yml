@@ -1,0 +1,90 @@
+on: 
+  push:
+    branches:
+      - main
+      - test
+name: 🚀 FTP deploy on push
+jobs:
+  ftp-deploy:
+    name: ⬆️👷 FTP deploy
+    runs-on: ubuntu-latest
+
+    env:
+      path_base_path: app
+
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v4
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        tools: composer:v2
+        coverage: none
+      env:
+        update: true
+    
+    - name: Install Dependencies
+      uses: nick-invision/retry@v2
+      with:
+        timeout_minutes: 5
+        max_attempts: 5
+        command: composer update --no-interaction --no-progress
+    
+    - name: Write app variables to .env
+      run: |
+        if [ $REF = 'main' ]
+        then
+          echo -e "APP_ENV=prod" > ".env"
+        else
+          echo -e "APP_ENV=prod" > ".env"
+        fi
+
+        echo -e "LOCK_DSN=flock" >> ".env"
+        echo -e "MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0" >> ".env"
+        echo -e "MAILER_DSN=sendmail://default" >> ".env"
+      env:
+        REF: ${{ github.ref_name }}
+
+    - name: Load contacts and urls into .env
+      run: |
+        echo -e "WEBSITE_DOMAIN=\"www.${{ vars.DOMAIN }}\"" >> ".env"
+        echo -e "ISCRIZIONI_URL=\"${{ secrets.ISCRIZIONI_URL }}\"" >> ".env"
+
+        echo -e "INSTAGRAM_URL=\"${{ vars.INSTAGRAM_URL }}\"" >> ".env"
+        echo -e "WHATSAPP_URL=\"${{ vars.WHATSAPP_URL }}\"" >> ".env"
+        echo -e "WHATSAPP_URL=\"${{ vars.WHATSAPP_URL }}\"" >> ".env"
+    
+        echo -e "NO_REPLY_EMAIL=no-reply@${{ vars.domain }}\"" >> ".env"
+        echo -e "DEV_EMAIL=\"${{ secrets.DEV_EMAIL_BASE }}@${{ vars.DOMAIN }}\"" >> ".env"
+        echo -e "CONTACT_EMAIL=\"${{ secrets.INFO_EMAIL_BASE }}@${{ vars.DOMAIN }}\"" >> ".env"
+
+        echo -e "REPO_URL=\"${{ github.server_url }}/${{ github.repository }}\"" >> ".env"
+
+    - name: Calculate deploy path and DB to use
+      id: deploy
+      run: |
+        echo "Ref is '$REF'"
+        if [ $REF = 'main' ]
+        then
+            echo "path=${{ env.path_base_path }}/" >> "$GITHUB_OUTPUT"
+            echo "db=${{ secrets.DB_MASTER_DATABASE }}" >> "$GITHUB_OUTPUT"
+        else
+            echo "path=${{ env.path_base_path }}_test/" >> "$GITHUB_OUTPUT"
+            echo "db=${{ secrets.DB_TEST_DATABASE }}" >> "$GITHUB_OUTPUT"
+        fi
+      env:
+        REF: ${{ github.ref_name }}
+    
+    - name: Load DB connection string in .env
+      run: echo -e "DATABASE_URL=\"mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_ADDRESS }}:3306/${{ steps.deploy.outputs.db }}\"" >> ".env"
+
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTP_ENDPOINT }}
+        username: ${{ secrets.FTP_USER }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        server-dir: ${{ secrets.FTP_FOLDER_BASE }}${{ steps.deploy.outputs.path }}
+        log-level: minimal

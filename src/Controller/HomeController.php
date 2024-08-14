@@ -24,15 +24,15 @@ class HomeController extends AbstractController
     public function privacy(): Response
     {
         return $this->render('home/privacy.html.twig', [
-            'dev_email' => 'dev@email.com'
+            'dev_email' => $_ENV["DEV_EMAIL"] ?? 'dev@email.com'
         ]);
     }
     #[Route('/home/credits', name: 'home_credits',)]
     public function credits(): Response
     {
         return $this->render('home/credits.html.twig', [
-            'dev_email' => 'dev@email.com',
-            'repo_url' => 'https://github.com'
+            'dev_email' => $_ENV["DEV_EMAIL"] ?? 'dev@email.com',
+            'repo_url' => $_ENV["REPO_URL"] ?? 'https://github.com'
         ]);
     }
 }

@@ -15,4 +15,4 @@ E dopo
 ```bash
 cd demo && docker-compose down && docker-compose up -d && cd ..
 ```
-L'ultimo comando avvierà anche un'istanza di phpMyAdmni sulla porta 8080
+L'ultimo comando avvierà anche un'istanza di phpMyAdmin sulla porta 8080

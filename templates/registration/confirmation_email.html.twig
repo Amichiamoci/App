@@ -11,8 +11,13 @@
 
 <p>
     Per favore, conferma la tua email cliccando sul seguente link: <br><br>
-    <a href="{{ signedUrl|raw }}">Conferma la mia email</a>.
+    <a href="{{ signedUrl|raw }}">Conferma la mia email</a>.<br>
     Questo link scadrà in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+</p>
+
+<p>
+    Se non riesci a cliccare sul link sopra copia e incolla questo url nel browser:<br>
+    <span style="font-family: monospace; word-break: break-all">{{ signedUrl|raw }}</span>
 </p>
 
 <p>

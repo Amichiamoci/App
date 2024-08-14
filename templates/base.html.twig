@@ -7,15 +7,16 @@
     <meta name="description" content="{% block description %} App Amichiamoci {% endblock %}" />
     <meta name="keywords" content="Amichiamoci, Livorno, Chiesa, Diocesi, Giovani, Sport" />
 
-    <link rel="icon" href={{ asset('logos/favicon.png') }} />
-    <link rel="shortcut icon" href={{ asset('logos/favicon.png') }} />
+    <link rel="icon" href="{{ asset('logos/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('logos/favicon.png') }}" />
     
     <title>
         {% block title %}Benvenuto{% endblock %} 
         - Amichiamoci
     </title>
-    {% block stylesheets %}
-    {% endblock %}
+    {% block stylesheets %}{% endblock %}
+
+    {{ pwa() }}
 </head>
 <body>
     <header>
