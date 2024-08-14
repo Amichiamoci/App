@@ -79,8 +79,10 @@ jobs:
       env:
         REF: ${{ github.ref_name }}
     
-    - name: Load DB connection string in .env
-      run: echo -e "DATABASE_URL=mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_ADDRESS }}/${{ steps.deploy.outputs.db }}" >> ".env"
+    - name: Load DB connection string and base path in .env
+      run: |
+        echo -e "DATABASE_URL=mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_ADDRESS }}/${{ steps.deploy.outputs.db }}" >> ".env"
+        echo -e "BASE_PATH=/${{ steps.deploy.outputs.path }}"
 
     - name: Build starting .htaccess file
       run: |

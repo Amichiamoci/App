@@ -66,7 +66,7 @@ class RegistrationFormType extends AbstractType
             $builder
                 ->add('captcha', Recaptcha3Type::class, [
                     'constraints' => new Recaptcha3(),
-                    'action_name' => 'App Register',
+                    'action_name' => 'App_Register',
                     'locale' => 'it',
                 ]);
         }

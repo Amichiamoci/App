@@ -4,10 +4,10 @@ pwa:
     enabled: true
 
     name: "Amichiamoci App"
-    description: "App di Amichiamoci per rimenere aggiornati sulla Manifestazione"
+    description: "App di Amichiamoci per rimanere aggiornati sulla Manifestazione"
     short_name: "Amichiamoci"
     
-    start_url: "/"
+    start_url: "./"
     display: "standalone"
     background_color: "#ffffff"
 
@@ -16,7 +16,7 @@ pwa:
     orientation: "portrait"
 
     icons:
-      - src: "images/favicon.png"
+      - src: "./images/favicon.png"
         sizes: [256]
 
     
@@ -24,9 +24,9 @@ pwa:
       - name: "Vedi la classifica"
         short_name: "Classifica"
         description: "Apri l'app direttamente sulla classifica."
-        url: "/leaderboard"
+        url: "./leaderboard"
 
       - name: "Partite del giorno"
         short_name: "Partite"
         description: "Apri l'app direttamente sulle partite."
-        url: "/matches"
+        url: "./matches"
