@@ -62,7 +62,7 @@ jobs:
         echo -e "DEV_EMAIL=${{ secrets.DEV_EMAIL_BASE }}@${{ vars.DOMAIN }}" >> ".env"
         echo -e "CONTACT_EMAIL=${{ secrets.INFO_EMAIL_BASE }}@${{ vars.DOMAIN }}" >> ".env"
 
-        echo -e "REPO_URL=\"${{ github.server_url }}/${{ github.repository }}\"" >> ".env"
+        echo -e "REPO_URL=${{ github.server_url }}/${{ github.repository }}" >> ".env"
 
     - name: Calculate deploy path and DB to use
       id: deploy
@@ -70,10 +70,10 @@ jobs:
         echo "Ref is '$REF'"
         if [ $REF = 'main' ]
         then
-            echo "path=${{ env.path_base_path }}/" >> "$GITHUB_OUTPUT"
+            echo "path=${{ env.path_base_path }}" >> "$GITHUB_OUTPUT"
             echo "db=${{ secrets.DB_MASTER_DATABASE }}" >> "$GITHUB_OUTPUT"
         else
-            echo "path=${{ env.path_base_path }}_test/" >> "$GITHUB_OUTPUT"
+            echo "path=${{ env.path_base_path }}_test" >> "$GITHUB_OUTPUT"
             echo "db=${{ secrets.DB_TEST_DATABASE }}" >> "$GITHUB_OUTPUT"
         fi
       env:
@@ -93,5 +93,5 @@ jobs:
         server: ${{ secrets.FTP_ENDPOINT }}
         username: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: ${{ secrets.FTP_FOLDER_BASE }}${{ steps.deploy.outputs.path }}
+        server-dir: ${{ secrets.FTP_FOLDER_BASE }}${{ steps.deploy.outputs.path }}/
         log-level: minimal
