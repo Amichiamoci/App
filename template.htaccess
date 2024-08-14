@@ -1,7 +1,7 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    RewriteRule ^START_FOLDER_REPLACE(.*)$ START_FOLDER_REPLACE/public/$1 [L,QSA]
+    RewriteRule ^(.*)$ START_FOLDER_REPLACE/public/$1 [L,QSA]
     # RewriteRule !^symfony/web/$1 - [R=404]
     
     # RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
