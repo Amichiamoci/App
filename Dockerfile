@@ -20,7 +20,7 @@ COPY --from=composer /var/www/html/vendor/ ./vendor/
 
 # Enable mod_rewrite.c
 RUN a2enmod rewrite
-RUN cp ./.htaccess.template ./.htaccess
+RUN cp ./template.htaccess ./.htaccess
 RUN sed -i 's/START_FOLDER_REPLACE//g' ./.htaccess
 
 RUN chmod +x bin/console

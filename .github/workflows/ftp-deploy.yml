@@ -84,7 +84,7 @@ jobs:
 
     - name: Build starting .htaccess file
       run: |
-        cp ./.htaccess.template ./.htaccess
+        cp ./template.htaccess ./.htaccess
         sed -i 's/START_FOLDER_REPLACE/${{ steps.deploy.outputs.path }}/g' ./.htaccess
 
     - name: 📂 Sync files
