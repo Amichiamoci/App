@@ -41,6 +41,7 @@
     
     {% block javascripts %}
         {% block importmap %}{{ importmap('app') }}{% endblock %}
+        <script src="{{ asset('theme-handling.js') }}" defer></script>
     {% endblock %}
 </body>
 </html>
