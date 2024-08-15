@@ -8,6 +8,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
 {
+    //
+    // Dynamic pages
+    //
+
     #[Route('/', name: 'home',)]
     public function index(): Response
     {
@@ -19,6 +23,22 @@ class HomeController extends AbstractController
     {
         return $this->render('home/leaderboard.html.twig');
     }
+    
+    #[Route('/matches', name: 'matches',)]
+    public function matches(): Response
+    {
+        return $this->render('home/matches.html.twig');
+    }
+    
+    #[Route('/events', name: 'events',)]
+    public function events(): Response
+    {
+        return $this->render('home/events.html.twig');
+    }
+
+    //
+    // Static pages
+    //
 
     #[Route('/home/privacy', name: 'home_privacy',)]
     public function privacy(): Response
