@@ -35,8 +35,10 @@ jobs:
         if [ $REF = 'main' ]
         then
           echo -e "APP_ENV=prod" > ".env"
+          echo -e "API_URL=https://www.${{ vars.DOMAIN }}/admin/api.php" >> ".env"
         else
           echo -e "APP_ENV=dev" > ".env"
+          echo -e "API_URL=https://www.${{ vars.DOMAIN }}/admin_test/api.php" >> ".env"
         fi
 
         echo -e "APP_SECRET=${{ secrets.APP_SECRET }}" >> ".env"
@@ -70,7 +72,7 @@ jobs:
         if [ $REF = 'main' ]
         then
             echo "path=${{ env.path_base_path }}" >> "$GITHUB_OUTPUT"
-            echo "db=${{ secrets.DB_MASTER_DATABASE }}" >> "$GITHUB_OUTPUT"
+            echo "db=${{ secrets.APP_DB_NAME }}" >> "$GITHUB_OUTPUT"
         else
             echo "path=${{ env.path_base_path }}_test" >> "$GITHUB_OUTPUT"
             echo "db=${{ secrets.DB_TEST_DATABASE }}" >> "$GITHUB_OUTPUT"

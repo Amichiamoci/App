@@ -22,12 +22,12 @@ class ApiManager
 
     public static function apiUrl(): string
     {
-        return $_ENV["API_URL_BASE"] ?? "";
+        return $_ENV["API_URL"] ?? "";
     }
 
     private static function apiBearer(): string
     {
-        return $_ENV["API_BEARER"] ?? "";
+        return $_ENV["APP_SECRET"] ?? "";
     }
     private static function getSerializer(): Serializer
     {
