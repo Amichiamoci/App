@@ -1,6 +1,7 @@
 vendor/*
-./.env.example
+var/*
+./.env.test
+./.env.local
 ./.gitignore
 ./README.md
-./content/uploads/
 demo/*

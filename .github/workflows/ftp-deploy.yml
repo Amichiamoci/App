@@ -82,7 +82,7 @@ jobs:
     - name: Load DB connection string and base path in .env
       run: |
         echo -e "DATABASE_URL=mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_ADDRESS }}/${{ steps.deploy.outputs.db }}" >> ".env"
-        echo -e "BASE_PATH=/${{ steps.deploy.outputs.path }}"
+        echo -e "BASE_PATH=/${{ steps.deploy.outputs.path }}" >> ".env"
 
     - name: Build starting .htaccess file
       run: |

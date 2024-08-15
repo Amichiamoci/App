@@ -10,9 +10,6 @@ framework:
     #fragments: true
     default_locale: it
 
-    assets:
-        base_path: '%env(BASE_PATH)%'
-
 when@test:
     framework:
         test: true
