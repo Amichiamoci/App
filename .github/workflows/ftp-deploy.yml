@@ -97,3 +97,5 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: ${{ secrets.FTP_FOLDER_BASE }}${{ steps.deploy.outputs.path }}/
         log-level: minimal
+        exclude: |
+          **/var/cache/**
