@@ -5,9 +5,14 @@
 
 {% block body %}
 
-    <p>
-    
-    Partite qui
-    
-    </p>
+    <h1> Partite </h1>
+
+    {% for match in matches %}
+        {% include 'match/small.html.twig' with { 'match': match } %}
+    {% else %}
+        <div>
+            Nessuna partita in programma
+        </div>
+    {% endfor %}
+
 {% endblock %}

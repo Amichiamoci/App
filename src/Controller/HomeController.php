@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ApiManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -25,15 +26,19 @@ class HomeController extends AbstractController
     }
     
     #[Route('/matches', name: 'matches',)]
-    public function matches(): Response
+    public function matches(ApiManager $apiManager): Response
     {
-        return $this->render('home/matches.html.twig');
+        return $this->render('home/matches.html.twig', [
+            'matches' => $apiManager->Matches()
+        ]);
     }
     
     #[Route('/events', name: 'events',)]
-    public function events(): Response
+    public function events(ApiManager $apiManager): Response
     {
-        return $this->render('home/events.html.twig');
+        return $this->render('home/events.html.twig', [
+            'events' => $apiManager->Events()
+        ]);
     }
 
     //

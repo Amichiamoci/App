@@ -17,11 +17,6 @@ class ApiManager
     ) {  }
 
     //
-    // Private variables
-    //
-    private Serializer $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
-
-    //
     // Methods
     //
 
@@ -33,6 +28,10 @@ class ApiManager
     private static function apiBearer(): string
     {
         return $_ENV["API_BEARER"] ?? "";
+    }
+    private static function getSerializer(): Serializer
+    {
+        return new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
     }
 
     private function get(string $resource):ResponseInterface
@@ -47,28 +46,27 @@ class ApiManager
         ]);
     }
 
-
-    public function Matches(): array
+    private function getObjectCollection(string $collectionName, string $className): array
     {
-        $response = $this->get('matches');
+        $response = $this->get($collectionName);
         $arr = $response->toArray();
+        $serializer = $this->getSerializer();
+
         $return_arr = array();
         foreach ($arr as $obj)
         {
-            $return_arr[] = self::$serializer->deserialize($obj, SportMatch::class, 'json');;
+            $return_arr[] = $serializer->deserialize($obj, $className, 'json');
         }
         return $return_arr;
     }
 
+    public function Matches(): array
+    {
+        return $this->getObjectCollection('matches', SportMatch::class);
+    }
+
     public function Events(): array
     {
-        $response = $this->get('events');
-        $arr = $response->toArray();
-        $return_arr = array();
-        foreach ($arr as $obj)
-        {
-            $return_arr[] = self::$serializer->deserialize($obj, Event::class, 'json');;
-        }
-        return $return_arr;
+        return $this->getObjectCollection('events', Event::class);
     }
 }
