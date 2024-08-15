@@ -67,7 +67,6 @@ jobs:
     - name: Calculate deploy path and DB to use
       id: deploy
       run: |
-        echo "Ref is '$REF'"
         if [ $REF = 'main' ]
         then
             echo "path=${{ env.path_base_path }}" >> "$GITHUB_OUTPUT"
@@ -86,8 +85,11 @@ jobs:
 
     - name: Build starting .htaccess file
       run: |
-        cp ./template.htaccess ./.htaccess
-        sed -i 's/START_FOLDER_REPLACE/${{ steps.deploy.outputs.path }}/g' ./.htaccess
+        if [$INSTALL_PATH -ne '']
+        then
+          cp ./template.htaccess ./.htaccess
+          sed -i 's/START_FOLDER_REPLACE/${{ steps.deploy.outputs.path }}/g' ./.htaccess
+        fi
 
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
