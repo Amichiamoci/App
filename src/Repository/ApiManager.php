@@ -8,6 +8,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class ApiManager
@@ -38,26 +39,31 @@ class ApiManager
     {
         return $this->client->request(
             'GET', 
-            self::apiUrl() . '/' . $resource,
+            self::apiUrl() . '?resource=' . $resource,
             [
                 'headers' => [
                     'App-Bearer-Token' => self::apiBearer()
                 ]
-        ]);
+            ]);
     }
 
     private function getObjectCollection(string $collectionName, string $className): array
     {
-        $response = $this->get($collectionName);
-        $arr = $response->toArray();
-        $serializer = $this->getSerializer();
-
-        $return_arr = array();
-        foreach ($arr as $obj)
-        {
-            $return_arr[] = $serializer->deserialize($obj, $className, 'json');
+        try {
+            $response = $this->get($collectionName);
+            $arr = $response->toArray();
+            $serializer = $this->getSerializer();
+    
+            $return_arr = array();
+            foreach ($arr as $obj)
+            {
+                $return_arr[] = $serializer->deserialize($obj, $className, 'json');
+            }
+            return $return_arr;
         }
-        return $return_arr;
+        catch (\Exception) {
+            return array();
+        }
     }
 
     public function Matches(): array
