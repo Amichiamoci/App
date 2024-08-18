@@ -7,7 +7,8 @@ pwa:
     description: "App di Amichiamoci per rimanere aggiornati sulla Manifestazione"
     short_name: "Amichiamoci"
     
-    start_url: '%env(BASE_PATH)%/public'
+    start_url: '%env(BASE_PATH)%/public/'
+    scope: '$env(BASE_PATH)%/public/'
     display: "standalone"
     background_color: "#ffffff"
 
