@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 class Team
 {
@@ -9,6 +10,7 @@ class Team
 
     public string $SportName;
     public int $SportId;
-    
-    public array $Members;
+
+    #[Ignore]
+    public array $Members = [];
 }
