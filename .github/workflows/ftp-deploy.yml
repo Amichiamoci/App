@@ -109,3 +109,4 @@ jobs:
         log-level: minimal
         exclude: |
           **/var/cache/**
+          .git/**
