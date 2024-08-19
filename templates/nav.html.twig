@@ -30,7 +30,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('events') }}">Eventi</a>
                 </li>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') && app.user.isReferee() %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isReferee() %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('referee_dashboard') }}">Arbitro</a>
                     </li>
@@ -52,7 +52,7 @@
 
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <p class="nav">
-                    Ciao, <a href="{{ path('profile') }}">{{ app.user.email }}</a>!
+                    Ciao, <a href="{{ path('profile') }}">{{ app.user.getName() }}</a>!
                 </p>
             {% else %}
                 <a class="nav-link" href="{{ path('app_login') }}">Login</a>

@@ -5,9 +5,34 @@
 
 {% block body %}
 
-    <p>{{ app.user.email }}</p>
+    <div class="row">
+        <h2>
+            Il mio account
+        </h2>
+        <ul class="list-group">
+            <li class="list-group-item">
+                Email: <a href="mailto:{{ app.user.email }}">{{ app.user.email }}</a>
+            </li>
+            <li class="list-group-item">
+                Nome: {{ app.user.getName() }}
+            </li>
+            <li class="list-group-item">
+                Cognome: {{ app.user.getSurname() }}
+            </li>
+        </ul>
+    </div>
+    
+    <div class="row">
+        <h3>
+            Azioni possibili:
+        </h3>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="{{ path('app_logout') }}" class="button">
+                    Esci
+                </a>
+            </li>
+        </ul>
+    </div>
 
-    <a href="{{ path('app_logout') }}" class="button">
-        Esci
-    </a>
 {% endblock %}
