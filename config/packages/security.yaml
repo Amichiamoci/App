@@ -19,6 +19,9 @@ security:
             lazy: true
             pattern: ^/
             provider: app_user_provider
+            entry_point: form_login
+
+            # Main provider (email and password)
             form_login:
                 login_path: app_login
                 check_path: app_login
@@ -27,16 +30,16 @@ security:
                 path: app_logout
                 target: home
 
+            # External service OpenID
             oauth:
-               resource_owners:
-                   google: "/login/check-google"
                login_path: /
+               provider: hwi_oauth.user.provider
                use_forward: false
                failure_path: /
-
+               resource_owners:
+                   google: "/login/check-google"
                oauth_user_provider:
                    service: hwi_oauth.user.provider
-               provider: hwi_oauth.user.provider
 
 
     access_control:
