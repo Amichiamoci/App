@@ -49,4 +49,17 @@
             Entra
         </button>
     </form>
+    
+    <div class="row">
+        <div class="btn-group">
+            <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}" class="button">
+                <span>Login tramite Google</span>
+                <twig:ux:icon name="bi-google" height="14" />
+            </a>
+            <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" class="button">
+                <span>Login tramite Facebook</span>
+                <twig:ux:icon name="bi-facebook" height="14" />
+            </a>
+        </div>
+    </div>
 {% endblock %}

@@ -50,6 +50,9 @@ jobs:
 
         echo -e "RECAPTCHA3_KEY=${{ secrets.RECAPTCHA_SITE_KEY }}" >> ".env"
         echo -e "RECAPTCHA3_SECRET=${{ secrets.RECAPTCHA_SECRET }}" >> ".env"
+
+        echo -e "GOOGLE_ID=${{ secrets.GOOGLE_ID }}" >> ".env"
+        echo -e "GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }}" >> ".env"
       env:
         REF: ${{ github.ref_name }}
 
