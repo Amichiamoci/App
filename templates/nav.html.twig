@@ -30,6 +30,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('events') }}">Eventi</a>
                 </li>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') && app.user.isReferee() %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('referee_dashboard') }}">Arbitro</a>
+                    </li>
+                {% endif %}
                 
                 <li class="nav-item">
                     <a data-change-theme="true" class="nav-link overflow-hidden">

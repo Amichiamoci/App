@@ -14,6 +14,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    const ADMIN = 'ROLE_ADMIN';
+    const USER = 'ROLE_USER';
+    const REFEREE = 'ROLE_REFEREE';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -78,9 +82,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
+        $roles[] = self::USER;
         return array_unique($roles);
     }
 
@@ -92,6 +94,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = $roles;
 
         return $this;
+    }
+
+    /**
+     * Checks if the user has the given role
+     * If the user has an ADMIN role the function will return true regardless
+     * @param string $role The role to check
+     * @return bool
+     */
+    public function isInRole(string $role): bool
+    {
+        $roles = $this->getRoles();
+        return in_array(self::ADMIN, $roles) || in_array($role, $roles);
+    }
+    public function isAdmin(): bool
+    {
+        return in_array(self::ADMIN, $this->getRoles());
+    }
+    public function isReferee(): bool
+    {
+        return $this->isInRole(self::REFEREE);
     }
 
     /**
@@ -151,4 +173,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
 }

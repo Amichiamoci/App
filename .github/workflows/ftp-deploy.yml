@@ -25,11 +25,6 @@ jobs:
       env:
         update: true
     
-    - name: Install dependencies and compile assets
-      run: |
-        composer update --no-interaction --no-progress
-        php bin/console importmap:install && php bin/console asset-map:compile
-    
     - name: Write app variables to .env
       run: |
         if [ $REF = 'main' ]
@@ -82,7 +77,7 @@ jobs:
     
     - name: Load DB connection string and base path in .env
       run: |
-        echo -e "DATABASE_URL=mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_ADDRESS }}/${{ steps.deploy.outputs.db }}?charset=utf8mb4_unicode_ci" >> ".env"
+        echo -e "DATABASE_URL=mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_ADDRESS }}/${{ steps.deploy.outputs.db }}" >> ".env"
         echo -e "BASE_PATH=/${{ steps.deploy.outputs.path }}" >> ".env"
 
     - name: Build starting .htaccess file
@@ -93,6 +88,11 @@ jobs:
           cp ./template.htaccess ./.htaccess
           sed -i 's/START_FOLDER_REPLACE/${{ steps.deploy.outputs.path }}/g' ./.htaccess
         fi
+    
+    - name: Install dependencies and compile assets
+      run: |
+        composer update --no-interaction --no-progress
+        php bin/console importmap:install && php bin/console asset-map:compile
 
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
