@@ -82,22 +82,10 @@ jobs:
       env:
         REF: ${{ github.ref_name }}
     
-    - name: Load base path in .env
+    - name: Load base path and DB connection string in .env
       run: |
         echo -e "BASE_PATH=/${{ steps.deploy.outputs.path }}" >> ".env"
-    - name: Load DB connection string in .env
-      run: |
         echo -e "DATABASE_URL=mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_ADDRESS }}/${{ steps.deploy.outputs.db }}" >> ".env"
-
-
-    - name: Build starting .htaccess file
-      if: false
-      run: |
-        if [$INSTALL_PATH -ne '']
-        then
-          cp ./template.htaccess ./.htaccess
-          sed -i 's/START_FOLDER_REPLACE/${{ steps.deploy.outputs.path }}/g' ./.htaccess
-        fi
 
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
