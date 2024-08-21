@@ -21,8 +21,8 @@ services:
     environment:
       MYSQL_DATABASE: app
       MYSQL_ROOT_PASSWORD: password
-    ports:
-      - 3306:3306
+    expose:
+      - "3306"
     volumes:
      - ./data:/var/lib/mysql
     networks:

@@ -50,8 +50,13 @@
         </button>
     </form>
 
-    <div class="row">
-        <div class="btn-group">
+    <div class="container">
+    <!--
+        <h3>
+            Login tramite provider
+        </h3>
+    -->
+        <div class="btn-group" role="group" aria-label="Basic example">
             <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}" class="button">
                 <span>Login tramite Google</span>
                 <twig:ux:icon name="bi:google" height="14" />
