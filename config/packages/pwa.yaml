@@ -8,7 +8,7 @@ pwa:
     short_name: "Amichiamoci"
     
     start_url: './'
-    scope: '%env(BASE_PATH)%/public/'
+    scope: '%env(APP_PATH)%'
     display: "standalone"
     background_color: "#ffffff"
 

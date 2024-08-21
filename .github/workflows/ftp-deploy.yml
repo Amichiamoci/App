@@ -88,6 +88,7 @@ jobs:
     - name: Load base path and DB connection string in .env
       run: |
         echo -e "BASE_PATH=/${{ steps.deploy.outputs.path }}" >> ".env"
+        echo -e "APP_PATH=/${{ steps.deploy.outputs.path }}/public" >> ".env"
         echo -e "DATABASE_URL=mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_ADDRESS }}/${{ steps.deploy.outputs.db }}" >> ".env"
 
     - name: 📂 Sync files
