@@ -2,9 +2,7 @@ services:
   amichiamoci-app:
     image: ghcr.io/amichiamoci/app:latest
     restart: always
-    env_file: 
-      - path: ./.env
-        required: false
+    command: php /var/www/html/bin/console make:migration && php /var/www/html/bin/console doctrine:migrations:migrate
     environment:
       DATABASE_URL: mysql://app:${MYSQL_PASSWORD}@mariadb:3306/${MYSQL_DB}?charset=utf8mb4
     ports:
@@ -15,9 +13,6 @@ services:
       - mariadb
 
   mariadb:
-    env_file: 
-      - path: ./.env
-        required: false
     image: mariadb
     command: --default-authentication-plugin=mysql_native_password
     restart: always
@@ -34,9 +29,6 @@ services:
       db:
 
   phpmyadmin:
-    env_file: 
-      - path: ./.env
-        required: false
     image: phpmyadmin
     restart: always
     ports:
