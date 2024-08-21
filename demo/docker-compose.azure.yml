@@ -1,17 +1,12 @@
 services:
   amichiamoci-app:
-    build:
-      context: ../
-      dockerfile: ./Dockerfile
+    image: ghcr.io/amichiamoci/app:latest
     restart: always
-    # command: php /var/www/html/bin/console make:migration && php /var/www/html/bin/console doctrine:migrations:migrate
-    env_file:  ./.env
+    env_file: 
+      - path: ./.env
+        required: false
     environment:
       DATABASE_URL: mysql://app:${MYSQL_PASSWORD}@mariadb:3306/${MYSQL_DB}?charset=utf8mb4
-    volumes:
-      - ./uploads:/var/www/html/content/uploads:rw
-      - ./cache:/var/www/html/var/cache/:rw
-      - ./log:/var/www/html/var/log
     ports:
       - 80:80
     networks:
@@ -20,7 +15,9 @@ services:
       - mariadb
 
   mariadb:
-    env_file: ./.env
+    env_file: 
+      - path: ./.env
+        required: false
     image: mariadb
     command: --default-authentication-plugin=mysql_native_password
     restart: always
@@ -32,12 +29,14 @@ services:
     expose:
       - "3306"
     volumes:
-     - ./data:/var/lib/mysql
+     - mysql-vol:/var/lib/mysql
     networks:
       db:
 
   phpmyadmin:
-    env_file: ./.env
+    env_file: 
+      - path: ./.env
+        required: false
     image: phpmyadmin
     restart: always
     ports:
@@ -54,3 +53,9 @@ services:
 networks:
   db:
     driver: bridge
+volumes:
+  mysql-vol:
+    driver: azure_file
+    driver_opts:
+      share_name: ${VOLUME_SHARE_NAME}
+      storage_account_name: ${STORAGE_ACCOUNT}
