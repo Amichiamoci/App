@@ -25,6 +25,28 @@ jobs:
       env:
         update: true
 
+    - name: Calculate deploy path and DB to use
+      id: deploy
+      run: |
+        if [ $REF = 'main' ]
+        then
+          echo "path=${{ env.path_base_path }}" >> "$GITHUB_OUTPUT"
+          echo "db=${{ secrets.APP_DB_NAME }}" >> "$GITHUB_OUTPUT"
+        else
+          echo "path=${{ env.path_base_path }}_test" >> "$GITHUB_OUTPUT"
+          echo "db=${{ secrets.DB_TEST_DATABASE }}" >> "$GITHUB_OUTPUT"
+        fi
+      env:
+        REF: ${{ github.ref_name }}
+    
+    - name: Install dependencies and compile assets
+      run: |
+        composer update --no-interaction --no-progress
+        php bin/console importmap:install
+        php bin/console asset-map:compile
+      env:
+        BASE_PATH: ${{ steps.deploy.outputs.path }}/
+        APP_PATH: ${{ steps.deploy.outputs.path }}/public
     
     - name: Write app variables to .env
       run: |
@@ -65,35 +87,13 @@ jobs:
 
         echo -e "REPO_URL=${{ github.server_url }}/${{ github.repository }}" >> ".env"
 
-    - name: Calculate deploy path and DB to use
-      id: deploy
-      run: |
-        if [ $REF = 'main' ]
-        then
-            echo "path=${{ env.path_base_path }}" >> "$GITHUB_OUTPUT"
-            echo "db=${{ secrets.APP_DB_NAME }}" >> "$GITHUB_OUTPUT"
-        else
-            echo "path=${{ env.path_base_path }}_test" >> "$GITHUB_OUTPUT"
-            echo "db=${{ secrets.DB_TEST_DATABASE }}" >> "$GITHUB_OUTPUT"
-        fi
-      env:
-        REF: ${{ github.ref_name }}
     
-    - name: Load base path in .env
+    - name: Load base path and DB connection string in .env
       run: |
-        echo -e "BASE_PATH=/${{ steps.deploy.outputs.path }}" >> ".env"
-        echo -e "APP_PATH=/${{ steps.deploy.outputs.path }}/public" >> ".env"
-    
-    - name: Install dependencies and compile assets
-      run: |
-        composer update --no-interaction --no-progress
-        php bin/console importmap:install
-        php bin/console asset-map:compile
-    
-    - name: Load DB connection string in .env
-      run: |
+        echo -e "BASE_PATH=${{ steps.deploy.outputs.path }}/" >> ".env"
+        echo -e "APP_PATH=${{ steps.deploy.outputs.path }}/public" >> ".env"
         echo -e "DATABASE_URL=mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_ADDRESS }}/${{ steps.deploy.outputs.db }}" >> ".env"
-        
+
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
