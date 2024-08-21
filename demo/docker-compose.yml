@@ -6,7 +6,8 @@ services:
     restart: always
     # command: php /var/www/html/bin/console make:migration && php /var/www/html/bin/console doctrine:migrations:migrate
     env_file: 
-      - ./.env
+      - path: ./.env
+        required: false
     environment:
       DATABASE_URL: mysql://app:${MYSQL_PASSWORD}@mariadb:3306/${MYSQL_DB}?charset=utf8mb4
     volumes:
@@ -22,7 +23,8 @@ services:
 
   mariadb:
     env_file: 
-      - ./.env
+      - path: ./.env
+        required: false
     image: mariadb
     command: --default-authentication-plugin=mysql_native_password
     restart: always
@@ -40,7 +42,8 @@ services:
 
   phpmyadmin:
     env_file: 
-      - ./.env
+      - path: ./.env
+        required: false
     image: phpmyadmin
     restart: always
     ports:
