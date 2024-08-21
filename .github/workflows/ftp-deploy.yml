@@ -26,12 +26,6 @@ jobs:
         update: true
 
     
-    - name: Install dependencies and compile assets
-      run: |
-        composer update --no-interaction --no-progress
-        php bin/console importmap:install
-        php bin/console asset-map:compile
-    
     - name: Write app variables to .env
       run: |
         if [ $REF = 'main' ]
@@ -85,12 +79,21 @@ jobs:
       env:
         REF: ${{ github.ref_name }}
     
-    - name: Load base path and DB connection string in .env
+    - name: Load base path in .env
       run: |
         echo -e "BASE_PATH=/${{ steps.deploy.outputs.path }}" >> ".env"
         echo -e "APP_PATH=/${{ steps.deploy.outputs.path }}/public" >> ".env"
+    
+    - name: Install dependencies and compile assets
+      run: |
+        composer update --no-interaction --no-progress
+        php bin/console importmap:install
+        php bin/console asset-map:compile
+    
+    - name: Load DB connection string in .env
+      run: |
         echo -e "DATABASE_URL=mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_ADDRESS }}/${{ steps.deploy.outputs.db }}" >> ".env"
-
+        
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
