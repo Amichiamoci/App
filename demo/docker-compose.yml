@@ -4,7 +4,7 @@ services:
       context: ../
       dockerfile: ./Dockerfile
     restart: always
-    # command: php /var/www/html/bin/console make:migration && php /var/www/html/bin/console doctrine:migrations:migrate
+    command: php /var/www/html/bin/console make:migration && php /var/www/html/bin/console doctrine:migrations:migrate
     env_file:  ./.env
     environment:
       DATABASE_URL: mysql://app:${MYSQL_PASSWORD}@mariadb:3306/${MYSQL_DB}?charset=utf8mb4
