@@ -12,7 +12,8 @@ services:
     depends_on:
       - mariadb
     volumes:
-     - "${WEBAPP_STORAGE_HOME}/AppLogs:/var/log"
+     - "${WEBAPP_STORAGE_HOME}/ApacheLogs:/var/www/html/var/log"
+     - "${WEBAPP_STORAGE_HOME}/ApacheCache:/var/www/html/var/cache/"
 
   mariadb:
     image: mariadb
@@ -32,10 +33,3 @@ services:
 networks:
   db:
     driver: bridge
-
-#volumes:
-#  mysql-vol:
-#    driver: azure_file
-#    driver_opts:
-#      share_name: mysql-vol
-#      storage_account_name: amichiamocistorage

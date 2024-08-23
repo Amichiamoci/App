@@ -1,4 +1,6 @@
 #!/bin/sh
 set -e
 service ssh start
-service apache2 start
+
+# echo "ServerName localhost" >> /etc/apache2/apache2.conf
+# service apache2 restart

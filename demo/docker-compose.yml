@@ -14,6 +14,7 @@ services:
       - ./log:/var/www/html/var/log
     ports:
       - 80:80
+      - 2222:2222
     networks:
       db:
     depends_on:

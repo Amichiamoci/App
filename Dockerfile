@@ -49,4 +49,4 @@ COPY ./docker_config_files/sshd_config /etc/ssh/
 
 # Start the server
 EXPOSE 80 2222
-ENTRYPOINT [ "./startup.sh" ]
+RUN ./startup.sh
