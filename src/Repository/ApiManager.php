@@ -7,6 +7,7 @@ use App\Entity\SportMatch;
 use App\Entity\Team;
 use App\Entity\TeamMember;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -34,7 +35,7 @@ class ApiManager
     }
     private static function getSerializer(): Serializer
     {
-        return new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
+        return new Serializer([new ObjectNormalizer(), new ArrayDenormalizer()], [new JsonEncoder()]);
     }
 
     private function get(string $resource):ResponseInterface
@@ -44,31 +45,26 @@ class ApiManager
             self::apiUrl() . '?resource=' . $resource,
             [
                 'headers' => [
-                    'App-Bearer-Token' => self::apiBearer()
+                    'App-Bearer' => self::apiBearer()
                 ]
             ]);
     }
 
     private function getObjectCollection(string $collectionName, string $className): array
     {
-        try {
+        //try {
             $response = $this->get($collectionName);
-            $arr = $response->toArray();
+            $arr = $response->getContent();
             $serializer = $this->getSerializer();
     
-            $return_arr = array();
-            foreach ($arr as $obj)
-            {
-                $return_arr[] = $serializer->deserialize($obj, $className, 'json', [
-                    AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
-                    AbstractNormalizer::REQUIRE_ALL_PROPERTIES => false
-                ]);
-            }
-            return $return_arr;
-        }
-        catch (\Exception) {
-            return array();
-        }
+            return $serializer->deserialize($arr, $className . "[]", 'json', [
+                AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
+                AbstractNormalizer::REQUIRE_ALL_PROPERTIES => false
+            ]);
+        //}
+        //catch (\Exception) {
+        //    return array();
+        //}
     }
 
     public function Matches(): array
@@ -89,7 +85,7 @@ class ApiManager
      */
     public function TeamMembers(): array
     {
-        return $this->getObjectCollection('distinte', TeamMember::class);
+        return $this->getObjectCollection('teams-members', TeamMember::class);
     }
 
     /**

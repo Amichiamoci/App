@@ -7,9 +7,27 @@ import './bootstrap.js';
  */
 import './styles/app.css';
 
-console.log('Importing Bootstrap 5 styles and scripts');
+import $ from 'jquery';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import './styles/bootstrap-nightshade.css';
+/*
+document.addEventListener('turbo:load', function (e) {
+    const popoverTriggerList = [...document.querySelectorAll('[data-bs-toggle="popover"]')];
+    console.log(`Reinitializing ${popoverTriggerList.length} popovers`);
+    popoverTriggerList.forEach(popoverTriggerEl => {
+        new bootstrap.Popover(popoverTriggerEl);
+    });
+});
+*/
+$(document).ready(function() {
+    //$('[data-toggle="popover"]').popover();
+    const popoverTriggerList = [...document.querySelectorAll('[data-bs-toggle="popover"]')];
+    console.log(`Reinitializing ${popoverTriggerList.length} popovers`);
+    popoverTriggerList.forEach(popoverTriggerEl => {
+        new bootstrap.Popover(popoverTriggerEl);
+    });
+});
 
 import './scroll.js';

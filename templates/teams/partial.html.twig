@@ -1,0 +1,49 @@
+<div class="accordion-item" id="team-{{ team.Id }}">
+    <h4 class="accordion-header">
+        <button class="accordion-button collapsed"
+                type="button" data-bs-toggle="collapse" 
+                data-bs-target="#accordion-team-{{ team.Id }}-body" 
+                aria-expanded="false"
+                aria-controls="team-{{ team.Id }}">
+            {{ team.Name }}
+            &nbsp;
+            <span class="user-select-none text-end">({{ team.Sport|upper }} {{ team.Church }})</span>
+        </button>
+    </h4>
+    <div 
+        id="accordion-team-{{ team.Id }}-body" 
+        class="accordion-collapse collapse" 
+        aria-labelledby="accordion-header" 
+        data-parent="#accordion-team-list">
+        <div class="accordion-body">
+            <ul class="list-group list-group-flush">
+            {% for member in team.Members %}
+                <li class="list-group-item">
+                    {% if member.hasProblems() %}
+                        <twig:ux:icon name="bi:exclamation-triangle" height="16" />
+                        <button 
+                            type="button" 
+                            data-bs-container="body" 
+                            data-bs-toggle="popover" 
+                            data-bs-placement="bottom" 
+                            title="C'è un problema!"
+                            class="btn btn-link"
+                            data-bs-title="Ecco i problemi"
+                            data-bs-content="{{ member.getProblemsList() }}">
+                            
+                            {{ member.FullName }}
+                        </button>
+                    {% else %}
+                        <twig:ux:icon name="bi:check" height="16" />
+                        <strong>
+                            {{ member.FullName }}
+                        </strong>
+                    {% endif %}
+                </li>
+            {% else %}
+                <li class="list-group-item">Nessun membro</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
