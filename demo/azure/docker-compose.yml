@@ -2,7 +2,6 @@ services:
   amichiamoci-app:
     image: ghcr.io/amichiamoci/app:latest
     restart: always
-    command: php /var/www/html/bin/console make:migration && php /var/www/html/bin/console doctrine:migrations:migrate
     environment:
       DATABASE_URL: mysql://app:supersecretpassword@mariadb:3306/app?charset=utf8mb4
     ports:
