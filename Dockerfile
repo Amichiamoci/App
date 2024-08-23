@@ -38,7 +38,7 @@ RUN php bin/console importmap:install
 RUN php bin/console asset-map:compile
 
 # SSH setup for container
-COPY ./docker_config_files/startup.sh ./
+COPY ./docker_config_files/startup.sh ./startup.sh
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends dialog \
@@ -49,4 +49,4 @@ COPY ./docker_config_files/sshd_config /etc/ssh/
 
 # Start the server
 EXPOSE 80 2222
-ENTRYPOINT [ "startup.sh" ]
+ENTRYPOINT [ "./startup.sh" ]
