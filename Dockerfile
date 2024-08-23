@@ -11,7 +11,7 @@ RUN install-php-extensions zip pgsql mysqli pdo pdo_mysql pdo_pgsql pdo_odbc sql
 
 WORKDIR /var/www/html/
 COPY . .
-COPY ./php.ini /usr/local/etc/php/
+COPY ./docker_config_files/php.ini /usr/local/etc/php/
 
 # Use composer to build the dependencies
 FROM composer:latest AS composer
@@ -25,7 +25,7 @@ WORKDIR /var/www/html/
 COPY --from=composer /var/www/html/vendor/ ./vendor/
 COPY --from=composer /var/www/html/var/ ./var/
 
-COPY ./template.htaccess ./.htaccess
+COPY ./docker_config_files/template.htaccess ./.htaccess
 
 # Enable mod_rewrite.c
 RUN a2enmod rewrite
@@ -36,3 +36,17 @@ RUN chmod -R 777 ./var/cache/
 # Download packages
 RUN php bin/console importmap:install
 RUN php bin/console asset-map:compile
+
+# SSH setup for container
+COPY ./docker_config_files/startup.sh ./
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends dialog \
+    && apt-get install -y --no-install-recommends openssh-server \
+    && echo "root:Docker!" | chpasswd \
+    && chmod u+x ./startup.sh
+COPY ./docker_config_files/sshd_config /etc/ssh/
+
+# Start the server
+EXPOSE 80 2222
+ENTRYPOINT [ "startup.sh" ]

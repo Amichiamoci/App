@@ -1,0 +1,41 @@
+services:
+  amichiamoci-app:
+    image: ghcr.io/amichiamoci/app:latest
+    restart: always
+    environment:
+      DATABASE_URL: mysql://app:supersecretpassword@mariadb:3306/app?charset=utf8mb4
+    ports:
+      - 80:80
+      - 2222:2222
+    networks:
+      db:
+    depends_on:
+      - mariadb
+    volumes:
+     - "${WEBAPP_STORAGE_HOME}/AppLogs:/var/log"
+
+  mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: app
+      MYSQL_USER: app
+      MYSQL_PASSWORD: supersecretpassword
+      MYSQL_ROOT_PASSWORD: supersecretpassword
+    expose:
+      - "3306"
+    volumes:
+     - "${WEBAPP_STORAGE_HOME}/db:/var/lib/mysql"
+    networks:
+      db:
+
+networks:
+  db:
+    driver: bridge
+
+#volumes:
+#  mysql-vol:
+#    driver: azure_file
+#    driver_opts:
+#      share_name: mysql-vol
+#      storage_account_name: amichiamocistorage

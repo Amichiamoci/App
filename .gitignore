@@ -37,4 +37,4 @@ demo/log/*
 !demo/log/empty.txt
 
 demo/.env
-demo/azure.env.json
+demo/azure/.env.json

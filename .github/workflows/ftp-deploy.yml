@@ -105,3 +105,5 @@ jobs:
         exclude: |
           **/var/cache/**
           .git/**
+          docker_config_files/**
+          demo/**
