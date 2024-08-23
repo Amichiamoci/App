@@ -3,4 +3,4 @@ set -e
 service ssh start
 
 # echo "ServerName localhost" >> /etc/apache2/apache2.conf
-# service apache2 restart
+apache2ctl -D FOREGROUND
