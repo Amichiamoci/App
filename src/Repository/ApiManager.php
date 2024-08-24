@@ -2,15 +2,24 @@
 
 namespace App\Repository;
 
+use App\Entity\Anagraphical;
+use App\Entity\Church;
+use App\Entity\Staff;
+use App\Entity\IdentityDocument;
 use App\Entity\Event;
 use App\Entity\SportMatch;
 use App\Entity\Team;
 use App\Entity\TeamMember;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -35,31 +44,47 @@ class ApiManager
     }
     private static function getSerializer(): Serializer
     {
-        return new Serializer([new ObjectNormalizer(), new ArrayDenormalizer()], [new JsonEncoder()]);
+        return new Serializer([
+            new ObjectNormalizer(
+                new ClassMetadataFactory(new AttributeLoader()),
+                null, 
+                null,
+                new ReflectionExtractor()
+            ), 
+            new ArrayDenormalizer(),
+            new GetSetMethodNormalizer(), 
+            new DateTimeNormalizer()
+        ], [
+            new JsonEncoder()
+        ]);
     }
 
-    private function get(string $resource):ResponseInterface
+    private function get(string $resource, $options = []):ResponseInterface
     {
+        $headers = [
+            'App-Bearer' => self::apiBearer()
+        ];
+        foreach ($options as $name => $value)
+        {
+            $headers['Data-Param-' . $name] = $value;
+        }
         return $this->client->request(
             'GET', 
             self::apiUrl() . '?resource=' . $resource,
-            [
-                'headers' => [
-                    'App-Bearer' => self::apiBearer()
-                ]
-            ]);
+            [ 'headers' => $headers ]
+        );
     }
 
-    private function getObjectCollection(string $collectionName, string $className): array
+    private function getObjectCollection(string $collectionName, string $className, $params = []): array
     {
         //try {
-            $response = $this->get($collectionName);
+            $response = $this->get($collectionName, $params);
             $arr = $response->getContent();
             $serializer = $this->getSerializer();
     
             return $serializer->deserialize($arr, $className . "[]", 'json', [
                 AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
-                AbstractNormalizer::REQUIRE_ALL_PROPERTIES => false
+                AbstractNormalizer::REQUIRE_ALL_PROPERTIES => false,
             ]);
         //}
         //catch (\Exception) {
@@ -120,5 +145,40 @@ class ApiManager
             return null;
         }
         return $filtered[0];
+    }
+
+    /**
+     * @param string $email
+     * @return Anagraphical[]
+     */
+    public function ManagedAnagraphicals(string $email): array
+    {
+        return $this->getObjectCollection('managed-anagraphicals', Anagraphical::class, [
+            'Email' => $email
+        ]);
+    }
+
+    /**
+     * @return Staff[]
+     */
+    public function Staff(): array
+    {
+        return $this->getObjectCollection('staff-list', Staff::class);
+    }
+
+    public function Church(int $id): ?Church
+    {
+        $churches = $this->getObjectCollection('church', Church::class, [
+            'id' => $id
+        ]);
+        if (count($churches) === 0) {
+            return null;
+        }
+        $church = $churches[0];
+        $staff = $this->Staff();
+        $church->Staff = array_filter($staff, function (Staff $s) use($church) {
+            return $s->ChurchId === $church->Id;
+        });
+        return $church;
     }
 }

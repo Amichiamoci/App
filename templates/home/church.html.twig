@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Parrocchia {{ church.Name }}{% endblock %}
+{% block description %}La Parrocchia {{ church.Name }}{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <h3 class="card-title text-primary m-1">
+            Parrocchia {{ church.Name }}
+        </h3>
+        
+        <div class="card-body">
+            {% if church.hasAddress() %}
+                <a href="#" class="card-link">{{ church.Address }}</a>
+            {% endif %}
+
+            {% if church.hasWebsite() %}
+                <a href="{{ church.Website }}" class="card-link">
+                    {{ church.Website }}
+                </a>
+            {% endif %}
+        </div>
+
+        <ul class="list-group list-group-flush">
+            {% for staff in church.staff %}
+                <li class="list-group-item">
+                    {{ staff.Name }}
+
+                    {% if staff.hasEmail %}
+                        <a href="mailto:{{ staff.Email }}" 
+                            class="link-secondary link-underline link-underline-opacity-0"
+                            title="Scrivimi una mail"
+                            aria-label="Contatta tramite Email">
+                            <twig:ux:icon name="bi:envelope-at" height="15" />
+                        </a>
+                    {% endif %}
+
+                    {% if staff.hasPhone %}
+                        <a href="https://wa.me/39{{ staff.Phone }}?text=Ciao,%20vorrei%20sapere%20di%20Amichiamoci" 
+                            class="link-secondary link-underline link-underline-opacity-0"
+                            title="Scrivimi su WhatsApp"
+                            aria-label="Contatta tramite WhatsApp">
+                            <twig:ux:icon name="bi:whatsapp" height="15" />
+                        </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

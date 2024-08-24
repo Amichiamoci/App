@@ -1,18 +1,7 @@
-
 a.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
-}
-  
-a {
-    color: #0077cc;
-}
-  
-.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
 }
   
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -32,11 +21,6 @@ a {
     box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
   
-button.accept-policy {
-    font-size: 1rem;
-    line-height: inherit;
-}
-  
 .footer {
     position: absolute;
     bottom: 0;
@@ -46,8 +30,14 @@ button.accept-policy {
     margin-top: 1em;
 }
 
+body {
+    margin-bottom: 60px !important;
+}
+
 html {
     font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
   
 @media (min-width: 768px) {
@@ -59,15 +49,7 @@ html {
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
-  
-html {
-    position: relative;
-    min-height: 100%;
-}
-  
-body {
-    margin-bottom: 60px;
-}
+
   
 /*
     Theme changing toggle

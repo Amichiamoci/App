@@ -6,6 +6,7 @@ use App\Repository\ApiManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class HomeController extends AbstractController
 {
@@ -38,6 +39,18 @@ class HomeController extends AbstractController
     {
         return $this->render('home/events.html.twig', [
             'events' => $apiManager->Events()
+        ]);
+    }
+
+    #[Route('/home/church/{id}', name: 'church_view',)]
+    public function church(ApiManager $apiManager, int $id): Response
+    {
+        $church = $apiManager->Church($id);
+        if (!isset($church)) {
+            throw new NotFoundHttpException("Parrocchia '$id' non trovata");
+        }
+        return $this->render('home/church.html.twig', [
+            'church' => $church,
         ]);
     }
 

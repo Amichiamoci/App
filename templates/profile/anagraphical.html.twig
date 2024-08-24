@@ -1,0 +1,83 @@
+<ul class="list-group user-select-none">
+    <!-- {{ anagraphical.Id }}-->
+    <li class="list-group-item">
+        Nome: {{ anagraphical.Name }}
+    </li>
+    <li class="list-group-item">
+        Cognome: {{ anagraphical.Surname }}
+    </li>
+    <li class="list-group-item">
+        Codice Fiscale: <span class="text-uppercase text-monospace">{{ anagraphical.FiscalCode }}</span>
+    </li>
+    <li class="list-group-item">
+        Data di nascita: {{ anagraphical.BirthDate }}
+    </li>
+
+    {% if anagraphical.hasEmail() %}
+        <li class="list-group-item">
+            <twig:ux:icon name="bi:envelope-at" height="15" />
+            <a class="link-underline-primary link-underline-opacity-75" 
+                href="mailto:{{ anagraphical.Email }}">
+                {{ anagraphical.Email }}
+            </a>
+        </li>
+    {% endif %}
+
+    {% if anagraphical.hasPhone() %}
+        <li class="list-group-item">
+            <twig:ux:icon name="bi:telephone" height="15" />
+            <a class="link-underline-primary link-underline-opacity-75" 
+                href="tel:{{ anagraphical.Phone }}">
+                {{ anagraphical.Phone }}
+            </a>
+        </li>
+    {% endif %}
+
+    <li class="list-group-item">
+        <button class="btn btn-secondary" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#identity-collapse-{{ anagraphical.Id }}" 
+            aria-expanded="false" 
+            aria-controls="identityDocument">
+            {{ anagraphical.Document.TypeName }}
+        </button>
+        
+        <ul class="collapse list-group m-1" id="identity-collapse-{{ anagraphical.Id }}">
+            <div class="list-group-item">
+                Codice: {{ anagraphical.Document.Code }}
+            </div>
+            
+            {% if anagraphical.Document.hasMessage() %}
+                <div class="list-group-item">
+                    {{ anagraphical.Document.Message }}
+                </div>
+            {% endif %}
+        </ul>
+    </li>
+
+    <li class="list-group-item">
+        <twig:ux:icon name="bi:card-checklist" height="15" />
+        {{ anagraphical.SubscriptionStatus }}
+    </li>
+    <li class="list-group-item">
+        <twig:ux:icon name="bi:clipboard2-pulse" height="15" />
+        Certificato medico: {{ anagraphical.MedicalCertificate }}
+    </li>
+    {% if anagraphical.hasShirtSize() %}
+        <li class="list-group-item">
+           Taglia maglia: {{ anagraphical.ShirtSize }}
+        </li>
+    {% endif %}
+
+    {% if anagraphical.hasChurch() %}
+        <li class="list-group-item">
+            Parrocchia: 
+            <a href="{{ path('church_view', {'id': anagraphical.ChurchId }) }}" 
+                class="link-underline-primary link-underline-opacity-75"
+                title="Vedi {{ anagraphical.Church }}">
+                {{ anagraphical.Church }}
+            </a>
+        </li>
+    {% endif %}
+</ul>

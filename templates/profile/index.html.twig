@@ -26,13 +26,21 @@
         <h3>
             Azioni possibili:
         </h3>
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="{{ path('app_logout') }}" class="button">
-                    Esci
-                </a>
-            </li>
-        </ul>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <a href="{{ path('app_logout') }}" class="btn">
+                <span>Esci</span>
+                <twig:ux:icon name="bi:box-arrow-right" height="14" />
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <h3>
+            Dati associati:
+        </h3>
+        {% for anagraphical in anagraphicals %}
+            {% include '/profile/anagraphical.html.twig' with { 'anagraphical': anagraphical } %}
+        {% endfor %}
     </div>
 
 {% endblock %}
