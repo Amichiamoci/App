@@ -22,11 +22,20 @@
     <header>
         {% include('nav.html.twig') %}
     </header>
+
+    {% for flash in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">{{ flash }}</div>
+    {% endfor %}
+    {% for flash in app.flashes('error') %}
+        <div class="alert alert-danger" role="alert">{{ flash }}</div>
+    {% endfor %}
+
     <div class="container">
         <main role="main" class="pb-3">
             {% block body %}{% endblock %}
         </main>
     </div>
+    
     <button type="button"
             class="btn btn-secondary btn-floating btn-lg d-none position-fixed"
             data-btn-to-top="true"
@@ -42,6 +51,5 @@
     {% block javascripts %}
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
-    <script src="{{ asset('theme-handling.js') }}" defer></script>
 </body>
 </html>

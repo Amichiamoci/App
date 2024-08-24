@@ -20,21 +20,21 @@
             {% for member in team.Members %}
                 <li class="list-group-item">
                     {% if member.hasProblems() %}
-                        <twig:ux:icon name="bi:exclamation-triangle" height="16" />
+                        <twig:ux:icon name="bi:exclamation-triangle" height="16" class="text-danger" />
                         <button 
                             type="button" 
-                            data-bs-container="body" 
                             data-bs-toggle="popover" 
+                            data-bs-trigger="focus" 
+                            data-bs-container="body" 
                             data-bs-placement="bottom" 
-                            title="C'è un problema!"
-                            class="btn btn-link"
                             data-bs-title="Ecco i problemi"
-                            data-bs-content="{{ member.getProblemsList() }}">
-                            
+                            data-bs-content="{{ member.getProblemsList() }}"
+                            title="C'è un problema!"
+                            class="btn btn-link link-danger">
                             {{ member.FullName }}
                         </button>
                     {% else %}
-                        <twig:ux:icon name="bi:check" height="16" />
+                        <twig:ux:icon name="bi:check" height="16" class="text-success" />
                         <strong>
                             {{ member.FullName }}
                         </strong>

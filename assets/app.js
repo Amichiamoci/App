@@ -10,24 +10,24 @@ import './styles/app.css';
 import $ from 'jquery';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap';
+import { Popover } from 'bootstrap';
 import './styles/bootstrap-nightshade.css';
-/*
-document.addEventListener('turbo:load', function (e) {
+
+import { rotateTheme } from './theme-handling.js';
+window.rotateTheme = rotateTheme;
+
+$(function() {
+
+    // Bootstrap 5 Popovers
     const popoverTriggerList = [...document.querySelectorAll('[data-bs-toggle="popover"]')];
     console.log(`Reinitializing ${popoverTriggerList.length} popovers`);
     popoverTriggerList.forEach(popoverTriggerEl => {
-        new bootstrap.Popover(popoverTriggerEl);
+        new Popover(popoverTriggerEl);
     });
-});
-*/
-$(document).ready(function() {
-    //$('[data-toggle="popover"]').popover();
-    const popoverTriggerList = [...document.querySelectorAll('[data-bs-toggle="popover"]')];
-    console.log(`Reinitializing ${popoverTriggerList.length} popovers`);
-    popoverTriggerList.forEach(popoverTriggerEl => {
-        new bootstrap.Popover(popoverTriggerEl);
-    });
+
+    // Theme button in nav
+    rotateTheme(true);
 });
 
-import './scroll.js';
+import handleScroll from './scroll.js';
+window.onscroll = handleScroll;

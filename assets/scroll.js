@@ -3,9 +3,8 @@ scroll_btn.onclick = () => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
-window.onscroll = handle_scroll;
 
-function handle_scroll() {
+function handleScroll() {
     if (!scroll_btn)
         return;
     if (
@@ -17,3 +16,4 @@ function handle_scroll() {
         scroll_btn.classList.add('d-none');
     }
 }
+export default handleScroll;

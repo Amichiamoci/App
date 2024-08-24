@@ -20,6 +20,7 @@ security:
             pattern: ^/
             provider: app_user_provider
             entry_point: form_login
+            user_checker: App\Security\UserChecker
 
             # Main provider (email and password)
             form_login:
