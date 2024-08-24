@@ -17,3 +17,5 @@ hwi_oauth:
             scope:               "email profile"
             options:
                 access_type:     offline
+    connect:
+        account_connector: App\Security\OAuthConnector

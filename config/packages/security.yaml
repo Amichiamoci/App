@@ -33,14 +33,17 @@ security:
 
             # External service OpenID
             oauth:
-               login_path: /
-               provider: hwi_oauth.user.provider
-               use_forward: false
-               failure_path: /
-               resource_owners:
-                   google: "/login/check-google"
-               oauth_user_provider:
-                   service: hwi_oauth.user.provider
+                login_path: /
+                failure_path: hwi_oauth_connect_registration
+
+                provider: app_user_provider
+                use_forward: false
+                
+                resource_owners:
+                    # facebook: "/login/check-facebook"
+                    google:   "/login/check-google"
+                oauth_user_provider:
+                    service: App\Security\UserProvider
 
 
     access_control:
