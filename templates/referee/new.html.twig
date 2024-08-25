@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Aggiungi arbitro{% endblock %}
+{% block description %}Aggiungi nuovo arbitro{% endblock %}
+
+{% block body %}
+    <h1 class="h3 mb-3 font-weight-normal">
+        Aggiungi arbitri
+    </h1>
+
+    {{ form_errors(addRefereeForm) }}
+
+    {{ form_start(addRefereeForm) }}
+
+        <div class="form-floating mb-3">
+            <div class="form-error">
+                {{ form_errors(addRefereeForm.email) }}
+            </div>
+            {{ form_widget(addRefereeForm.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_label(addRefereeForm.email) }}
+        </div>
+
+        <button type="submit" class="btn btn-lg btn-primary">
+            Aggiungi
+        </button>
+    {{ form_end(addRefereeForm) }}
+
+    <div class="row">
+        <h1 class="h4 mb-3 font-weight-normal">
+            Arbitri presenti
+        </h1>
+        <ul class="list-group">
+            {% for referee in referees %}
+                <li class="list-group-item">
+                    {{ referee.Name }} {{ referee.Surname }} -
+                    <a href="mailto:{{ referee.Email }}"
+                        title="Email di {{ referee.Name }} {{ referee.Surname }}"
+                        class="link-secondary link-underline link-underline-opacity-0">
+                        
+                        <twig:ux:icon name="bi:envelope-at" height="15" />
+                        {{ referee.Email }}
+                    </a>
+                </li>
+            {% else %}
+                <li class="list-group-item">
+                    <strong>Nessun arbitro trovato</strong>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}

@@ -7,8 +7,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Repository\ApiManager;
+use App\Form\AddRefereeFormType;
+use App\Repository\UserRepository;
 
 //#[IsGranted(User::REFEREE)]
 class RefereeController extends AbstractController
@@ -31,6 +35,42 @@ class RefereeController extends AbstractController
         }
         return $this->render('referee/team.html.twig', [
             'team' => $team
+        ]);
+    }
+
+    
+    #[Route('/referee/new', name: 'new_referee')]
+    //#[IsGranted(User::ADMIN)]
+    public function new(Request $request,UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    {
+        $email = '';
+        $form = $this->createForm(AddRefereeFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+            $email = $form->get('email')->getData();
+
+            $user = $userRepository->findOneBy(['email' => $email]);
+            if (!isset($user))
+            {
+                $this->addFlash('error', "Utente '$email' non trovato");
+            } else {
+                // Add the role and save
+                $user->addRole(User::REFEREE);
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $fullName = $user->getName() . ' ' . $user->getSurname();
+                $this->addFlash('success', "'$fullName' è ora un arbitro");
+            }
+        }
+
+        $referees = $userRepository->findByRole(User::REFEREE);
+
+        return $this->render('referee/new.html.twig', [
+            'addRefereeForm' => $form,
+            'referees' => $referees
         ]);
     }
 }

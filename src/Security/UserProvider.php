@@ -5,6 +5,8 @@ namespace App\Security;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 use App\Entity\User;
@@ -14,6 +16,8 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
 {
     public function __construct(
         private readonly UserRepository $userRepository,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly EntityManagerInterface $entityManager,
     ) { }
 
     public function loadUserByUsername(string $username): UserInterface
@@ -21,9 +25,6 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         $user = $this->userRepository->findOneBy(['email' => $username]);
 
         if (!isset($user)) {
-
-            // TODO: add a new user account
-
             throw new AuthenticationException(
                 sprintf('Utente "%s" non trovato.', $username));
         }
@@ -58,7 +59,36 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response): UserInterface
     {
-        return $this->loadUserByUsername($response->getEmail());
+        try {
+            return $this->loadUserByUsername($response->getEmail());
+        } catch (AuthenticationException) {
+            return $this->createUserFromOAuthResponse($response);
+        }
+    }
+
+    private function createUserFromOAuthResponse(UserResponseInterface $response): UserInterface
+    {
+        $user = new User();
+        $user->setEmail($response->getEmail());
+        $user->setName($response->getFirstName());
+        $user->setSurname($response->getLastName());
+
+        $user->setVerified(true);
+        $user->addRole(User::EXTERNAL_PROVIDER);
+
+        // Generate a random password that the user won't know
+        $user->setPassword(
+            $this->userPasswordHasher->hashPassword(
+                $user,
+                User::RandomPassword(32)
+            )
+        );
+
+        // Save the new user in the DB
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
     }
 
     public function supportsClass(string $class): bool

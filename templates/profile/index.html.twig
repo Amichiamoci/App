@@ -11,7 +11,11 @@
         </h2>
         <ul class="list-group">
             <li class="list-group-item">
-                Email: <a href="mailto:{{ app.user.email }}">{{ app.user.email }}</a>
+                <a href="mailto:{{ app.user.email }}"
+                    class="link-underline link-underline-opacity-0">
+                    <twig:ux:icon name="bi:envelope-at" height="15" /> 
+                    {{ app.user.email }}
+                </a>
             </li>
             <li class="list-group-item">
                 Nome: {{ app.user.getName() }}
@@ -40,6 +44,11 @@
         </h3>
         {% for anagraphical in anagraphicals %}
             {% include '/profile/anagraphical.html.twig' with { 'anagraphical': anagraphical } %}
+        {% else %}
+            <p>
+                Nessuna anagrafica associata alla mail
+                <a href="mailto:{{ app.user.email }}">{{ app.user.email }}</a>
+            </p>
         {% endfor %}
     </div>
 

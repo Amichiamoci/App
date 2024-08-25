@@ -18,6 +18,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     const ADMIN = 'ROLE_ADMIN';
     const USER = 'ROLE_USER';
     const REFEREE = 'ROLE_REFEREE';
+    const EXTERNAL_PROVIDER = 'ROLE_EXTERNAL_PROVIDER';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -84,6 +85,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         $roles[] = self::USER;
+
+        // Detect if the user is admin from the environment
+        if (
+            in_array('ADMIN_USER_EMAIL', $_ENV) && 
+            is_string($_ENV['ADMIN_USER_EMAIL']) &&
+            $this->email === $_ENV['ADMIN_USER_EMAIL'])
+        {
+            $roles[] = self::ADMIN;
+        }
+        
         return array_unique($roles);
     }
 
@@ -94,6 +105,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->roles = $roles;
 
+        return $this;
+    }
+
+    public function addRole(string $role): static
+    {
+        if (in_array($role, $this->roles))
+        {
+            return $this;
+        }
+
+        $this->roles[] = $role;
         return $this;
     }
 
@@ -139,6 +161,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+
+    private const PASSWORD_GEN_MIN = 8;
+    private const PASSWORD_GEN_MAX = 128;
+    private const PASSWORD_LETTERS_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    private const PASSWORD_DIGITS = '1234567890';
+    private const PASSWORD_SYMBOLS = '!£$€%&/()?=^[]#';
+    public static function RandomPassword(int $length): string
+    {
+        if ($length < self::PASSWORD_GEN_MIN || $length > self::PASSWORD_GEN_MAX)
+        {
+            throw new \LengthException(
+                '$length of password must be >= ' . 
+                self::PASSWORD_GEN_MIN . 
+                ' and <= ' . 
+                self::PASSWORD_GEN_MAX .
+                '. ' . 
+                $length .
+                ' given'
+            );
+        }
+
+        $alphabet = 
+            self::PASSWORD_LETTERS_UPPER . 
+            strtolower(self::PASSWORD_LETTERS_UPPER) .
+            self::PASSWORD_DIGITS .
+            self::PASSWORD_SYMBOLS; 
+
+        $pass = array();
+        for ($i = 0; $i < $length; $i++)
+        {
+            $pass[] = $alphabet[random_int(0, strlen($alphabet) - 1)];
+        }
+        return join($pass);
     }
 
     public function setName(string $name): static

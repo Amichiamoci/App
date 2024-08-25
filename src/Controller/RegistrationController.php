@@ -56,7 +56,7 @@ class RegistrationController extends AbstractController
             
             $this->addFlash(
                 'success', 
-                "Conferma la tua email cliccando sul link che hai ricevuto. Se non vedi null, controlla lo SPAM");
+                "Conferma la tua email cliccando sul link che hai ricevuto. Se non vedi nulla, controlla lo SPAM");
             
             return $this->redirectToRoute('home');
         }
