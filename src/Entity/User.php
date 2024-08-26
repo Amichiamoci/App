@@ -119,6 +119,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function removeRole(string $role): static
+    {
+        $this->roles = array_filter($this->roles, function(string $r) use($role) {
+            return $r !== $role;
+        });
+        return $this;
+    }
+
     /**
      * Checks if the user has the given role
      * If the user has an ADMIN role the function will return true regardless

@@ -1,0 +1,22 @@
+{{ form_errors(form) }}
+
+{{ form_start(form) }}
+
+    <div class="form-floating mb-3">
+        <div class="form-error">
+            {{ form_errors(form.email) }}
+        </div>
+        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'list': 'addUserRoleList'},}) }}
+        {{ form_label(form.email) }}
+
+        <datalist id="addUserRoleList">
+        {% for user in users %}
+            <option value="{{ user.Email }}">{{ user.Name }} {{ user.Surname}}: {{ user.Email }} </option>
+        {% endfor %}
+        </datalist>
+    </div>
+
+    <button type="submit" class="btn btn-lg btn-primary">
+        Aggiungi
+    </button>
+{{ form_end(form) }}

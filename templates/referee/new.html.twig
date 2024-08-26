@@ -7,23 +7,8 @@
     <h1 class="h3 mb-3 font-weight-normal">
         Aggiungi arbitri
     </h1>
-
-    {{ form_errors(addRefereeForm) }}
-
-    {{ form_start(addRefereeForm) }}
-
-        <div class="form-floating mb-3">
-            <div class="form-error">
-                {{ form_errors(addRefereeForm.email) }}
-            </div>
-            {{ form_widget(addRefereeForm.email, {'attr': {'class': 'form-control'}}) }}
-            {{ form_label(addRefereeForm.email) }}
-        </div>
-
-        <button type="submit" class="btn btn-lg btn-primary">
-            Aggiungi
-        </button>
-    {{ form_end(addRefereeForm) }}
+    
+    {% include 'admin/add_user_role.html.twig' with {'form': addRefereeForm, 'users': allUsers } %}
 
     <div class="row">
         <h1 class="h4 mb-3 font-weight-normal">
@@ -32,13 +17,18 @@
         <ul class="list-group">
             {% for referee in referees %}
                 <li class="list-group-item">
-                    {{ referee.Name }} {{ referee.Surname }} -
+                    {{ referee.Name }} {{ referee.Surname }}
                     <a href="mailto:{{ referee.Email }}"
-                        title="Email di {{ referee.Name }} {{ referee.Surname }}"
+                        title="{{ referee.Email }}"
                         class="link-secondary link-underline link-underline-opacity-0">
                         
                         <twig:ux:icon name="bi:envelope-at" height="15" />
-                        {{ referee.Email }}
+                    </a>
+                    &nbsp;
+                    <a href="{{ path('referee_remove', {'id': referee.Id }) }}" 
+                        class="link-danger link-underline link-underline-opacity-0"
+                        title="Rimuovi">
+                        <twig:ux:icon name="bi:trash" height="14" />
                     </a>
                 </li>
             {% else %}

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+{% block description %}Pannello Amministratore{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col">
+        <h3 class="h3 mb-3 font-weight-normal">
+            Aggiungi amministratori
+        </h3>
+
+        {% include 'admin/add_user_role.html.twig' with {'form': addAdminForm, 'users': allUsers } %}
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h3 class="h3 mb-3 font-weight-normal">
+            Amministratori presenti
+        </h3>
+
+        <ul class="list-group">
+        {% for user in admins %}
+            <li class="list-group-item">
+                {{ user.Name }} {{ user.Surname }}
+                <a href="mailto:{{ user.Email }}" class="link-secondary link-underline link-underline-opacity-0">
+                    <twig:ux:icon name="bi:envelope-at" height="14" />
+                </a>
+                &nbsp;
+                <a href="{{ path('admin_remove', {'id': user.Id }) }}" 
+                    class="link-danger link-underline link-underline-opacity-0"
+                    title="Rimuovi">
+                    <twig:ux:icon name="bi:trash" height="14" />
+                </a>
+            </li>
+        {% else %}
+            <li class="list-group-item">
+                <strong>Nessun utente: c'è un problema!</strong>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+    
+{% endblock %}

@@ -66,10 +66,38 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('events') }}">Eventi</a>
                 </li>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isReferee() %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('referee_dashboard') }}">Arbitro</a>
-                    </li>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if app.user.isReferee() %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('referee_dashboard') }}">Arbitro</a>
+                        </li>
+                    {% endif %}
+                    {% if app.user.isAdmin() %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                                href="#" 
+                                id="adminDropdownMenuLink" 
+                                role="button" 
+                                data-bs-toggle="dropdown" 
+                                aria-expanded="false">
+                                Admin
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-lg-start" aria-labelledby="adminDropdownMenuLink">
+                                <li>
+                                    <a class="dropdown-item" 
+                                        href="{{ path('admin') }}">
+                                        Aggiungi e rimuovi amministratori
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" 
+                                        href="{{ path('new_referee') }}">
+                                        Aggiungi e rimuovi arbitri
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
                 {% endif %}
                 
                 <li class="nav-item">
