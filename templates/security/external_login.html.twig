@@ -1,0 +1,21 @@
+<div class="row m-1">
+    <div class="btn-group" 
+        role="group" 
+        aria-label="{{ label }} tramite provider esterni">
+        
+        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}" 
+            class="btn btn-outline-secondary" 
+            role="button">
+            <span>{{ label }} tramite Google</span>
+            <twig:ux:icon name="bi:google" height="14" />
+        </a>
+        {#
+        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" 
+            class="btn btn-outline-secondary"
+            role="button">
+            <span>{{ label }} tramite Facebook</span>
+            <twig:ux:icon name="bi:facebook" height="14" />
+        </a>
+        #}
+    </div>
+</div>

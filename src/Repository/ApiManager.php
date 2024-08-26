@@ -10,6 +10,7 @@ use App\Entity\Event;
 use App\Entity\SportMatch;
 use App\Entity\Team;
 use App\Entity\TeamMember;
+use App\Entity\TodaySportMatch;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -180,5 +181,21 @@ class ApiManager
             return $s->ChurchId === $church->Id;
         });
         return $church;
+    }
+
+    /**
+     * @param string $email
+     * @return SportMatch[]
+     */
+    public function TodayMatchesOfUser(string $email): array
+    {
+        if (empty($email))
+        {
+            throw new \InvalidArgumentException('Given email was empty!');
+        }
+
+        return $this->getObjectCollection('today-matches-of', TodaySportMatch::class, [
+            'Email' => $email,
+        ]);
     }
 }

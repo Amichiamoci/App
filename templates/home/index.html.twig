@@ -5,9 +5,18 @@
 
 {% block body %}
 
-    <p>
+    {% for match in todayMatches %}
+        {% include 'match/small.html.twig' with { 'match': match } %}
+    {% else %}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div>
+                Nessuna partita in programma per te oggi
+            </div>
+        {% else %}
+            <div>
+                Effettua il login per vedere le tue partite di oggi
+            </div>
+        {% endif %}
+    {% endfor %}
     
-    La pagina principale
-    
-    </p>
 {% endblock %}

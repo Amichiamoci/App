@@ -61,4 +61,5 @@
             Registrati
         </button>
     {{ form_end(registrationForm) }}
+    {% include 'security/external_login.html.twig' with { 'label': 'Registrati' } %}
 {% endblock %}

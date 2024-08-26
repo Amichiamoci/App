@@ -15,9 +15,16 @@ class HomeController extends AbstractController
     //
 
     #[Route('/', name: 'home',)]
-    public function index(): Response
+    public function index(ApiManager $apiManager): Response
     {
-        return $this->render('home/index.html.twig');
+        $todayMatches = [];
+        $user = $this->getUser();
+        if (isset($user)) {
+            $todayMatches = $apiManager->TodayMatchesOfUser($user->getUserIdentifier());
+        }
+        return $this->render('home/index.html.twig', [
+            'todayMatches' => $todayMatches,
+        ]);
     }
 
     #[Route('/leaderboard', name: 'leaderboard',)]

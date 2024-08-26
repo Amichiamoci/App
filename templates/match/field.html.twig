@@ -1,0 +1,17 @@
+<div class="container">
+    {% if field.hasAddress() %}
+        <div class="row">
+            <div class="col">
+                {{ field.Address }}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if field.hasLatitude() %}
+        <div class="row">
+            <div class="col">
+                {{ render_map(field.Map, { style: 'height: 200px' }) }}
+            </div>
+        </div>
+    {% endif %}
+</div>

@@ -21,8 +21,44 @@
         <div id="navbar-collapse"
             class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
             <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('matches') }}">Partite</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                        href="#" 
+                        id="navbarDropdownMenuLink" 
+                        role="button" 
+                        data-bs-toggle="dropdown" 
+                        aria-expanded="false">
+                        Partite
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-lg-start" aria-labelledby="navbarDropdownMenuLink">
+                        <li>
+                            <a class="dropdown-item" 
+                                href="{{ path('matches', {'sport': 'calcio'}) }}"
+                                title="Le partite di Calcio">
+                                
+                                <twig:ux:icon name="game-icons:soccer-ball" height="15" />
+                                Calcio
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" 
+                                href="{{ path('matches', {'sport': 'pallavolo'}) }}"
+                                title="Le partite di Pallavolo">
+
+                                <twig:ux:icon name="game-icons:volleyball-ball" height="15" />
+                                Pallavolo
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" 
+                                href="{{ path('matches', {'sport': 'basket'}) }}"
+                                title="Le partite di Basket">
+
+                                <twig:ux:icon name="game-icons:basketball-basket" height="15" />
+                                Basket
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('leaderboard') }}">Classifica</a>

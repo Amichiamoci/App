@@ -1,4 +1,111 @@
-<div>
+<div class="container" id="match-${{ match.Id }}">
 
+    <div class="row">
+        <div class="col h4 text-center">
+            <a href="" class="">
+                {{ match.TourneyName }}
+            </a>
+            &nbsp;
+            <span class="user-select-none text-muted">
+                ({{ match.SportName|upper }})
+            </span>
+        </div>
+    </div>
 
+    {% if match.hasHomeTeam() and match.hasGuestTeam() %}
+        <div class="row">
+            <div class="col">
+                <twig:ux:icon name="bi:house" height="15" />
+                <a href="" class="">
+                    {{ match.HomeTeam.Name }}
+                </a>
+            </div>
+            
+            <div class="col">
+                <twig:ux:icon name="bi:car-front" height="15" />
+                <a href="" class="">
+                    {{ match.GuestTeam.Name }}
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a href="{{ path('church_view', {'id': match.HomeTeam.ChurchId })}}" 
+                    class="">
+                    {{ match.HomeTeam.Church }}
+                </a>
+            </div>
+            
+            <div class="col">
+                <a href="{{ path('church_view', {'id': match.GuestTeam.ChurchId })}}" 
+                    class="">
+                    {{ match.GuestTeam.Church }}
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if match.hasHomeTeamScore() and match.hasGuestTeamScore() %}
+        <div class="row">
+            <div class="col">
+                {{ match.HomeTeamScore }}
+            </div>
+            
+            <div class="col">
+                {{ match.GuestTeamScore }}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if match.hasDate() or match.hasTime() %}
+        <div class="row">
+            {% if match.hasDate() %}
+                <div class="col text-center"> 
+                    <twig:ux:icon name="bi:calendar-event" height="15" />
+                    {{ match.Date }}
+                </div>
+            {% endif %}
+            {% if match.hasTime() %}
+                <div class="col text-center">
+                    <twig:ux:icon name="bi:clock" height="15" />
+                    {{ match.Time }}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if match.hasField() %}
+        <div class="row">
+            <div class="col">
+                <button 
+                    type="button" 
+                    class="btn btn-outline-secondary" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#modal-field-{{ match.Field.Id }}">
+                    
+                    <twig:ux:icon name="bi:geo-alt" height="16" />
+                    {{ match.Field.Name }}
+                </button>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-field-{{ match.Field.Id }}" 
+            tabindex="-1" 
+            aria-hidden="true"
+            aria-labelledby="modal-field-label-{{ match.Field.Id }}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-field-label-{{ match.Field.Id }}">
+                            Campo {{ match.Field.Name }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% include 'match/field.html.twig' with {'field': match.Field } %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 </div>
