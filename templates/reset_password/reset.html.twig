@@ -10,12 +10,8 @@
     
     {{ form_start(resetForm) }}
 
-        <div class="form-floating mb-3">
-            <div class="form-error">
-                {{ form_errors(resetForm.plainPassword) }}
-            </div>
-            {{ form_widget(resetForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
-            {{ form_label(resetForm.plainPassword) }}
+        <div class="mb-3">
+            {{ form_row(resetForm.plainPassword) }}
         </div>
     
         <button class="btn btn-primary btn-lg" type="submit">
