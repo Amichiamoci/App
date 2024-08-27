@@ -35,7 +35,7 @@
                         </a>
                     {% endif %}
 
-                    {% if staff.hasPhone %}
+                    {% if staff.hasPhone and is_granted('IS_AUTHENTICATED_FULLY') %}
                         <a href="https://wa.me/39{{ staff.Phone }}?text=Ciao,%20vorrei%20sapere%20di%20Amichiamoci" 
                             class="link-secondary link-underline link-underline-opacity-0"
                             title="Scrivimi su WhatsApp"

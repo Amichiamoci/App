@@ -1,0 +1,31 @@
+<div class="m-1">
+    <h2> {{ team.Name }} </h2>
+    <p> 
+        Squadra di <strong>{{ team.Sport }}</strong> 
+        della parrocchia
+        <a href="{{ path('church_view', {'id': team.ChurchId })}}" 
+            class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+            {{ team.Church }}
+        </a>
+    </p>
+
+    <hr />
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <h3>Membri</h3>
+        <ul class="list-group">
+        {% for member in team.Members %}
+            <li class="list-group-item">
+                {{ member.FullName }}
+            </li>
+        {% else %}
+            <li class="list-group-item">Nessun membro</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>
+            Effettua il <a href="{{ path('app_login') }}" class="link-secondary">login</a>
+            visualizzare i membri
+        </p>
+    {% endif %}
+</div>

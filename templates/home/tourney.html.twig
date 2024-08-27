@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Torneo {{ tourney.Name }}{% endblock %}
+{% block description %}Torneo di {{ tourney.Sport }}{% endblock %}
+
+{% block body %}
+    <div class="m-1">
+        <h1>
+            Torneo {{ tourney.Name }}
+        </h1>
+        <p>
+            Tipologia: <strong>{{ tourney.Type }}</strong><br />
+            Sport: {{ tourney.Sport }}
+        </p>
+
+        <hr />
+        
+        <h3>
+            Squadre partecipanti
+        </h3>
+        <ul class="list-group">
+            {% for teamName in tourney.Teams %}
+                <li class="list-group-item">{{ teamName }}</li>
+            {% endfor %}
+        </ul>
+        
+        <hr />
+
+        <h3>
+            Parite
+        </h3>
+        <ul class="list-group">
+            {% for match in tourney.Matches %}
+                <li class="list-group-item">
+                    <a href="{{ path('home_team_view', {'id': match.HomeTeam.Id })}}" 
+                        class="link-secondary link-underline link-underline-opacity-0">
+                        {{ match.HomeTeam.Name }}
+                    </a>
+                     - 
+                    <a href="{{ path('home_team_view', {'id': match.GuestTeam.Id })}}" 
+                        class="link-secondary link-underline link-underline-opacity-0">
+                        {{ match.GuestTeam.Name }}
+                    </a>
+                    
+                    {% if match.hasDate() %}
+                        &nbsp;
+                        <span class="text-muted user-select-none">
+                            {{ match.Date }}
+                        </span>
+                    {% endif %}
+                </li>
+            {% else %}
+                <li class="list-group-item">
+                    Calendario non ancora creato
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

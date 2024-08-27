@@ -5,12 +5,11 @@ namespace App\Repository;
 use App\Entity\Anagraphical;
 use App\Entity\Church;
 use App\Entity\Staff;
-use App\Entity\IdentityDocument;
-use App\Entity\Event;
 use App\Entity\SportMatch;
 use App\Entity\Team;
 use App\Entity\TeamMember;
 use App\Entity\TodaySportMatch;
+use App\Entity\Tourney;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -93,17 +92,15 @@ class ApiManager
         //}
     }
 
-    public function Matches(): array
-    {
-        return $this->getObjectCollection('matches', SportMatch::class);
-    }
-
     /**
-     * @return Event[]
+     * @param string $sport
+     * @return SportMatch[]
      */
-    public function Events(): array
+    public function Matches(string $sport): array
     {
-        return $this->getObjectCollection('events', Event::class);
+        return $this->getObjectCollection('today-matches-sport', SportMatch::class, [
+            'Sport' => $sport,
+        ]);
     }
 
     /**
@@ -145,7 +142,7 @@ class ApiManager
         {
             return null;
         }
-        return $filtered[0];
+        return array_values($filtered)[0];
     }
 
     /**
@@ -185,7 +182,7 @@ class ApiManager
 
     /**
      * @param string $email
-     * @return SportMatch[]
+     * @return TodaySportMatch[]
      */
     public function TodayMatchesOfUser(string $email): array
     {
@@ -197,5 +194,21 @@ class ApiManager
         return $this->getObjectCollection('today-matches-of', TodaySportMatch::class, [
             'Email' => $email,
         ]);
+    }
+
+    public function Tourney(int $id): ?Tourney
+    {
+        $t = $this->getObjectCollection('tourney', Tourney::class, [
+            'Id' => $id,
+        ]);
+        if (count($t) === 0)
+        {
+            return null;
+        }
+
+        // TODO: Load matches
+
+        $tourney = array_values($t)[0];
+        return $tourney;
     }
 }

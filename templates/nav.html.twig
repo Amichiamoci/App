@@ -63,9 +63,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('leaderboard') }}">Classifica</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('events') }}">Eventi</a>
-                </li>
+                
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     {% if app.user.isReferee() %}
                         <li class="nav-item">
@@ -86,13 +84,15 @@
                                 <li>
                                     <a class="dropdown-item" 
                                         href="{{ path('admin') }}">
-                                        Aggiungi e rimuovi amministratori
+                                        <twig:ux:icon name="ri:admin-line" height="15" />
+                                        Gestisci Amministratori
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item" 
                                         href="{{ path('new_referee') }}">
-                                        Aggiungi e rimuovi arbitri
+                                        <twig:ux:icon name="game-icons:whistle" height="15" />
+                                        Gestisci Arbitri
                                     </a>
                                 </li>
                             </ul>

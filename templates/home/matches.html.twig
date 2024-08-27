@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Partite{% endblock %}
-{% block description %}Le partite della settimana{% endblock %}
+{% block description %}Le partite di oggi{% endblock %}
 
 {% block body %}
 
-    <h1> Partite </h1>
+    <h1> Partite di {{ requestedSport|upper }}</h1>
 
     {% for match in matches %}
         {% include 'match/small.html.twig' with { 'match': match } %}

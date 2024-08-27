@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
-//#[IsGranted(User::ADMIN)]
+#[IsGranted(User::ADMIN)]
 class AdminController extends AbstractController
 {
 
@@ -66,7 +66,7 @@ class AdminController extends AbstractController
                 $entityManager->flush();
 
                 $fullName = $user->getName() . ' ' . $user->getSurname();
-                $this->addFlash('success', "'$fullName' è ora un arbitro");
+                $this->addFlash('success', "'$fullName' è ora un amministratore");
             }
         }
 

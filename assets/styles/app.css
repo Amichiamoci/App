@@ -3,13 +3,15 @@ a.navbar-brand {
     text-align: center;
     word-break: break-all;
 }
-  
+
+/*
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
-  
+*/
+
 .border-top {
     border-top: 1px solid #e5e5e5;
 }

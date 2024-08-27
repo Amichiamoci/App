@@ -3,5 +3,9 @@
 {% block title %}Squadra{% endblock %}
 {% block description %}Dettagli sulla squadra {{ team.Name|upper }} {% endblock %}
 {% block body %}
-    {% include 'teams/partial.html.twig' with { 'team': team } %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isReferee() %}
+        {% include 'teams/partial.html.twig' with { 'team': team } %}
+    {% else %}
+        {% include 'teams/public.html.twig' with { 'team': team } %}
+    {% endif %}
 {% endblock %}

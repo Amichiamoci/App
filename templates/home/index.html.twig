@@ -9,14 +9,37 @@
         {% include 'match/small.html.twig' with { 'match': match } %}
     {% else %}
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <div>
+            <p>
                 Nessuna partita in programma per te oggi
-            </div>
+            </p>
         {% else %}
-            <div>
-                Effettua il login per vedere le tue partite di oggi
-            </div>
+            <p>
+                Effettua il <a href="{{ path('app_login') }}" class="link-secondary">login</a> per vedere le tue partite di oggi
+            </p>
         {% endif %}
     {% endfor %}
-    
+
+    {% if todaySaint %}
+        <div class="row user-select-none">
+            <div class="col">
+                <span>Oggi la Chiesa ricorda</span> 
+                {% if todaySaint.hasDescription() %}
+                    <a href="#"
+                        role="button" 
+                        data-bs-toggle="popover" 
+                        data-bs-trigger="focus" 
+                        data-bs-container="body" 
+                        data-bs-placement="top" 
+                        data-bs-title="{{ todaySaint.Typology }}"
+                        data-bs-content="{{ todaySaint.Description }}"
+                        title="Vedi dettagli"
+                        class="link-info link-underline link-underline-info link-offset-2-hover link-underline-opacity-0 link-underline-opacity-75-hover">
+                    {{ todaySaint.Name }}
+                    </a>        
+                {% else %}
+                    <span>{{ todaySaint.Name }}, {{ todaySaint. Typology }}</span>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

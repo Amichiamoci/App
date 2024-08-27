@@ -14,7 +14,7 @@ use App\Repository\ApiManager;
 use App\Form\AddRoleToUserFormType;
 use App\Repository\UserRepository;
 
-//#[IsGranted(User::REFEREE)]
+#[IsGranted(User::REFEREE)]
 class RefereeController extends AbstractController
 {
     #[Route('/referee', name: 'referee_dashboard')]
@@ -33,13 +33,13 @@ class RefereeController extends AbstractController
         {
             throw new NotFoundHttpException("Squadra '$id' non trovata");
         }
-        return $this->render('referee/team.html.twig', [
+        return $this->render('teams/team.html.twig', [
             'team' => $team
         ]);
     }
 
     #[Route('/referee/remove/{id}', name: 'referee_remove',)]
-    //#[IsGranted(User::ADMIN)]
+    #[IsGranted(User::ADMIN)]
     public function removeAdmin(
         EntityManagerInterface $entityManager, 
         UserRepository $userRepository, 
@@ -64,7 +64,7 @@ class RefereeController extends AbstractController
 
     
     #[Route('/referee/new', name: 'new_referee')]
-    //#[IsGranted(User::ADMIN)]
+    #[IsGranted(User::ADMIN)]
     public function new(Request $request,UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $email = '';

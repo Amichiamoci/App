@@ -1,8 +1,9 @@
-<div class="container" id="match-${{ match.Id }}">
+<div class="container border border-2 m-1 p-1" id="match-${{ match.Id }}">
 
     <div class="row">
         <div class="col h4 text-center">
-            <a href="" class="">
+            <a href="{{ path('home_tourney_view', {'id': match.TourneyId }) }}" 
+                class="link-primary link-underline">
                 {{ match.TourneyName }}
             </a>
             &nbsp;
@@ -14,31 +15,35 @@
 
     {% if match.hasHomeTeam() and match.hasGuestTeam() %}
         <div class="row">
-            <div class="col">
+            <div class="col text-center">
                 <twig:ux:icon name="bi:house" height="15" />
-                <a href="" class="">
+                <a href="{{ path('home_team_view', {'id': match.HomeTeam.Id })}}" 
+                    class="link-secondary link-underline link-underline-opacity-0">
                     {{ match.HomeTeam.Name }}
                 </a>
             </div>
             
-            <div class="col">
+            <div class="col text-center">
                 <twig:ux:icon name="bi:car-front" height="15" />
-                <a href="" class="">
+                <a href="{{ path('home_team_view', {'id': match.GuestTeam.Id })}}" 
+                    class="link-secondary link-underline link-underline-opacity-0">
                     {{ match.GuestTeam.Name }}
                 </a>
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col text-center">
                 <a href="{{ path('church_view', {'id': match.HomeTeam.ChurchId })}}" 
-                    class="">
+                    class="link-secondary link-underline link-underline-opacity-0">
+                    <twig:ux:icon name="mdi:church-outline" height="15" />
                     {{ match.HomeTeam.Church }}
                 </a>
             </div>
             
-            <div class="col">
+            <div class="col text-center">
                 <a href="{{ path('church_view', {'id': match.GuestTeam.ChurchId })}}" 
-                    class="">
+                    class="link-secondary link-underline link-underline-opacity-0">
+                    <twig:ux:icon name="mdi:church-outline" height="15" />
                     {{ match.GuestTeam.Church }}
                 </a>
             </div>
@@ -47,11 +52,11 @@
 
     {% if match.hasHomeTeamScore() and match.hasGuestTeamScore() %}
         <div class="row">
-            <div class="col">
+            <div class="col text-center">
                 {{ match.HomeTeamScore }}
             </div>
             
-            <div class="col">
+            <div class="col text-center">
                 {{ match.GuestTeamScore }}
             </div>
         </div>
@@ -76,16 +81,16 @@
 
     {% if match.hasField() %}
         <div class="row">
-            <div class="col">
-                <button 
-                    type="button" 
-                    class="btn btn-outline-secondary" 
+            <div class="col text-center">
+                <a href="#"
+                    role="button" 
+                    class="link-secondary link-underline link-underline-opacity-0" 
                     data-bs-toggle="modal" 
                     data-bs-target="#modal-field-{{ match.Field.Id }}">
                     
                     <twig:ux:icon name="bi:geo-alt" height="16" />
                     {{ match.Field.Name }}
-                </button>
+                </a>
             </div>
         </div>
 
@@ -105,6 +110,16 @@
                         {% include 'match/field.html.twig' with {'field': match.Field } %}
                     </div>
                 </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if match.WhoPlays is defined %}
+        <div class="row">
+            <div class="col text-center">
+                <em class="text-muted user-select-none">
+                    {{ match.WhoPlays }}, ricordati di giocare!
+                </em>
             </div>
         </div>
     {% endif %}
