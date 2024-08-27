@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Resetta la tua password{% endblock %}
+{% block description %}Indica una nuova passord{% endblock %}
+
+{% block body %}
+    <h1 class="h3 mb-3 font-weight-normal">La tua password</h1>
+
+    {{ form_errors(resetForm) }}
+    
+    {{ form_start(resetForm) }}
+
+        <div class="form-floating mb-3">
+            <div class="form-error">
+                {{ form_errors(resetForm.plainPassword) }}
+            </div>
+            {{ form_widget(resetForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+            {{ form_label(resetForm.plainPassword) }}
+        </div>
+    
+        <button class="btn btn-primary btn-lg" type="submit">
+            Resetta la password
+        </button>
+    {{ form_end(resetForm) }}
+{% endblock %}

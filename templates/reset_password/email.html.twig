@@ -1,0 +1,27 @@
+<a href="{{ url('home') }}">
+    <img src="{{ absolute_url(asset('logos/logo.png')) }}" 
+        style="height: 70px; width: auto"
+        alt="Logo di Amichiamoci" 
+        title="Logo di Amichiamoci"  />
+</a>
+
+<h1>Ciao,</h1>
+
+<p>Per resettare la tua password clicca sul seguente link</p>
+
+<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">
+    {{ url('app_reset_password', {token: resetToken.token}) }}
+</a>
+
+<p>
+    Se non hai iniziato tu questa operazione, ignora quest'email senza cliccare su nessun link
+</p>
+
+<p>
+    Questo link scadrà in 
+    {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+</p>
+
+<small>
+    Chiediamo di non rispondere a quest'email
+</small>

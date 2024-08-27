@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reimposta la password{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('reset_password_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+    <h1 class="h3 mb-3 font-weight-normal">Reimposta la password</h1>
+
+    {{ form_errors(requestForm) }}
+
+    {{ form_start(requestForm) }}
+    
+        <div class="form-floating mb-3">
+            <div class="form-error">
+                {{ form_errors(requestForm.email) }}
+            </div>
+            {{ form_widget(requestForm.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_label(requestForm.email) }}
+        </div>
+
+        <div>
+            <small class="text-muted">
+                Indica il tuo indirizzo email e noi ti invieremo un link per resettare la password.
+            </small>
+        </div>
+
+        <button class="btn btn-primary btn-lg" type="submit">
+            Invia email
+        </button>
+    {{ form_end(requestForm) }}
+{% endblock %}

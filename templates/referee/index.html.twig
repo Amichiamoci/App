@@ -5,38 +5,45 @@
 
 {% block body %}
 <div class="container">
-    <h1>
-        Pannello arbitri
-    </h1>
-    <hr />
-
-    <h3> Squadre di oggi </h3>
-    <div class="accordion" id="accordion-team-list">
-        {% for team in teams %}
-            {% include 'teams/partial.html.twig' with { 'team': team } %}
-        {% else %}
-            <div class="accordion-item" id="no-team">
-                <h4 class="accordion-header">
-                    <button class="accordion-button collapsed"
-                            type="button" data-bs-toggle="collapse" 
-                            data-bs-target="#accordion-no-team-body" 
-                            aria-expanded="false"
-                            aria-controls="no-team">
-                        Nessun risultato
-                    </button>
-                </h4>
-                <div 
-                    id="accordion-no-team-body" 
-                    class="accordion-collapse collapse" 
-                    aria-labelledby="accordion-header" 
-                    data-parent="#accordion-team-list">
-                    <div class="accordion-body">
-                        Non è stato possibile trovare nessuna squadra
-                        <twig:ux:icon name="bi:emoji-frown" height="15" />
+    <h3> Partite di oggi e ieri </h3>
+    <ul class="list-group list-group-flush">
+        {% for sport, matches in sportAndMatches %}
+        {% set id = sport|lower|replace({' ': '-'}) %}
+            <li class="list-group-item">
+                <div class="accordion" id="sport-{{ id }}-list">
+                    <div class="accordion-item" id="sport-{{ id }}">
+                        <h4 class="accordion-header">
+                            <button class="accordion-button collapsed"
+                                    type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#sport-{{ id }}-body" 
+                                    aria-expanded="false"
+                                    aria-controls="sport-{{ id }}-body">
+                                <strong>
+                                    {{ sport }}
+                                </strong>
+                            </button>
+                        </h4>
+                        <div 
+                            id="sport-{{ id }}-body" 
+                            class="accordion-collapse collapse" 
+                            aria-labelledby="accordion-header" 
+                            data-parent="#sport-{{ id }}-list">
+                            <div class="accordion-body">
+                                <ul class="list-group list-group-flush">
+                                    {% for match in matches %}
+                                    <li class="list-group-item">
+                                        {% include 'match/small.html.twig' with { 'match': match } %}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </li>
+        {% else %}
+            <li class="list-group-item"> Nessuna partita </li>
         {% endfor %}
-    </div>
+    </ul>
 </div>
 {% endblock %}

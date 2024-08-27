@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Arbitro{% endblock %}
+{% block description %}Pannello di controllo arbitro{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h3> Tutte le squadre </h3>
+    <div class="accordion" id="accordion-team-list">
+        {% for team in teams %}
+            {% include 'teams/partial.html.twig' with { 'team': team } %}
+        {% else %}
+            <div class="accordion-item" id="no-team">
+                <h4 class="accordion-header">
+                    <button class="accordion-button collapsed"
+                            type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#accordion-no-team-body" 
+                            aria-expanded="false"
+                            aria-controls="no-team">
+                        Nessun risultato
+                    </button>
+                </h4>
+                <div 
+                    id="accordion-no-team-body" 
+                    class="accordion-collapse collapse" 
+                    aria-labelledby="accordion-header" 
+                    data-parent="#accordion-team-list">
+                    <div class="accordion-body">
+                        Non è stato possibile trovare nessuna squadra
+                        <twig:ux:icon name="bi:emoji-frown" height="15" />
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

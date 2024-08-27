@@ -16,17 +16,17 @@
     {% if match.hasHomeTeam() and match.hasGuestTeam() %}
         <div class="row">
             <div class="col text-center">
-                <twig:ux:icon name="bi:house" height="15" />
                 <a href="{{ path('home_team_view', {'id': match.HomeTeam.Id })}}" 
                     class="link-secondary link-underline link-underline-opacity-0">
+                    <twig:ux:icon name="bi:house" height="15" />
                     {{ match.HomeTeam.Name }}
                 </a>
             </div>
             
             <div class="col text-center">
-                <twig:ux:icon name="bi:car-front" height="15" />
                 <a href="{{ path('home_team_view', {'id': match.GuestTeam.Id })}}" 
                     class="link-secondary link-underline link-underline-opacity-0">
+                    <twig:ux:icon name="bi:car-front" height="15" />
                     {{ match.GuestTeam.Name }}
                 </a>
             </div>

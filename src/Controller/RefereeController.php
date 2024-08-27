@@ -21,6 +21,14 @@ class RefereeController extends AbstractController
     public function index(ApiManager $apiManager): Response
     {
         return $this->render('referee/index.html.twig', [
+            'sportAndMatches' => $apiManager->TodayAndYesterdayMatches()
+        ]);
+    }
+
+    #[Route('/referee/teams', name: 'referee_teams')]
+    public function teams(ApiManager $apiManager): Response
+    {
+        return $this->render('referee/teams.html.twig', [
             'teams' => $apiManager->Teams()
         ]);
     }

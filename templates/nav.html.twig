@@ -22,7 +22,7 @@
             class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
             <ul class="navbar-nav flex-grow-1">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle"
+                    <a class="nav-link text-reset dropdown-toggle"
                         href="#" 
                         id="navbarDropdownMenuLink" 
                         role="button" 
@@ -61,18 +61,41 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('leaderboard') }}">Classifica</a>
+                    <a class="nav-link text-reset text-reset" href="{{ path('leaderboard') }}">Classifica</a>
                 </li>
                 
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     {% if app.user.isReferee() %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('referee_dashboard') }}">Arbitro</a>
+                            <a class="nav-link text-reset dropdown-toggle"
+                                href="#" 
+                                id="refereeDropdownMenuLink" 
+                                role="button" 
+                                data-bs-toggle="dropdown" 
+                                aria-expanded="false">
+                                Arbitro
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-lg-start" aria-labelledby="refereeDropdownMenuLink">
+                                <li>
+                                    <a class="dropdown-item" 
+                                        href="{{ path('referee_dashboard') }}">
+                                        <twig:ux:icon name="fluent:run-16-regular" height="15" />
+                                        Partite
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" 
+                                        href="{{ path('referee_teams') }}">
+                                        <twig:ux:icon name="fluent-mdl2:teamwork" height="15" />
+                                        Squadre
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     {% endif %}
                     {% if app.user.isAdmin() %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle"
+                            <a class="nav-link text-reset dropdown-toggle"
                                 href="#" 
                                 id="adminDropdownMenuLink" 
                                 role="button" 
@@ -102,7 +125,7 @@
                 
                 <li class="nav-item">
                     <a data-change-theme="true" 
-                        class="nav-link overflow-hidden" 
+                        class="nav-link text-reset overflow-hidden" 
                         href="javascript:rotateTheme()"
                         oncontextmenu="return false">
                         <span class="light-theme">
@@ -118,12 +141,15 @@
             </ul>
 
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <p class="nav">
-                    Ciao, <a href="{{ path('profile') }}">{{ app.user.getName() }}</a>!
-                </p>
+                <a href="{{ path('profile') }}" 
+                    class="nav-link text-reset"
+                    title="Vai alla pagina del profilo">
+                    <twig:ux:icon name="uil:user" height="16" />
+                    {{ app.user.getName() }}
+                </a>
             {% else %}
-                <a class="nav-link" href="{{ path('app_login') }}">Login</a>
-                <a class="nav-link" href="{{ path('app_register') }}">Registrati</a>
+                <a class="nav-link text-reset" href="{{ path('app_login') }}">Login</a>
+                <a class="nav-link text-reset" href="{{ path('app_register') }}">Registrati</a>
             {% endif %}
         </div>
     </div>

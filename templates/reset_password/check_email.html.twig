@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Controlla le email{% endblock %}
+{% block description %}Controlla di aver ricevuto il link di ripristino{% endblock %}
+
+{% block body %}
+    <p>
+        Se un account con l'email indicata esiste, un link per resettare la password gli sarà stata inviato.
+        Tale link scadrà in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+    </p>
+    <p>
+        Se non ricevi email controlla nello <strong>spam</strong> oppure 
+        <a href="{{ path('app_forgot_password_request') }}" 
+            class="link-secondary">
+            ripeti
+        </a>.
+    </p>
+{% endblock %}

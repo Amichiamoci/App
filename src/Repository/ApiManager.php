@@ -77,7 +77,7 @@ class ApiManager
 
     private function getObjectCollection(string $collectionName, string $className, $params = []): array
     {
-        try {
+        //try {
             $response = $this->get($collectionName, $params);
             $arr = $response->getContent();
             $serializer = $this->getSerializer();
@@ -86,10 +86,10 @@ class ApiManager
                 AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
                 AbstractNormalizer::REQUIRE_ALL_PROPERTIES => false,
             ]);
-        }
-        catch (\Exception) {
-            return array();
-        }
+        //}
+        //catch (\Exception) {
+        //    return array();
+        //}
     }
 
     /**
@@ -210,5 +210,27 @@ class ApiManager
 
         $tourney = array_values($t)[0];
         return $tourney;
+    }
+
+    public function TodayAndYesterdayMatches(): array
+    {
+        $array = $this->getObjectCollection('today-yesterday-matches', SportMatch::class);
+        if (count($array) === 0)
+        {
+            return [];
+        }
+
+        $keys = array_values(array_unique(array_map(function(SportMatch $m){
+            return $m->SportName;
+        }, $array)));
+
+        $finalArray = [];
+        foreach ($keys as $key)
+        {
+            $finalArray[$key] = array_filter($array, function(SportMatch $m) use($key) {
+                return $m->SportName === $key;
+            });
+        }
+        return $finalArray;
     }
 }
