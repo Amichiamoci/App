@@ -77,7 +77,7 @@ class ApiManager
 
     private function getObjectCollection(string $collectionName, string $className, $params = []): array
     {
-        //try {
+        try {
             $response = $this->get($collectionName, $params);
             $arr = $response->getContent();
             $serializer = $this->getSerializer();
@@ -86,10 +86,10 @@ class ApiManager
                 AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
                 AbstractNormalizer::REQUIRE_ALL_PROPERTIES => false,
             ]);
-        //}
-        //catch (\Exception) {
-        //    return array();
-        //}
+        }
+        catch (\Exception) {
+            return array();
+        }
     }
 
     /**

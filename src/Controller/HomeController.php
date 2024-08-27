@@ -72,7 +72,7 @@ class HomeController extends AbstractController
     public function tourney(ApiManager $apiManager, int $id): Response
     {
         $tourney = $apiManager->Tourney($id);
-        if (!isset($team)) {
+        if (!isset($tourney)) {
             throw new NotFoundHttpException("Torneo '$id' non trovato");
         }
         return $this->render('home/tourney.html.twig', [
