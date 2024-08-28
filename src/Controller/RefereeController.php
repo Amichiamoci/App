@@ -9,10 +9,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+
 use App\Entity\User;
+use App\Form\AddMatchResultFormType;
 use App\Repository\ApiManager;
-use App\Form\AddRoleToUserFormType;
 use App\Repository\UserRepository;
+use App\Form\AddRoleToUserFormType;
 
 #[IsGranted(User::REFEREE)]
 class RefereeController extends AbstractController
@@ -107,5 +109,38 @@ class RefereeController extends AbstractController
                 return !$u->isReferee();
             }),
         ]);
+    }
+
+    #[Route('/referee/result/delete/{id}', name: 'delete_result',)]
+    public function resultDelete(ApiManager $apiManager, int $id): Response
+    {
+        if ($apiManager->DeleteResult($id)){
+            $this->addFlash('success', 
+                'Risultato rimosso');
+        } else {
+            $this->addFlash('error', 
+                'È avvenuto un errore: non è stato possibile rimuovere il risultato');
+        }
+        return $this->redirectToRoute('referee_dashboard');
+    }
+
+    #[Route('/referee/result/add/{id}', name: 'add_result', methods: ['POST'])]
+    public function resultAdd(Request $request, ApiManager $apiManager, int $id): Response
+    {
+        $content = $request->getPayload()->get('content');
+        
+        var_dump($content);
+
+        $parts = array_values(
+            array_map(function ($s) { return trim($s); }, explode('-', $content)));
+        $score = $apiManager->AddResult($id, $parts[0], $parts[1]);
+        if (isset($score)){
+            $this->addFlash('success', 
+                'Risultato aggiunto');
+        } else {
+            $this->addFlash('error', 
+                'È avvenuto un errore: non è stato possibile aggiungere il risultato');
+        }
+        return $this->redirectToRoute('referee_dashboard');
     }
 }

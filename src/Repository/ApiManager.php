@@ -4,12 +4,15 @@ namespace App\Repository;
 
 use App\Entity\Anagraphical;
 use App\Entity\Church;
+use App\Entity\Match\Score;
 use App\Entity\Staff;
-use App\Entity\SportMatch;
-use App\Entity\Team;
-use App\Entity\TeamMember;
-use App\Entity\TodaySportMatch;
 use App\Entity\Tourney;
+use App\Entity\Match\SportMatch;
+use App\Entity\Match\ScoreGroup;
+use App\Entity\Match\TodaySportMatch;
+use App\Entity\Team\Team;
+use App\Entity\Team\TeamMember;
+
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -20,6 +23,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -232,5 +236,28 @@ class ApiManager
             });
         }
         return $finalArray;
+    }
+
+    public function DeleteResult(int $id): bool
+    {
+        $result = $this->getObjectCollection('delete-match-result', 'string', [
+            'Id' => $id,
+        ]);
+        return count($result) === 0;
+    }
+
+    public function AddResult(int $id, string $home, string $guest) : ?Score
+    {
+        $scores = $this->getObjectCollection('new-match-result', Score::class, [
+            'Id' => $id,
+            'Home' => $home,
+            'Guest' => $guest,
+        ]);
+        if (count($scores) === 0)
+        {
+            return null;
+        }
+
+        return array_values($scores)[0];
     }
 }

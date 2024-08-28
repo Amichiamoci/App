@@ -50,14 +50,70 @@
         </div>
     {% endif %}
 
-    {% if match.hasHomeTeamScore() and match.hasGuestTeamScore() %}
+    {% if match.hasScores() %}
+        {% for score in match.Scores.Parsed %}
+        <div class="row">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isReferee() %}
+                <div class="col text-center">
+                    {{ score.Home }} - {{ score.Guest }}
+                    &nbsp;
+                    <a href="{{ path('delete_result', {'id': score.Id })}}"
+                        class="link-danger link-underline link-underline-opacity-0"
+                        title="Rimuovi">
+                        <twig:ux:icon name="bi:trash" height="14" />
+                    </a>
+                </div>
+            {% else %}
+                <div class="col text-center user-select-none">
+                    {{ score.Home }} - {{ score.Guest }}
+                </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isReferee() %}
         <div class="row">
             <div class="col text-center">
-                {{ match.HomeTeamScore }}
+                <button 
+                    type="button"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#modal-new-result-{{ match.Id }}">
+                    Aggiungi risultato
+                </button>
             </div>
-            
-            <div class="col text-center">
-                {{ match.GuestTeamScore }}
+        </div>
+        <div class="modal fade" id="modal-new-result-{{ match.Id }}" 
+            tabindex="-1" 
+            aria-hidden="true"
+            aria-labelledby="modal-new-result-label-{{ match.Id }}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-new-result-label-{{ match.Id }}">
+                            Aggiungi punteggio
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" path="{{ path('add_result', {'id': match.Id }) }}">
+                            
+                            <div class="form-floating mb-3">
+                                <input 
+                                    type="text" 
+                                    name="content" id="match-content-{{ match.Id }}" 
+                                    class="form-control"  
+                                    required autofocus 
+                                    placeholder="1 - 1"
+                                    pattern="[0-9]+\s{0,}-\s{0,}[0-9]+">
+                                <label for="match-content-{{ match.Id }}">Risulato</label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">
+                                Aggiungi
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     {% endif %}

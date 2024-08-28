@@ -1,6 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Match;
+
+use App\Entity\Match\ScoreGroup;
+use App\Entity\Team\Team;
 
 class SportMatch
 {
@@ -25,27 +28,23 @@ class SportMatch
     public function getTime(): ?string { return $this->Time; }
 
     // Field
-    public ?MatchFiled $Field = null;
+    public ?MatchField $Field = null;
     public function hasField(): bool { return isset($this->Field); }
-    public function getField(): ?MatchFiled { return $this->Field; }
-
-
+    public function getField(): ?MatchField { return $this->Field; }
 
     //
     // Teams and results
     //
     public ?Team $HomeTeam;
-    public ?string $HomeTeamScore;
     public function hasHomeTeam(): bool { return isset($this->HomeTeam); }
-    public function hasHomeTeamScore(): bool { return is_string($this->HomeTeamScore); }
     public function getHomeTeam(): ?Team { return $this->HomeTeam; }
-    public function getHomeTeamScore(): ?string { return $this->HomeTeamScore; }
 
 
     public ?Team $GuestTeam;
-    public ?string $GuestTeamScore;
     public function hasGuestTeam(): bool { return isset($this->GuestTeam); }
-    public function hasGuestTeamScore(): bool { return is_string($this->GuestTeamScore); }
     public function getGuestTeam(): ?Team { return $this->GuestTeam; }
-    public function getGuestTeamScore(): ?string { return $this->GuestTeamScore; }
+
+    public ScoreGroup $Scores;
+    public function hasScores(): bool { return $this->Scores->hasAny(); }
+    public function getScores(): ScoreGroup { return $this->Scores; }
 }

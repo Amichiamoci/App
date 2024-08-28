@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Team;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
 class Team
