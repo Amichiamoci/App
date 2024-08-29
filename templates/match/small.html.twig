@@ -71,7 +71,7 @@
         </div>
         {% endfor %}
     {% endif %}
-    {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isReferee() %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isReferee() and match.canHaveOtherResults %}
         <div class="row">
             <div class="col text-center">
                 <button 
@@ -95,8 +95,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
                     </div>
                     <div class="modal-body">
-                        <form method="post" path="{{ path('add_result', {'id': match.Id }) }}">
-                            
+                        <form method="POST" action="{{ path('add_result', {'id': match.Id }) }}">
+
                             <div class="form-floating mb-3">
                                 <input 
                                     type="text" 

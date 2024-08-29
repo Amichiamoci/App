@@ -17,7 +17,12 @@ class ScoreGroup
         $arr = [];
         for ($i = 0; $i < $length; $i++)
         {
-            $arr[] = new Score((int)$this->Id[$i], $this->Home[$i], $this->Guest[$i]);
+            $score = new Score();
+            $score->Id = (int)$this->Id[$i];
+            $score->Home = $this->Home[$i];
+            $score->Guest = $this->Guest[$i];
+
+            $arr[] = $score;
         }
         return $arr;
     }

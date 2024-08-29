@@ -124,17 +124,17 @@ class RefereeController extends AbstractController
         return $this->redirectToRoute('referee_dashboard');
     }
 
-    #[Route('/referee/result/add/{id}', name: 'add_result', methods: ['POST'])]
+    #[Route('/referee/result/add/{id}', name: 'add_result', methods: 'POST')]
     public function resultAdd(Request $request, ApiManager $apiManager, int $id): Response
     {
         $content = $request->getPayload()->get('content');
-        
-        var_dump($content);
+        //$request->request->get('content')
+        //throw new \Exception($content);
 
         $parts = array_values(
             array_map(function ($s) { return trim($s); }, explode('-', $content)));
         $score = $apiManager->AddResult($id, $parts[0], $parts[1]);
-        if (isset($score)){
+        if (isset($score)) {
             $this->addFlash('success', 
                 'Risultato aggiunto');
         } else {

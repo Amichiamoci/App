@@ -47,4 +47,16 @@ class SportMatch
     public ScoreGroup $Scores;
     public function hasScores(): bool { return $this->Scores->hasAny(); }
     public function getScores(): ScoreGroup { return $this->Scores; }
+
+    public function canHaveOtherResults(): bool 
+    {
+        if (
+            !str_contains(strtolower($this->SportName), 'pallavolo') &&
+            !str_contains(strtolower($this->SportName), 'volley')
+        ) {
+            return !$this->hasScores();
+        }
+
+        return $this->Scores->getCount() < 3;
+    }
 }

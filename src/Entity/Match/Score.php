@@ -11,10 +11,4 @@ class Score
     public string $Guest;
     public function getGuest(): string { return $this->Guest; }
 
-    public function __construct(int $id, string $home, string $guest)
-    {
-        $this->Id = $id;
-        $this->Home = $home;
-        $this->Guest = $guest;
-    }
 }

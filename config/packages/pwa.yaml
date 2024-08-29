@@ -27,7 +27,22 @@ pwa:
         description: "Apri l'app direttamente sulla classifica."
         url: "./leaderboard"
 
-      - name: "Partite del giorno"
-        short_name: "Partite"
-        description: "Apri l'app direttamente sulle partite."
-        url: "./matches"
+      - name: "Partite di pallavolo"
+        short_name: "Pallavolo"
+        description: "Apri l'app direttamente sulle partite di pallavolo."
+        url: "./matches/pallavolo"
+      
+      - name: "Partite di calcio"
+        short_name: "Calcio"
+        description: "Apri l'app direttamente sulle partite di calcio."
+        url: "./matches/calcio"
+
+      - name: "Partite di basket"
+        short_name: "Basket"
+        description: "Apri l'app direttamente sulle partite di basket."
+        url: "./matches/basket"
+
+      - name: "Profilo"
+        short_name: "Profilo"
+        description: "Il mio profilo."
+        url: "./profile"
