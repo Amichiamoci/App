@@ -42,7 +42,12 @@
                         {{ match.GuestTeam.Name }}
                     </a>
                     
-                    {% if match.hasDate() %}
+                    {% if match.hasScores() %}
+                        &nbsp;
+                        <span class="text-muted user-select-none">
+                            {{ match.ScoresRow }}
+                        </span>
+                    {% elseif match.hasDate() %}
                         &nbsp;
                         <span class="text-muted user-select-none">
                             {{ match.Date }}

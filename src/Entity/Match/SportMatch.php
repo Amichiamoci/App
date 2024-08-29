@@ -57,6 +57,15 @@ class SportMatch
             return !$this->hasScores();
         }
 
-        return $this->Scores->getCount() < 3;
+        return $this->Scores->getCount() < 5;
+    }
+
+    public function getScoresRow(): string
+    {
+        return join('; ', 
+            array_map(function(Score $s) {
+                return $s->getHome() . " - " . $s->getGuest();
+            }, $this->getScores()->getParsed())
+        );
     }
 }

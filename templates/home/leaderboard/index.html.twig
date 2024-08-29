@@ -8,8 +8,68 @@
     
     {% include 'home/leaderboard/block.html.twig' with { 'leaderboard': leaderboard } %}
 
-    <!--
+    <h1>
         Legenda punti
-    -->
+    </h1>
+    <p>
+        Come ottenre i punti?
+    </p>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <strong>Torneo sportivi</strong> <br />
+            <ul class="list-group">
+                <li class="list-group-item"><output>10</output> punti alla prima squadra</li>
+                <li class="list-group-item"><output>7</output> punti alla seconda squadra</li>
+                <li class="list-group-item"><output>5</output> punti alla terza squadra</li>
+                <li class="list-group-item"><output>2</output> punti a tutte le altre parrocchie partecipanti</li>
+            </ul>
+        </li>
+        <li class="list-group-item">
+            <strong>Podio torneo ping-pong o biliardino</strong> <br />
+            <ul class="list-group">
+                <li class="list-group-item"><output>5</output> punti alla prima squadra</li>
+                <li class="list-group-item"><output>3</output> punti alla seconda squadra</li>
+                <li class="list-group-item"><output>2</output> punti alla terza squadra</li>
+            </ul>
+        </li>
+        
+        <li class="list-group-item">
+            <strong>Partecipazione eventi</strong> <br />
+            <p>
+                Ad ogni evento, vengono assegnati
+                <output>2</output> punti per ogni parrocchia di cui partecipano almeno 5 persone
+            </p>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <output>5</output> punti alla parrocchia che vince il gioco della <strong>Festa Iniziale</strong>
+                </li>
+                <li class="list-group-item"><output>3</output> alla seconda classificata al gioco della Festa Iniziale</li>
+                <li class="list-group-item"><output>2</output> alla terza classificata al gioco della Festa Iniziale</li>
+            </ul>
+            <p>
+                Per ogni gioco della festa finale,
+            </p>
+            <ul class="list-group">
+                <li class="list-group-item"><output>3</output> punti alla parrocchia che vince il gioco</li>
+                <li class="list-group-item"><output>2</output> alla seconda classificata al gioco</li>
+                <li class="list-group-item"><output>1</output> alla terza classificata al gioco</li>
+            </ul>
+
+        </li>
+        <li class="list-group-item">
+            <strong>Caccia al tesoro e Cena con Delitto</strong> <br />
+            <ul class="list-group">
+                <li class="list-group-item"><output>7</output> punti alla prima parrocchia in classifica</li>
+                <li class="list-group-item"><output>5</output> punti alla seconda parrocchia in classifica</li>
+                <li class="list-group-item"><output>3</output> punti alla terza parrocchia in classifica</li>
+            </ul>
+            <p>
+                La parrocchia alla quale appartiene la prima squadra ottiene i 7 punti.
+                Se anche la seconda squadra classificata appartiene, tuttavia, alla stessa parrocchia della prima,
+                i punti vengono assegnati alla terza.<br />
+                Riassumendo: i punti vengono assegnati necessariamente a parrocchie diverse
+            </p>
+        </li>
+    </ul>
 
 {% endblock %}

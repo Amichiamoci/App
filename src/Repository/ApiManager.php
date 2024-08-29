@@ -211,9 +211,12 @@ class ApiManager
             return null;
         }
 
-        // TODO: Load matches
-
         $tourney = array_values($t)[0];
+
+        $tourney->Matches = $this->getObjectCollection('tourney-matches', SportMatch::class, [
+            'Id' => $id
+        ]);
+
         return $tourney;
     }
 
