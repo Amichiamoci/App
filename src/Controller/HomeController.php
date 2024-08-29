@@ -25,14 +25,17 @@ class HomeController extends AbstractController
         }
         return $this->render('home/index.html.twig', [
             'todayMatches' => $todayMatches,
-            'todaySaint' => $todaySaintManager->Default()
+            'todaySaint' => $todaySaintManager->Default(),
+            'leaderboard' => $apiManager->Leaderboard(),
         ]);
     }
 
     #[Route('/leaderboard', name: 'leaderboard',)]
-    public function leaderboard(): Response
+    public function leaderboard(ApiManager $apiManager): Response
     {
-        return $this->render('home/leaderboard.html.twig');
+        return $this->render('home/leaderboard/index.html.twig', [
+            'leaderboard' => $apiManager->Leaderboard(),
+        ]);
     }
     
     #[Route('/matches/{sport}', name: 'matches',)]

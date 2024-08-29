@@ -3,13 +3,14 @@
 namespace App\Repository;
 
 use App\Entity\Anagraphical;
-use App\Entity\Church;
-use App\Entity\Match\Score;
 use App\Entity\Staff;
 use App\Entity\Tourney;
+use App\Entity\Church\Church;
+use App\Entity\Church\ChurchScore;
 use App\Entity\Match\SportMatch;
-use App\Entity\Match\ScoreGroup;
 use App\Entity\Match\TodaySportMatch;
+use App\Entity\Match\Score;
+use App\Entity\Match\ScoreGroup;
 use App\Entity\Team\Team;
 use App\Entity\Team\TeamMember;
 
@@ -259,5 +260,10 @@ class ApiManager
         }
 
         return array_values($scores)[0];
+    }
+
+    public function Leaderboard(): array
+    {
+        return $this->getObjectCollection('leaderboard', ChurchScore::class);
     }
 }

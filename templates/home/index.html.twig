@@ -19,6 +19,13 @@
         {% endif %}
     {% endfor %}
 
+    {% if leaderboard %}
+        <h2 class="h2">
+            Classifica corrente
+        </h2>
+        {% include 'home/leaderboard/block.html.twig' with { 'leaderboard': leaderboard } %}
+    {% endif %}
+
     {% if todaySaint %}
         <div class="row user-select-none">
             <div class="col">

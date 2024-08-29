@@ -5,4 +5,11 @@
 
 {% block body %}
     <h1>Classifica</h1>
+    
+    {% include 'home/leaderboard/block.html.twig' with { 'leaderboard': leaderboard } %}
+
+    <!--
+        Legenda punti
+    -->
+
 {% endblock %}

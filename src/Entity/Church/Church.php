@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Church;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
 class Church
