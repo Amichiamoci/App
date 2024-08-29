@@ -26,4 +26,10 @@ class Tourney
     public array $Teams = [];
     public function getTeams(): array { return $this->Teams; }
     public function hasTeams(): bool { return count($this->Teams) > 0; }
+
+    #[Ignore]
+    public array $Leaderboard = [];
+    public function getLeaderboard(): array { return $this->Leaderboard; }
+    public function hasLeaderboard(): bool { return count($this->Leaderboard) > 0; }
+
 }

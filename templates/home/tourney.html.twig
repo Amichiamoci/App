@@ -26,6 +26,48 @@
         
         <hr />
 
+        {% if tourney.hasLeaderboard() %}
+            <h3> Classifica </h3>
+            <table class="table">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="align-middle"> Squadra </th>
+                    <th rowspan="2" class="align-middle"> Punti </th>
+                    <th class="text-center"> Partite </th>
+                </tr>
+                <tr>
+                    <th>
+                        Da Giocare
+                    </th>
+                    <th>
+                        Previste
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in tourney.Leaderboard %}
+                    <tr>
+                        <td>
+                            <a href="{{ path ('team_view', {'id': team.Id }) }}"
+                                class="link-underline link-underline-opacity-0">
+                                {{ team.Name }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ team.Points }}
+                        </td>
+                        <td>
+                            {{ team.MatchesToPlay }}
+                        </td>
+                        <td>
+                            {{ team.PlannedMatches }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        {% endif %}
+
         <h3>
             Parite
         </h3>
@@ -50,7 +92,7 @@
                     {% elseif match.hasDate() %}
                         &nbsp;
                         <span class="text-muted user-select-none">
-                            {{ match.Date }}
+                            Prevista per il {{ match.Date }}
                         </span>
                     {% endif %}
                 </li>

@@ -13,6 +13,7 @@ use App\Entity\Match\Score;
 use App\Entity\Match\ScoreGroup;
 use App\Entity\Team\Team;
 use App\Entity\Team\TeamMember;
+use App\Entity\Team\TeamPosition;
 
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
@@ -82,7 +83,7 @@ class ApiManager
 
     private function getObjectCollection(string $collectionName, string $className, $params = []): array
     {
-        //try {
+        try {
             $response = $this->get($collectionName, $params);
             $arr = $response->getContent();
             $serializer = $this->getSerializer();
@@ -91,10 +92,10 @@ class ApiManager
                 AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
                 AbstractNormalizer::REQUIRE_ALL_PROPERTIES => false,
             ]);
-        //}
-        //catch (\Exception) {
-        //    return array();
-        //}
+        }
+        catch (\Exception) {
+            return array();
+        }
     }
 
     /**
@@ -214,6 +215,10 @@ class ApiManager
         $tourney = array_values($t)[0];
 
         $tourney->Matches = $this->getObjectCollection('tourney-matches', SportMatch::class, [
+            'Id' => $id
+        ]);
+
+        $tourney->Leaderboard = $this->getObjectCollection('tourney-leaderboard', TeamPosition::class, [
             'Id' => $id
         ]);
 
