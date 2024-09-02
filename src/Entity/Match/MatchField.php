@@ -42,7 +42,8 @@ class MatchField
             ))
             
             ->center($point)
-            ->zoom(10)
-            ->fitBoundsToMarkers();
+            //->zoom(10)
+            ->fitBoundsToMarkers()
+            ;
     }
 }

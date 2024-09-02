@@ -60,6 +60,45 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-reset dropdown-toggle"
+                        href="#" 
+                        id="tourneysDropdownMenuLink" 
+                        role="button" 
+                        data-bs-toggle="dropdown" 
+                        aria-expanded="false">
+                        Tornei
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-lg-start" aria-labelledby="tourneysDropdownMenuLink">
+                        <li>
+                            <a class="dropdown-item" 
+                                href="{{ path('home_tourney_list', {'sport': 'calcio'}) }}"
+                                title="I Tornei di Calcio">
+                                
+                                <twig:ux:icon name="game-icons:soccer-ball" height="15" />
+                                Calcio
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" 
+                                href="{{ path('home_tourney_list', {'sport': 'pallavolo'}) }}"
+                                title="I Tornei di Pallavolo">
+
+                                <twig:ux:icon name="game-icons:volleyball-ball" height="15" />
+                                Pallavolo
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" 
+                                href="{{ path('home_tourney_list', {'sport': 'basket'}) }}"
+                                title="I Tornei di Basket">
+
+                                <twig:ux:icon name="game-icons:basketball-basket" height="15" />
+                                Basket
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link text-reset text-reset" href="{{ path('leaderboard') }}">Classifica</a>
                 </li>

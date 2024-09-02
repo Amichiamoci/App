@@ -225,6 +225,13 @@ class ApiManager
         return $tourney;
     }
 
+    public function TourneyFromSport(string $sport): array
+    {
+        return $this->getObjectCollection('tourney-sport', Tourney::class, [
+            'Sport' => $sport
+        ]);
+    }
+
     public function TodayAndYesterdayMatches(): array
     {
         $array = $this->getObjectCollection('today-yesterday-matches', SportMatch::class);

@@ -3,9 +3,7 @@
     <div class="row">
         <div class="col h4 text-center">
             <a href="{{ path('home_tourney_view', {'id': match.TourneyId }) }}" 
-                class="link-primary link-underline">
-                {{ match.TourneyName }}
-            </a>
+                class="link-primary link-underline">{{ match.TourneyName }}</a>
             &nbsp;
             <span class="user-select-none text-muted">
                 ({{ match.SportName|upper }})

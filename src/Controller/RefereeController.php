@@ -128,8 +128,6 @@ class RefereeController extends AbstractController
     public function resultAdd(Request $request, ApiManager $apiManager, int $id): Response
     {
         $content = $request->getPayload()->get('content');
-        //$request->request->get('content')
-        //throw new \Exception($content);
 
         $parts = array_values(
             array_map(function ($s) { return trim($s); }, explode('-', $content)));

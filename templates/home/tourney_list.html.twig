@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tornei{% endblock %}
+{% block description %}Tornei di {{ sport }}{% endblock %}
+
+{% block body %}
+
+    <h1> Tornei di {{ sport|upper }}</h1>
+
+    <ul class="list-group">
+    {% for tourney in tourneys %}
+        <li class="list-group-item">
+            <a href="{{ path('home_tourney_view', { 'id': tourney.Id }) }}"
+                class="link-underline link-secondary"
+            >{{ tourney.Name }} - {{ tourney.Sport }}</a>
+        </li>
+    {% else %}
+        <li class="list-group-item">
+            Nessuna torneo in programma
+        </li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}

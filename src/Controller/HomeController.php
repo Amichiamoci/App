@@ -83,6 +83,15 @@ class HomeController extends AbstractController
         ]);
     }
 
+    #[Route('/home/tourneys/{sport}', name: 'home_tourney_list',)]
+    public function tourney_list(ApiManager $apiManager, string $sport): Response
+    {
+        return $this->render('home/tourney_list.html.twig', [
+            'sport' => $sport,
+            'tourneys' => $apiManager->TourneyFromSport($sport),
+        ]);
+    }
+
     //
     // Static pages
     //

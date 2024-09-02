@@ -48,7 +48,7 @@
                 {% for team in tourney.Leaderboard %}
                     <tr>
                         <td>
-                            <a href="{{ path ('team_view', {'id': team.Id }) }}"
+                            <a href="{{ path ('home_team_view', {'id': team.Id }) }}"
                                 class="link-underline link-underline-opacity-0">
                                 {{ team.Name }}
                             </a>
