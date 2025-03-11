@@ -57,4 +57,10 @@ return [
     '@symfony/ux-leaflet-map/map-controller' => [
         'path' => './vendor/symfony/ux-leaflet-map/assets/dist/map_controller.js',
     ],
+    '@symfony/ux-google-map' => [
+        'path' => './vendor/symfony/ux-google-map/assets/dist/map_controller.js',
+    ],
+    '@symfony/ux-leaflet-map' => [
+        'path' => './vendor/symfony/ux-leaflet-map/assets/dist/map_controller.js',
+    ],
 ];
