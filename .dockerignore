@@ -5,3 +5,5 @@ var/*
 ./.gitignore
 ./README.md
 demo/*
+.github
+.vscode

@@ -4,53 +4,33 @@ services:
       context: ../
       dockerfile: ./Dockerfile
     restart: always
-    # command: php /var/www/html/bin/console make:migration && php /var/www/html/bin/console doctrine:migrations:migrate
-    env_file:  ./.env
+    container_name: app
+    env_file:  ../.env.local
     environment:
-      DATABASE_URL: mysql://app:${MYSQL_PASSWORD}@mariadb:3306/${MYSQL_DB}?charset=utf8mb4
+      DATABASE_URL: "postgresql://amichiamoci:password@postgres:5432/amichiamoci?charset=utf8"
     volumes:
       - ./uploads:/var/www/html/content/uploads:rw
       - ./cache:/var/www/html/var/cache/:rw
       - ./log:/var/www/html/var/log
     ports:
       - 80:80
-      - 2222:2222
-    networks:
-      db:
     depends_on:
-      - mariadb
+      - postgres
+    networks:
+       - db
 
-  mariadb:
-    env_file: ./.env
-    image: mariadb
-    command: --default-authentication-plugin=mysql_native_password
+  postgres:
+    image: postgres
     restart: always
+    container_name: postgres
     environment:
-      MYSQL_DATABASE: ${MYSQL_DB}
-      MYSQL_USER: app
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-    expose:
-      - "3306"
+      - POSTGRES_USER=amichiamoci
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=amichiamoci
     volumes:
-     - ./data:/var/lib/mysql
+      - ./data:/var/lib/postgresql/data:rw
     networks:
-      db:
-
-  phpmyadmin:
-    env_file: ./.env
-    image: phpmyadmin
-    restart: always
-    ports:
-      - 8080:80
-    environment:
-      PMA_HOST: mariadb
-      PMA_PORT: 3306 
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-    networks:
-      db:   
-    depends_on:
-      - mariadb 
+       - db
 
 networks:
   db:

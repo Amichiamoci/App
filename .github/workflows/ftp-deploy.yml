@@ -6,6 +6,7 @@ on:
 name: 🚀 FTP deploy on push
 jobs:
   ftp-deploy:
+    if: false
     name: ⬆️👷 FTP deploy
     runs-on: ubuntu-latest
 
@@ -19,7 +20,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.3'
+        php-version: '8.4'
         tools: composer:v2
         coverage: none
       env:
