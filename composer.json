@@ -42,7 +42,7 @@
         "symfony/security-bundle": "7.1.*",
         "symfony/serializer": "7.1.*",
         "symfony/stimulus-bundle": "^2.18",
-        "symfony/string": "7.1.*",
+        "symfony/string": "7.2.*",
         "symfony/translation": "7.1.*",
         "symfony/twig-bundle": "7.1.*",
         "symfony/ux-google-map": "^2.19",
