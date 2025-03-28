@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Torneo {{ tourney.Name }}{% endblock %}
-{% block description %}Torneo di {{ tourney.Sport }}{% endblock %}
+{% block title %}Torneo {{ tournament.Name }}{% endblock %}
+{% block description %}Torneo di {{ tournament.Sport }}{% endblock %}
 
 {% block body %}
     <div class="m-1">
         <h1>
-            Torneo {{ tourney.Name }}
+            Torneo {{ tournament.Name }}
         </h1>
         <p>
-            Tipologia: <strong>{{ tourney.Type }}</strong><br />
-            Sport: {{ tourney.Sport }}
+            Tipologia: <strong>{{ tournament.Type }}</strong><br />
+            Sport: {{ tournament.Sport }}
         </p>
 
         <hr />
@@ -19,14 +19,14 @@
             Squadre partecipanti
         </h3>
         <ul class="list-group">
-            {% for teamName in tourney.Teams %}
+            {% for teamName in tournament.Teams %}
                 <li class="list-group-item">{{ teamName }}</li>
             {% endfor %}
         </ul>
         
         <hr />
 
-        {% if tourney.hasLeaderboard() %}
+        {% if tournament.hasLeaderboard() %}
             <h3> Classifica </h3>
             <table class="table">
             <thead>
@@ -45,7 +45,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for team in tourney.Leaderboard %}
+                {% for team in tournament.Leaderboard %}
                     <tr>
                         <td>
                             <a href="{{ path ('home_team_view', {'id': team.Id }) }}"
@@ -72,7 +72,7 @@
             Parite
         </h3>
         <ul class="list-group">
-            {% for match in tourney.Matches %}
+            {% for match in tournament.Matches %}
                 <li class="list-group-item">
                     <a href="{{ path('home_team_view', {'id': match.HomeTeam.Id })}}" 
                         class="link-secondary link-underline link-underline-opacity-0">

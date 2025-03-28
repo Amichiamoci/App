@@ -16,7 +16,7 @@ class TeamMember
     public function getSex(): string { return $this->Sex; }
     
     public array $Problems = [];
-    public function hasProblems(): bool { return count($this->Problems) > 0; }
+    public function hasProblems(): bool { return count(value: $this->Problems) > 0; }
     public function getProblems(): array { return $this->Problems; }
-    public function getProblemsList(): string { return join(' ', $this->getProblems()); }
+    public function getProblemsList(): string { return join(separator: ' ', array: $this->getProblems()); }
 }

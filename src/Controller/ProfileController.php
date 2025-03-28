@@ -9,11 +9,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ProfileController extends AbstractController
 {
-    #[Route('/profile', name: 'profile')]
+    #[Route(path: '/profile', name: 'profile')]
     public function index(ApiManager $apiManager): Response
     {
-        return $this->render('profile/index.html.twig', [
-            'anagraphicals' => $apiManager->ManagedAnagraphicals($this->getUser()->getUserIdentifier())
+        return $this->render(view: 'profile/index.html.twig', parameters: [
+            'anagraphicals' => $apiManager->ManagedAnagraphicals(email: $this->getUser()->getUserIdentifier())
         ]);
     }
 

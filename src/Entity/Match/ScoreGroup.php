@@ -27,7 +27,7 @@ class ScoreGroup
         return $arr;
     }
 
-    public function getCount(): int { return min(count($this->Id), count($this->Home), count($this->Guest)); }
+    public function getCount(): int { return min(count(value: $this->Id), count(value: $this->Home), count(value: $this->Guest)); }
 
     public function hasAny(): bool { return $this->getCount() > 0; }
 }

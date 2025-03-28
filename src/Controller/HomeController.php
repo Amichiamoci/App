@@ -15,80 +15,80 @@ class HomeController extends AbstractController
     // Dynamic pages
     //
 
-    #[Route('/', name: 'home',)]
+    #[Route(path: '/', name: 'home',)]
     public function index(ApiManager $apiManager, TodaySaintManager $todaySaintManager): Response
     {
         $todayMatches = [];
         $user = $this->getUser();
         if (isset($user)) {
-            $todayMatches = $apiManager->TodayMatchesOfUser($user->getUserIdentifier());
+            $todayMatches = $apiManager->TodayMatchesOfUser(email: $user->getUserIdentifier());
         }
-        return $this->render('home/index.html.twig', [
+        return $this->render(view: 'home/index.html.twig', parameters: [
             'todayMatches' => $todayMatches,
             'todaySaint' => $todaySaintManager->Default(),
             'leaderboard' => $apiManager->Leaderboard(),
         ]);
     }
 
-    #[Route('/leaderboard', name: 'leaderboard',)]
+    #[Route(path: '/leaderboard', name: 'leaderboard',)]
     public function leaderboard(ApiManager $apiManager): Response
     {
-        return $this->render('home/leaderboard/index.html.twig', [
+        return $this->render(view: 'home/leaderboard/index.html.twig', parameters: [
             'leaderboard' => $apiManager->Leaderboard(),
         ]);
     }
     
-    #[Route('/matches/{sport}', name: 'matches',)]
+    #[Route(path: '/matches/{sport}', name: 'matches',)]
     public function matches(ApiManager $apiManager, string $sport): Response
     {
-        return $this->render('home/matches.html.twig', [
-            'matches' => $apiManager->Matches($sport),
+        return $this->render(view: 'home/matches.html.twig', parameters: [
+            'matches' => $apiManager->Matches(sport: $sport),
             'requestedSport' => $sport
         ]);
     }
 
-    #[Route('/home/church/{id}', name: 'church_view',)]
+    #[Route(path: '/home/church/{id}', name: 'church_view',)]
     public function church(ApiManager $apiManager, int $id): Response
     {
-        $church = $apiManager->Church($id);
+        $church = $apiManager->Church(id: $id);
         if (!isset($church)) {
-            throw new NotFoundHttpException("Parrocchia '$id' non trovata");
+            throw new NotFoundHttpException(message: "Parrocchia '$id' non trovata");
         }
-        return $this->render('home/church.html.twig', [
+        return $this->render(view: 'home/church.html.twig', parameters: [
             'church' => $church,
         ]);
     }
 
-    #[Route('/home/team/{id}', name: 'home_team_view',)]
+    #[Route(path: '/home/team/{id}', name: 'home_team_view',)]
     public function team(ApiManager $apiManager, int $id): Response
     {
-        $team = $apiManager->Team($id);
+        $team = $apiManager->Team(id: $id);
         if (!isset($team)) {
-            throw new NotFoundHttpException("Squadra '$id' non trovata");
+            throw new NotFoundHttpException(message: "Squadra '$id' non trovata");
         }
-        return $this->render('teams/team.html.twig', [
+        return $this->render(view: 'teams/team.html.twig', parameters: [
             'team' => $team,
         ]);
     }
 
-    #[Route('/home/tourney/{id}', name: 'home_tourney_view',)]
-    public function tourney(ApiManager $apiManager, int $id): Response
+    #[Route(path: '/home/tournament/{id}', name: 'home_tournament_view',)]
+    public function tournament(ApiManager $apiManager, int $id): Response
     {
-        $tourney = $apiManager->Tourney($id);
-        if (!isset($tourney)) {
-            throw new NotFoundHttpException("Torneo '$id' non trovato");
+        $tournament = $apiManager->Tournament(id: $id);
+        if (!isset($tournament)) {
+            throw new NotFoundHttpException(message: "Torneo '$id' non trovato");
         }
-        return $this->render('home/tourney.html.twig', [
-            'tourney' => $tourney,
+        return $this->render(view: 'home/tournament.html.twig', parameters: [
+            'tournament' => $tournament,
         ]);
     }
 
-    #[Route('/home/tourneys/{sport}', name: 'home_tourney_list',)]
-    public function tourney_list(ApiManager $apiManager, string $sport): Response
+    #[Route(path: '/home/tournaments/{sport}', name: 'home_tournament_list',)]
+    public function tournament_list(ApiManager $apiManager, string $sport): Response
     {
-        return $this->render('home/tourney_list.html.twig', [
+        return $this->render(view: 'home/tournament_list.html.twig', parameters: [
             'sport' => $sport,
-            'tourneys' => $apiManager->TourneyFromSport($sport),
+            'tournaments' => $apiManager->TournamentFromSport(sport: $sport),
         ]);
     }
 
@@ -96,17 +96,17 @@ class HomeController extends AbstractController
     // Static pages
     //
 
-    #[Route('/home/privacy', name: 'home_privacy',)]
+    #[Route(path: '/home/privacy', name: 'home_privacy',)]
     public function privacy(): Response
     {
-        return $this->render('home/privacy.html.twig', [
+        return $this->render(view: 'home/privacy.html.twig', parameters: [
             'dev_email' => $_ENV["DEV_EMAIL"] ?? 'dev@email.com'
         ]);
     }
-    #[Route('/home/credits', name: 'home_credits',)]
+    #[Route(path: '/home/credits', name: 'home_credits',)]
     public function credits(): Response
     {
-        return $this->render('home/credits.html.twig', [
+        return $this->render(view: 'home/credits.html.twig', parameters: [
             'dev_email' => $_ENV["DEV_EMAIL"] ?? 'dev@email.com',
             'repo_url' => $_ENV["REPO_URL"] ?? 'https://github.com'
         ]);

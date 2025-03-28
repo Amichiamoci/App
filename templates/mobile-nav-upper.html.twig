@@ -1,0 +1,92 @@
+<nav class="upper navbar border-bottom w-100 m-0 p-1">
+    <div class="container-fluid align-items-start">
+        <a class="navbar-brand" href="{{ path('home') }}">
+            <img src="{{ asset('logos/logo.png') }}" 
+                height="48"
+                alt="Logo di Amichiamoci" title="Vai alla pagina principale" 
+                class="d-inline-block align-text-top"/>
+        </a>
+        <ul class="navbar-nav flex-grow-1 mt-auto mb-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link text-reset dropdown-toggle"
+                    href="#" 
+                    id="matchesDropdownMenuLink" 
+                    role="button" 
+                    data-bs-toggle="dropdown" 
+                    aria-expanded="false"
+                >
+                    Partite
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="matchesDropdownMenuLink">
+                    <li>
+                        <a class="dropdown-item" 
+                            href="{{ path('matches', {'sport': 'calcio'}) }}"
+                            title="Le partite di Calcio"
+                        >
+                            <twig:ux:icon name="game-icons:soccer-ball" height="15" />
+                            Calcio
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" 
+                            href="{{ path('matches', {'sport': 'pallavolo'}) }}"
+                            title="Le partite di Pallavolo"
+                        >
+                            <twig:ux:icon name="game-icons:volleyball-ball" height="15" />
+                            Pallavolo
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" 
+                            href="{{ path('matches', {'sport': 'basket'}) }}"
+                            title="Le partite di Basket"
+                        >
+                            <twig:ux:icon name="game-icons:basketball-basket" height="15" />
+                            Basket
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link text-reset dropdown-toggle"
+                    href="#" 
+                    id="tournamentsDropdownMenuLink" 
+                    role="button" 
+                    data-bs-toggle="dropdown" 
+                    aria-expanded="false"
+                >
+                    Tornei
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="tournamentsDropdownMenuLink">
+                    <li>
+                        <a class="dropdown-item" 
+                            href="{{ path('home_tournament_list', {'sport': 'calcio'}) }}"
+                            title="I tornei di Calcio"
+                        >
+                            <twig:ux:icon name="game-icons:soccer-ball" height="15" />
+                            Calcio
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item"
+                            href="{{ path('home_tournament_list', {'sport': 'pallavolo'}) }}"
+                            title="I tornei di Pallavolo"
+                        >
+                            <twig:ux:icon name="game-icons:volleyball-ball" height="15" />
+                            Pallavolo
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" 
+                            href="{{ path('home_tournament_list', {'sport': 'calcio'}) }}"
+                            title="I tornei di Basket"
+                        >
+                            <twig:ux:icon name="game-icons:basketball-basket" height="15" />
+                            Basket
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

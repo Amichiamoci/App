@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\TodaySaint;
-use Exception;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class TodaySaintManager
@@ -17,36 +16,36 @@ class TodaySaintManager
     public function Get(): array
     {
         try {
-            $response = $this->client->request('GET', self::URL);
+            $response = $this->client->request(method: 'GET', url: self::URL);
             $array = $response->toArray();
-            return array_map(function($r): TodaySaint
+            return array_map(callback: function (array $r): TodaySaint
             {
                 return new TodaySaint(
-                    $r['nome'],
-                    $r['tipologia'],
-                    $r['default'],
-                    Description: array_key_exists('descrizione', $r) ?
+                    Name: $r['nome'],
+                    Typology: $r['tipologia'],
+                    Default: $r['default'],
+                    Description: array_key_exists(key: 'descrizione', array: $r) ?
                         $r['descrizione'] : null,
-                    Link: array_key_exists('permalink', $r) ?
+                    Link: array_key_exists(key: 'permalink', array: $r) ?
                         $r['permalink'] : null,
-                    Image: array_key_exists('urlimmagine', $r) ?
+                    Image: array_key_exists(key: 'urlimmagine', array: $r) ?
                         $r['urlimmagine'] : null,
                 );
-            }, $array);
-        } catch (Exception) {
+            }, array: $array);
+        } catch (\Throwable) {
             return [];
         }
     }
 
     public function Default(): ?TodaySaint
     {
-        $defaults = array_filter($this->Get(), function(TodaySaint $s) {
+        $defaults = array_filter(array: $this->Get(), callback: function (TodaySaint $s): bool {
             return $s->getIsDefault();
         });
-        if (count($defaults) === 0)
+        if (count(value: $defaults) === 0)
         {
             return null;
         }
-        return array_values($defaults)[0];
+        return array_values(array: $defaults)[0];
     }
 }

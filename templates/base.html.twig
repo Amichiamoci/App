@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="light dark">
+    <meta name="color-scheme" content="light dark" />
     <meta name="description" content="{% block description %} App Amichiamoci {% endblock %}" />
     <meta name="keywords" content="Amichiamoci, Livorno, Chiesa, Diocesi, Giovani, Sport" />
 
@@ -19,21 +19,28 @@
     {{ pwa() }}
 </head>
 <body>
-    <header>
+    <header class="border border-1 border-left-0 overflow-x-hidden overflow-y-auto">
         {% include('nav.html.twig') %}
     </header>
 
-    {% for flash in app.flashes('success') %}
-        <div class="alert alert-success" role="alert">{{ flash }}</div>
-    {% endfor %}
-    {% for flash in app.flashes('error') %}
-        <div class="alert alert-danger" role="alert">{{ flash }}</div>
-    {% endfor %}
+    <div class="container ps-2 pe-2 overflow-auto" id="content">
+        {% include('mobile-nav-upper.html.twig') %}
 
-    <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pt-3 pb-3">
+            {% for flash in app.flashes('success') %}
+                <div class="alert alert-success" role="alert">{{ flash }}</div>
+            {% endfor %}
+
+            {% for flash in app.flashes('error') %}
+                <div class="alert alert-danger" role="alert">{{ flash }}</div>
+            {% endfor %}
+
             {% block body %}{% endblock %}
         </main>
+
+        <footer class="border-top text-muted user-select-none mt-auto mb-0 pb-1 w-100 overflow-hidden">
+            {% include('footer.html.twig') %}
+        </footer>
     </div>
     
     <button type="button"
@@ -44,10 +51,6 @@
         <twig:ux:icon name="bi:arrow-up" width="16" />
     </button>
 
-    <footer class="border-top footer text-muted user-select-none">
-        {% include('footer.html.twig') %}
-    </footer>
-    
     {% block javascripts %}
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}

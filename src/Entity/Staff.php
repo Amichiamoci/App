@@ -14,6 +14,6 @@ class Staff
     public ?string $Phone;
     public function getEmail(): ?string { return $this->Email; }
     public function getPhone(): ?string { return $this->Phone; }
-    public function hasEmail(): bool { return is_string($this->Email) && strlen(trim($this->Email)) > 0; }
-    public function hasPhone(): bool { return is_string($this->Phone) && strlen(trim($this->Phone)) > 0; }
+    public function hasEmail(): bool { return is_string(value: $this->Email) && strlen(string: trim(string: $this->Email)) > 0; }
+    public function hasPhone(): bool { return is_string(value: $this->Phone) && strlen(string: trim(string: $this->Phone)) > 0; }
 }

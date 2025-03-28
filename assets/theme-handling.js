@@ -1,62 +1,48 @@
-let default_theme = 'light';
+function themeHandler()
+{
+    'use strict';
+  
+    const getStoredTheme = () => localStorage.getItem('theme');
+    const setStoredTheme = theme => localStorage.setItem('theme', theme);
 
-const meta_color_scheme = document.querySelector('meta[name="color-scheme"]');
-if (meta_color_scheme) {
-    default_theme = meta_color_scheme.getAttribute('content').split(' ')[0];
-}
+    const getPreferredTheme = () => {
+        const storedTheme = getStoredTheme();
+        if (storedTheme) {
+            return storedTheme;
+        }
 
-const local_theme = window.localStorage.getItem('theme');
-const html = document.documentElement;
-const possible_themes = ['light', 'dark'];
-let current_theme_index = 0;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
 
-function setTheme(theme) {
-    console.log('Setting \'' + theme + '\' theme');
-    possible_themes.forEach(t => {
-        if (t === theme) {
-            html.classList.add(t);
-        } else {
-            html.classList.remove(t);
+    const setTheme = theme => {
+        if (theme === 'auto') {
+          document.documentElement.setAttribute('data-bs-theme', (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+          return;
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+    }
+
+    setTheme(getPreferredTheme());
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        const storedTheme = getStoredTheme()
+        if (storedTheme !== 'light' && storedTheme !== 'dark') {
+            setTheme(getPreferredTheme())
         }
     });
-    if (window.localStorage.getItem('theme') !== theme) {
-        window.localStorage.setItem('theme', theme);
-    }
-    current_theme_index = possible_themes.indexOf(theme);
+
+    window.addEventListener('DOMContentLoaded', () => {
+        document
+            .querySelectorAll('[data-bs-theme-value]')
+            .forEach(toggle => 
+                toggle.addEventListener('click', () => {
+                    const theme = toggle.getAttribute('data-bs-theme-value');
+                    setStoredTheme(theme);
+                    setTheme(theme);
+                })
+            );
+    });
 }
 
-function rotateTheme(set_default = false) {
-    if (set_default) {
-        setDefaultTheme();
-        return;
-    }
 
-    current_theme_index = (current_theme_index + 1) % possible_themes.length;
-    setTheme(possible_themes[current_theme_index]);
-}
-/*
-const change_themes_links = [...document.querySelectorAll('a[data-change-theme]')];
-change_themes_links.forEach(a => {
-    
-    a.onclick = evt => {
-        evt.preventDefault();
-        rotateTheme();
-    }
-    
-    
-    a.oncontextmenu = evt => evt.preventDefault();
-    if (!a.href.startsWith('javascript:')) {
-        a.href= "javascript:rotateTheme()";
-    }
-});
-*/
-
-function setDefaultTheme() {
-    if (local_theme) {
-        setTheme(local_theme);
-    } else {
-        setTheme(default_theme);
-    }
-}
-
-export { setTheme, rotateTheme, setDefaultTheme }
+export default themeHandler;

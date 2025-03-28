@@ -8,11 +8,11 @@
     <h1> Tornei di {{ sport|upper }}</h1>
 
     <ul class="list-group">
-    {% for tourney in tourneys %}
+    {% for tournament in tournaments %}
         <li class="list-group-item">
-            <a href="{{ path('home_tourney_view', { 'id': tourney.Id }) }}"
+            <a href="{{ path('home_tourney_view', { 'id': tournament.Id }) }}"
                 class="link-underline link-secondary"
-            >{{ tourney.Name }} - {{ tourney.Sport }}</a>
+            >{{ tournament.Name }} - {{ tournament.Sport }}</a>
         </li>
     {% else %}
         <li class="list-group-item">

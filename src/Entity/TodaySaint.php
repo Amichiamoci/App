@@ -32,14 +32,14 @@ class TodaySaint
 
     private ?string $Description = null;
     public function getDescription(): ?string { return $this->Description; }
-    public function hasDescription(): bool { return is_string($this->Description); }
+    public function hasDescription(): bool { return is_string(value: $this->Description); }
 
     private ?string $Link = null;
     public function getLink(): ?string { return $this->Link; }
-    public function hasLink(): bool { return is_string($this->Link); }
+    public function hasLink(): bool { return is_string(value: $this->Link); }
 
     
     private ?string $Image = null;
     public function getImage(): ?string { return $this->Image; }
-    public function hasImage(): bool { return is_string($this->Image); }
+    public function hasImage(): bool { return is_string(value: $this->Image); }
 }

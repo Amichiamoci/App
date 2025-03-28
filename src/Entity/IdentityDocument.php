@@ -13,5 +13,5 @@ class IdentityDocument
 
     public ?string $Message;
     public function getMessage(): ?string { return $this->Message; }
-    public function hasMessage(): bool { return is_string($this->Message) && strlen(trim($this->Message)) > 0; }
+    public function hasMessage(): bool { return is_string(value: $this->Message) && strlen(string: trim(string: $this->Message)) > 0; }
 }

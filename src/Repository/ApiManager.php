@@ -14,7 +14,7 @@ use App\Entity\Match\ScoreGroup;
 use App\Entity\Team\Team;
 use App\Entity\Team\TeamMember;
 use App\Entity\Team\TeamPosition;
-
+use App\Entity\Tournament;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -50,19 +50,22 @@ class ApiManager
     }
     private static function getSerializer(): Serializer
     {
-        return new Serializer([
-            new ObjectNormalizer(
-                new ClassMetadataFactory(new AttributeLoader()),
-                null, 
-                null,
-                new ReflectionExtractor()
-            ), 
-            new ArrayDenormalizer(),
-            new GetSetMethodNormalizer(), 
-            new DateTimeNormalizer()
-        ], [
-            new JsonEncoder()
-        ]);
+        return new Serializer(
+            normalizers: [
+                new ObjectNormalizer(
+                    classMetadataFactory: new ClassMetadataFactory(loader: new AttributeLoader()),
+                    nameConverter: null, 
+                    propertyAccessor: null,
+                    propertyTypeExtractor: new ReflectionExtractor()
+                ), 
+                new ArrayDenormalizer(),
+                new GetSetMethodNormalizer(), 
+                new DateTimeNormalizer()
+            ], 
+            encoders: [
+                new JsonEncoder()
+            ]
+        );
     }
 
     private function get(string $resource, $options = []):ResponseInterface
@@ -75,26 +78,31 @@ class ApiManager
             $headers['Data-Param-' . $name] = $value;
         }
         return $this->client->request(
-            'GET', 
-            self::apiUrl() . '?resource=' . $resource,
-            [ 'headers' => $headers ]
+            method: 'POST', 
+            url: self::apiUrl() . '?resource=' . $resource,
+            options: [ 'headers' => $headers ]
         );
     }
 
     private function getObjectCollection(string $collectionName, string $className, $params = []): array
     {
         try {
-            $response = $this->get($collectionName, $params);
+            $response = $this->get(resource: $collectionName, options: $params);
             $arr = $response->getContent();
             $serializer = $this->getSerializer();
     
-            return $serializer->deserialize($arr, $className . "[]", 'json', [
-                AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
-                AbstractNormalizer::REQUIRE_ALL_PROPERTIES => false,
-            ]);
+            return $serializer->deserialize(
+                data: $arr, 
+                type: $className . "[]", 
+                format: 'json', 
+                context: [
+                    AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
+                    AbstractNormalizer::REQUIRE_ALL_PROPERTIES => false,
+                ]
+            );
         }
-        catch (\Exception) {
-            return array();
+        catch (\Throwable) {
+            return [];
         }
     }
 
@@ -104,9 +112,13 @@ class ApiManager
      */
     public function Matches(string $sport): array
     {
-        return $this->getObjectCollection('today-matches-sport', SportMatch::class, [
-            'Sport' => $sport,
-        ]);
+        return $this->getObjectCollection(
+            collectionName: 'today-matches-sport', 
+            className: SportMatch::class, 
+            params: [
+                'Sport' => $sport,
+            ]
+        );
     }
 
     /**
@@ -114,7 +126,7 @@ class ApiManager
      */
     public function TeamMembers(): array
     {
-        return $this->getObjectCollection('teams-members', TeamMember::class);
+        return $this->getObjectCollection(collectionName: 'teams-members', className: TeamMember::class);
     }
 
     /**
@@ -124,12 +136,12 @@ class ApiManager
     {
         // Load form API
         $members = $this->TeamMembers();
-        $teams = $this->getObjectCollection('teams-info', Team::class);
+        $teams = $this->getObjectCollection(collectionName: 'teams-info', className: Team::class);
 
         // Join collections
         foreach ($teams as &$team)
         {
-            $team->Members = array_filter($members, function (TeamMember $m) use($team) {
+            $team->Members = array_filter(array: $members, callback: function (TeamMember $m) use($team): bool {
                 return $m->TeamId === $team->Id;
             });
         }
@@ -141,14 +153,14 @@ class ApiManager
 
     public function Team(int $id): ?Team
     {
-        $filtered = array_filter($this->Teams(), function(Team $t) use($id) {
+        $filtered = array_filter(array: $this->Teams(), callback: function (Team $t) use($id): bool {
             return $t->Id === $id;
         });
-        if (count($filtered) === 0)
+        if (count(value: $filtered) === 0)
         {
             return null;
         }
-        return array_values($filtered)[0];
+        return array_values(array: $filtered)[0];
     }
 
     /**
@@ -157,9 +169,13 @@ class ApiManager
      */
     public function ManagedAnagraphicals(string $email): array
     {
-        return $this->getObjectCollection('managed-anagraphicals', Anagraphical::class, [
-            'Email' => $email
-        ]);
+        return $this->getObjectCollection(
+            collectionName: 'managed-anagraphicals', 
+            className: Anagraphical::class,
+            params: [
+                'Email' => $email
+            ]
+        );
     }
 
     /**
@@ -167,20 +183,24 @@ class ApiManager
      */
     public function Staff(): array
     {
-        return $this->getObjectCollection('staff-list', Staff::class);
+        return $this->getObjectCollection(collectionName: 'staff-list', className: Staff::class);
     }
 
     public function Church(int $id): ?Church
     {
-        $churches = $this->getObjectCollection('church', Church::class, [
-            'id' => $id
-        ]);
-        if (count($churches) === 0) {
+        $churches = $this->getObjectCollection(
+            collectionName: 'church', 
+            className: Church::class, 
+            params: [
+                'id' => $id
+            ]
+        );
+        if (count(value: $churches) === 0) {
             return null;
         }
         $church = $churches[0];
         $staff = $this->Staff();
-        $church->Staff = array_filter($staff, function (Staff $s) use($church) {
+        $church->Staff = array_filter(array: $staff, callback: function (Staff $s) use($church): bool {
             return $s->ChurchId === $church->Id;
         });
         return $church;
@@ -194,60 +214,79 @@ class ApiManager
     {
         if (empty($email))
         {
-            throw new \InvalidArgumentException('Given email was empty!');
+            throw new \InvalidArgumentException(message: 'Given email was empty!');
         }
 
-        return $this->getObjectCollection('today-matches-of', TodaySportMatch::class, [
-            'Email' => $email,
-        ]);
+        return $this->getObjectCollection(
+            collectionName: 'today-matches-of',
+            className: TodaySportMatch::class, 
+            params: [
+                'Email' => $email,
+            ]
+        );
     }
 
-    public function Tourney(int $id): ?Tourney
+    public function Tournament(int $id): ?Tournament
     {
-        $t = $this->getObjectCollection('tourney', Tourney::class, [
+        $t = $this->getObjectCollection(collectionName: 'tournament', className: Tournament::class, params: [
             'Id' => $id,
         ]);
-        if (count($t) === 0)
+        if (count(value: $t) === 0)
         {
             return null;
         }
 
-        $tourney = array_values($t)[0];
+        $tourney = array_values(array: $t)[0];
 
-        $tourney->Matches = $this->getObjectCollection('tourney-matches', SportMatch::class, [
-            'Id' => $id
-        ]);
+        $tourney->Matches = $this->getObjectCollection(
+            collectionName: 'tournament-matches', 
+            className: SportMatch::class, 
+            params: [
+                'Id' => $id
+            ]
+        );
 
-        $tourney->Leaderboard = $this->getObjectCollection('tourney-leaderboard', TeamPosition::class, [
-            'Id' => $id
-        ]);
+        $tourney->Leaderboard = $this->getObjectCollection(
+            collectionName: 'tournament-leaderboard', 
+            className: TeamPosition::class, 
+            params: [
+                'Id' => $id
+            ]
+        );
 
         return $tourney;
     }
 
-    public function TourneyFromSport(string $sport): array
+    public function TournamentFromSport(string $sport): array
     {
-        return $this->getObjectCollection('tourney-sport', Tourney::class, [
-            'Sport' => $sport
-        ]);
+        return $this->getObjectCollection(
+            collectionName: 'tourney-sport', 
+            className: Tournament::class, 
+            params: [
+                'Sport' => $sport
+            ]
+        );
     }
 
     public function TodayAndYesterdayMatches(): array
     {
-        $array = $this->getObjectCollection('today-yesterday-matches', SportMatch::class);
-        if (count($array) === 0)
+        $array = $this->getObjectCollection(
+            collectionName: 'today-yesterday-matches', 
+            className: SportMatch::class
+        );
+        if (count(value: $array) === 0)
         {
             return [];
         }
 
-        $keys = array_values(array_unique(array_map(function(SportMatch $m){
+        $keys = array_values(array: array_unique(array: array_map(callback: function (SportMatch $m): string {
             return $m->SportName;
-        }, $array)));
+        }, array: $array)));
 
         $finalArray = [];
         foreach ($keys as $key)
         {
-            $finalArray[$key] = array_filter($array, function(SportMatch $m) use($key) {
+            $finalArray[$key] = array_filter(array: $array, callback: function (SportMatch $m) use($key): bool {
                 return $m->SportName === $key;
             });
         }
@@ -256,29 +295,33 @@ class ApiManager
 
     public function DeleteResult(int $id): bool
     {
-        $result = $this->getObjectCollection('delete-match-result', 'string', [
-            'Id' => $id,
-        ]);
-        return count($result) === 0;
+        $result = $this->getObjectCollection(
+            collectionName: 'delete-match-result', 
+            className: 'string', 
+            params: [
+                'Id' => $id,
+            ]
+        );
+        return count(value: $result) === 0;
     }
 
-    public function AddResult(int $id, string $home, string $guest) : ?Score
+    public function AddResult(int $id, string $home, string $guest): ?Score
     {
-        $scores = $this->getObjectCollection('new-match-result', Score::class, [
+        $scores = $this->getObjectCollection(collectionName: 'new-match-result', className: Score::class, params: [
             'Id' => $id,
             'Home' => $home,
             'Guest' => $guest,
         ]);
-        if (count($scores) === 0)
+        if (count(value: $scores) === 0)
         {
             return null;
         }
 
-        return array_values($scores)[0];
+        return array_values(array: $scores)[0];
     }
 
     public function Leaderboard(): array
     {
-        return $this->getObjectCollection('leaderboard', ChurchScore::class);
+        return $this->getObjectCollection(collectionName: 'leaderboard', className: ChurchScore::class);
     }
 }

@@ -13,13 +13,13 @@ class Church
     public ?string $Address;
     public ?string $Website;
     public function getAddress(): ?string { return $this->Address; }
-    public function hasAddress(): bool { return is_string($this->Address) && strlen($this->Address) > 0; }
+    public function hasAddress(): bool { return is_string(value: $this->Address) && strlen(string: $this->Address) > 0; }
     public function getWebsite(): ?string { return $this->Website; }
-    public function hasWebsite(): bool { return is_string($this->Website) && strlen($this->Website) > 0; }
+    public function hasWebsite(): bool { return is_string(value: $this->Website) && strlen(string: $this->Website) > 0; }
 
     
     #[Ignore]
     public array $Staff = [];
     public function getStaff(): array { return $this->Staff; }
-    public function hasStaff(): bool { return count($this->Staff) > 0; }
+    public function hasStaff(): bool { return count(value: $this->Staff) > 0; }
 }

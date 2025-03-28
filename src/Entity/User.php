@@ -88,14 +88,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         // Detect if the user is admin from the environment
         if (
-            in_array('ADMIN_USER_EMAIL', $_ENV) && 
-            is_string($_ENV['ADMIN_USER_EMAIL']) &&
-            $this->email === $_ENV['ADMIN_USER_EMAIL'])
-        {
+            in_array(needle: 'ADMIN_USER_EMAIL', haystack: $_ENV) && 
+            is_string(value: $_ENV['ADMIN_USER_EMAIL']) &&
+            $this->email === $_ENV['ADMIN_USER_EMAIL']
+        ) {
             $roles[] = self::ADMIN;
         }
         
-        return array_unique($roles);
+        return array_unique(array: $roles);
     }
 
     /**
@@ -110,7 +110,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function addRole(string $role): static
     {
-        if (in_array($role, $this->roles))
+        if (in_array(needle: $role, haystack: $this->roles))
         {
             return $this;
         }
@@ -121,7 +121,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeRole(string $role): static
     {
-        $this->roles = array_filter($this->roles, function(string $r) use($role) {
+        $this->roles = array_filter(array: $this->roles, callback: function (string $r) use($role): bool {
             return $r !== $role;
         });
         return $this;
@@ -136,15 +136,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function isInRole(string $role): bool
     {
         $roles = $this->getRoles();
-        return in_array(self::ADMIN, $roles) || in_array($role, $roles);
+        return in_array(needle: self::ADMIN, haystack: $roles) || in_array(needle: $role, haystack: $roles);
     }
     public function isAdmin(): bool
     {
-        return in_array(self::ADMIN, $this->getRoles());
+        return in_array(needle: self::ADMIN, haystack: $this->getRoles());
     }
     public function isReferee(): bool
     {
-        return $this->isInRole(self::REFEREE);
+        return $this->isInRole(role: self::REFEREE);
     }
 
     /**
@@ -182,7 +182,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($length < self::PASSWORD_GEN_MIN || $length > self::PASSWORD_GEN_MAX)
         {
             throw new \LengthException(
-                '$length of password must be >= ' . 
+                message: '$length of password must be >= ' . 
                 self::PASSWORD_GEN_MIN . 
                 ' and <= ' . 
                 self::PASSWORD_GEN_MAX .
@@ -194,16 +194,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         $alphabet = 
             self::PASSWORD_LETTERS_UPPER . 
-            strtolower(self::PASSWORD_LETTERS_UPPER) .
+            strtolower(string: self::PASSWORD_LETTERS_UPPER) .
             self::PASSWORD_DIGITS .
             self::PASSWORD_SYMBOLS; 
 
         $pass = array();
         for ($i = 0; $i < $length; $i++)
         {
-            $pass[] = $alphabet[random_int(0, strlen($alphabet) - 1)];
+            $pass[] = $alphabet[random_int(min: 0, max: strlen(string: $alphabet) - 1)];
         }
-        return join($pass);
+        return join(array: $pass);
     }
 
     public function setName(string $name): static

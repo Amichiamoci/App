@@ -51,8 +51,8 @@ class SportMatch
     public function canHaveOtherResults(): bool 
     {
         if (
-            !str_contains(strtolower($this->SportName), 'pallavolo') &&
-            !str_contains(strtolower($this->SportName), 'volley')
+            !str_contains(haystack: strtolower(string: $this->SportName), needle: 'pallavolo') &&
+            !str_contains(haystack: strtolower(string: $this->SportName), needle: 'volley')
         ) {
             return !$this->hasScores();
         }
@@ -62,10 +62,10 @@ class SportMatch
 
     public function getScoresRow(): string
     {
-        return join('; ', 
-            array_map(function(Score $s) {
+        return join(separator: '; ', 
+            array_map(callback: function (Score $s): string {
                 return $s->getHome() . " - " . $s->getGuest();
-            }, $this->getScores()->getParsed())
+            }, array: $this->getScores()->getParsed())
         );
     }
 }

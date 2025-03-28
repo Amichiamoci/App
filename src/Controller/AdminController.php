@@ -14,65 +14,65 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
-#[IsGranted(User::ADMIN)]
+#[IsGranted(attribute: User::ADMIN)]
 class AdminController extends AbstractController
 {
 
-    #[Route('/admin/remove/{id}', name: 'admin_remove',)]
+    #[Route(path: '/admin/remove/{id}', name: 'admin_remove',)]
     public function removeAdmin(
         EntityManagerInterface $entityManager, 
         UserRepository $userRepository, 
         int $id): Response
     {
-        $user = $userRepository->find($id);
+        $user = $userRepository->find(id: $id);
         if (!isset($user))
         {
-            $this->addFlash('error', "Utente '$id' non trovato");
+            $this->addFlash(type: 'error', message: "Utente '$id' non trovato");
         } else {
             
             $user->removeRole(User::ADMIN);
-            $entityManager->persist($user);
+            $entityManager->persist(object: $user);
             $entityManager->flush();
 
             $fullName = $user->getName() . ' ' . $user->getSurname();
-            $this->addFlash('success', "'$fullName' non è più amministatore.");
+            $this->addFlash(type: 'success', message: "'$fullName' non è più amministatore.");
         }
 
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute(route: 'admin');
     }
 
-    #[Route('/admin', name: 'admin',)]
+    #[Route(path: '/admin', name: 'admin',)]
     public function index(
         Request $request,
         UserRepository $userRepository, 
         EntityManagerInterface $entityManager): Response
     {
         $email = '';
-        $form = $this->createForm(AddRoleToUserFormType::class);
-        $form->handleRequest($request);
+        $form = $this->createForm(type: AddRoleToUserFormType::class);
+        $form->handleRequest(request: $request);
 
         if ($form->isSubmitted() && $form->isValid()) 
         {
-            $email = $form->get('email')->getData();
+            $email = $form->get(name: 'email')->getData();
 
-            $user = $userRepository->findOneBy(['email' => $email]);
+            $user = $userRepository->findOneBy(criteria: ['email' => $email]);
             if (!isset($user))
             {
-                $this->addFlash('error', "Utente '$email' non trovato");
+                $this->addFlash(type: 'error', message: "Utente '$email' non trovato");
             } else {
                 // Add the role and save
                 $user->addRole(User::ADMIN);
-                $entityManager->persist($user);
+                $entityManager->persist(object: $user);
                 $entityManager->flush();
 
                 $fullName = $user->getName() . ' ' . $user->getSurname();
-                $this->addFlash('success', "'$fullName' è ora un amministratore");
+                $this->addFlash(type: 'success', message: "'$fullName' è ora un amministratore");
             }
         }
 
-        return $this->render('admin/index.html.twig', [
-            'admins' => $userRepository->findByRole(User::ADMIN),
-            'allUsers' => array_filter($userRepository->findAll(), function (User $u) {
+        return $this->render(view: 'admin/index.html.twig', parameters: [
+            'admins' => $userRepository->findByRole(role: User::ADMIN),
+            'allUsers' => array_filter(array: $userRepository->findAll(), callback: function (User $u): bool {
                 return !$u->isAdmin();
             }),
             'addAdminForm' => $form,

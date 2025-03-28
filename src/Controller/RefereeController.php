@@ -16,96 +16,97 @@ use App\Repository\ApiManager;
 use App\Repository\UserRepository;
 use App\Form\AddRoleToUserFormType;
 
-#[IsGranted(User::REFEREE)]
+#[IsGranted(attribute: User::REFEREE)]
 class RefereeController extends AbstractController
 {
-    #[Route('/referee', name: 'referee_dashboard')]
+    #[Route(path: '/referee', name: 'referee_dashboard')]
     public function index(ApiManager $apiManager): Response
     {
-        return $this->render('referee/index.html.twig', [
+        return $this->render(view: 'referee/index.html.twig', parameters: [
             'sportAndMatches' => $apiManager->TodayAndYesterdayMatches()
         ]);
     }
 
-    #[Route('/referee/teams', name: 'referee_teams')]
+    #[Route(path: '/referee/teams', name: 'referee_teams')]
     public function teams(ApiManager $apiManager): Response
     {
-        return $this->render('referee/teams.html.twig', [
+        return $this->render(view: 'referee/teams.html.twig', parameters: [
             'teams' => $apiManager->Teams()
         ]);
     }
 
-    #[Route('/referee/team/{id}', name: 'team_view')]
+    #[Route(path: '/referee/team/{id}', name: 'team_view')]
     public function team(int $id, ApiManager $apiManager): Response
     {
-        $team = $apiManager->Team($id);
+        $team = $apiManager->Team(id: $id);
         if (!isset($team))
         {
-            throw new NotFoundHttpException("Squadra '$id' non trovata");
+            throw new NotFoundHttpException(message: "Squadra '$id' non trovata");
         }
-        return $this->render('teams/team.html.twig', [
+        return $this->render(view: 'teams/team.html.twig', parameters: [
             'team' => $team
         ]);
     }
 
-    #[Route('/referee/remove/{id}', name: 'referee_remove',)]
-    #[IsGranted(User::ADMIN)]
+    #[Route(path: '/referee/remove/{id}', name: 'referee_remove',)]
+    #[IsGranted(attribute: User::ADMIN)]
     public function removeAdmin(
         EntityManagerInterface $entityManager, 
         UserRepository $userRepository, 
-        int $id): Response
+        int $id,
+    ): Response
     {
-        $user = $userRepository->find($id);
+        $user = $userRepository->find(id: $id);
         if (!isset($user))
         {
-            $this->addFlash('error', "Utente '$id' non trovato");
+            $this->addFlash(type: 'error', message: "Utente '$id' non trovato");
         } else {
             
             $user->removeRole(User::REFEREE);
-            $entityManager->persist($user);
+            $entityManager->persist(object: $user);
             $entityManager->flush();
 
             $fullName = $user->getName() . ' ' . $user->getSurname();
-            $this->addFlash('success', "'$fullName' non è più un arbitro.");
+            $this->addFlash(type: 'success', message: "'$fullName' non è più un arbitro.");
         }
 
-        return $this->redirectToRoute('new_referee');
+        return $this->redirectToRoute(route: 'new_referee');
     }
 
     
-    #[Route('/referee/new', name: 'new_referee')]
-    #[IsGranted(User::ADMIN)]
+    #[Route(path: '/referee/new', name: 'new_referee')]
+    #[IsGranted(attribute: User::ADMIN)]
     public function new(Request $request,UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $email = '';
-        $form = $this->createForm(AddRoleToUserFormType::class);
-        $form->handleRequest($request);
+        $form = $this->createForm(type: AddRoleToUserFormType::class);
+        $form->handleRequest(request: $request);
 
         if ($form->isSubmitted() && $form->isValid()) 
         {
-            $email = $form->get('email')->getData();
+            $email = $form->get(name: 'email')->getData();
 
-            $user = $userRepository->findOneBy(['email' => $email]);
+            $user = $userRepository->findOneBy(criteria: ['email' => $email]);
             if (!isset($user))
             {
-                $this->addFlash('error', "Utente '$email' non trovato");
+                $this->addFlash(type: 'error', message: "Utente '$email' non trovato");
             } else {
                 // Add the role and save
                 $user->addRole(User::REFEREE);
-                $entityManager->persist($user);
+                $entityManager->persist(object: $user);
                 $entityManager->flush();
 
                 $fullName = $user->getName() . ' ' . $user->getSurname();
-                $this->addFlash('success', "'$fullName' è ora un arbitro");
+                $this->addFlash(type: 'success', message: "'$fullName' è ora un arbitro");
             }
         }
 
-        $referees = $userRepository->findByRole(User::REFEREE);
+        $referees = $userRepository->findByRole(role: User::REFEREE);
 
-        return $this->render('referee/new.html.twig', [
+        return $this->render(view: 'referee/new.html.twig', parameters: [
             'addRefereeForm' => $form,
             'referees' => $referees,
-            'allUsers' => array_filter($userRepository->findAll(), function(User $u) {
+            'allUsers' => array_filter(array: $userRepository->findAll(), callback: function (User $u): bool {
                 return !$u->isReferee();
             }),
         ]);
@@ -114,31 +115,35 @@ class RefereeController extends AbstractController
     #[Route('/referee/result/delete/{id}', name: 'delete_result',)]
     public function resultDelete(ApiManager $apiManager, int $id): Response
     {
-        if ($apiManager->DeleteResult($id)){
-            $this->addFlash('success', 
-                'Risultato rimosso');
+        if ($apiManager->DeleteResult(id: $id)){
+            $this->addFlash(type: 'success', 
+                message: 'Risultato rimosso');
         } else {
-            $this->addFlash('error', 
-                'È avvenuto un errore: non è stato possibile rimuovere il risultato');
+            $this->addFlash(type: 'error', 
+                message: 'È avvenuto un errore: non è stato possibile rimuovere il risultato');
         }
-        return $this->redirectToRoute('referee_dashboard');
+        return $this->redirectToRoute(route: 'referee_dashboard');
     }
 
     #[Route('/referee/result/add/{id}', name: 'add_result', methods: 'POST')]
     public function resultAdd(Request $request, ApiManager $apiManager, int $id): Response
     {
-        $content = $request->getPayload()->get('content');
+        $content = $request->getPayload()->get(key: 'content');
 
         $parts = array_values(
-            array_map(function ($s) { return trim($s); }, explode('-', $content)));
-        $score = $apiManager->AddResult($id, $parts[0], $parts[1]);
+            array: array_map(
+                callback: function (string $s): string { return trim(string: $s); },
+                array: explode(separator: '-', string: $content)
+            )
+        );
+        $score = $apiManager->AddResult(id: $id, home: $parts[0], guest: $parts[1]);
         if (isset($score)) {
-            $this->addFlash('success', 
-                'Risultato aggiunto');
+            $this->addFlash(type: 'success', 
+                message: 'Risultato aggiunto');
         } else {
-            $this->addFlash('error', 
-                'È avvenuto un errore: non è stato possibile aggiungere il risultato');
+            $this->addFlash(type: 'error', 
+                message: 'È avvenuto un errore: non è stato possibile aggiungere il risultato');
         }
-        return $this->redirectToRoute('referee_dashboard');
+        return $this->redirectToRoute(route: 'referee_dashboard');
     }
 }

@@ -11,10 +11,6 @@ import $ from 'jquery';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Popover } from 'bootstrap';
-import './styles/bootstrap-nightshade.css';
-
-import { rotateTheme } from './theme-handling.js';
-window.rotateTheme = rotateTheme;
 
 $(function() {
 
@@ -24,10 +20,10 @@ $(function() {
     popoverTriggerList.forEach(popoverTriggerEl => {
         new Popover(popoverTriggerEl);
     });
-
-    // Theme button in nav
-    rotateTheme(true);
 });
 
 import handleScroll from './scroll.js';
 window.onscroll = handleScroll;
+
+import themeHandler from './theme-handling.js';
+themeHandler();

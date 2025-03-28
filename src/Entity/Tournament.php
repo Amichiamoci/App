@@ -3,7 +3,7 @@
 namespace App\Entity;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
-class Tourney
+class Tournament
 {
     public int $Id;
     public string $Name;
@@ -21,15 +21,15 @@ class Tourney
     #[Ignore]
     public array $Matches = [];
     public function getMatches(): array { return $this->Matches; }
-    public function hasMatches(): bool { return count($this->Matches) > 0; }
+    public function hasMatches(): bool { return count(value: $this->Matches) > 0; }
 
     public array $Teams = [];
     public function getTeams(): array { return $this->Teams; }
-    public function hasTeams(): bool { return count($this->Teams) > 0; }
+    public function hasTeams(): bool { return count(value: $this->Teams) > 0; }
 
     #[Ignore]
     public array $Leaderboard = [];
     public function getLeaderboard(): array { return $this->Leaderboard; }
-    public function hasLeaderboard(): bool { return count($this->Leaderboard) > 0; }
+    public function hasLeaderboard(): bool { return count(value: $this->Leaderboard) > 0; }
 
 }

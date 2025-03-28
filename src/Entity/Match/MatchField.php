@@ -15,7 +15,7 @@ class MatchField
 
     public ?string $Address;
     public function getAddress(): ?string { return $this->Address; }
-    public function hasAddress(): bool { return is_string($this->Address); }
+    public function hasAddress(): bool { return is_string(value: $this->Address); }
 
     public ?float $Latitude;
     public ?float $Longitude;
@@ -34,14 +34,14 @@ class MatchField
         {
             return null;
         }
-        $point = new Point($this->getLatitude(), $this->getLongitude());
+        $point = new Point(latitude: $this->getLatitude(), longitude: $this->getLongitude());
         return (new Map())
-            ->addMarker(new Marker(
+            ->addMarker(marker: new Marker(
                 position: $point, 
                 title: $this->getName()
             ))
             
-            ->center($point)
+            ->center(center: $point)
             //->zoom(10)
             ->fitBoundsToMarkers()
             ;
