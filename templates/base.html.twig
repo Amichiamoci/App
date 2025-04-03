@@ -23,10 +23,10 @@
         {% include('nav.html.twig') %}
     </header>
 
-    <div class="container ps-2 pe-2 overflow-auto" id="content">
+    <div class="container p-0 overflow-y-auto" id="content">
         {% include('mobile-nav-upper.html.twig') %}
 
-        <main role="main" class="pt-3 pb-3">
+        <main role="main" class="pt-3 pb-3 ps-1 pe-1">
             {% for flash in app.flashes('success') %}
                 <div class="alert alert-success" role="alert">{{ flash }}</div>
             {% endfor %}
