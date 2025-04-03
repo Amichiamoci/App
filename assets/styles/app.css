@@ -2,7 +2,7 @@ body {
     display: flex;
     flex: 1 1;
     height: 100vh;
-    min-width: 400px;
+    min-width: 300px;
 }
 
 html {
@@ -35,6 +35,12 @@ nav.upper, nav.lower {
     opacity: 0;
     transition: height .5s ease-in-out, opacity .7s ease-in-out;
 }
+nav.upper {
+    background-color: var(--bs-tertiary-bg);
+}
+nav.lower {
+    background-color: var(--bs-secondary-bg);
+}
     nav.upper :is(a, img), 
     nav.lower :is(a, img) {
         max-height: 60px !important;
@@ -44,16 +50,34 @@ nav.upper, nav.lower {
         width: 0;
         opacity: .7;
     }
+        header.border,
+        header.border-1 {
+            border: none !important;
+            border-width: 0 !important;
+        }
     footer {
-        height: 0;
+        height: 0 !important;
         opacity: .7;
     }
         footer.border-top {
             border-top: none !important;
         }
+        footer.p-1,
+        footer.pb-1 {
+            padding: 0 !important;
+        }
+        footer > div {
+            height: 0 !important;
+        }
     nav.upper, nav.lower {
         height: unset;
         opacity: 1;
+        z-index: 3;
+    }
+
+    main {
+        top: 60px;
+        z-index: 2;
     }
 }
 

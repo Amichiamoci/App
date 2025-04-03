@@ -18,15 +18,15 @@
 
     {{ pwa() }}
 </head>
-<body>
+<body class="p-0 m-0">
     <header class="border border-1 border-left-0 overflow-x-hidden overflow-y-auto">
         {% include('nav.html.twig') %}
     </header>
 
-    <div class="container p-0 overflow-y-auto" id="content">
+    <div class="container p-0 overflow-y-auto position-relative" id="content">
         {% include('mobile-nav-upper.html.twig') %}
 
-        <main role="main" class="pt-3 pb-3 ps-1 pe-1">
+        <main role="main" class="w-100 pt-3 pb-3 ps-1 pe-1 position-absolute">
             {% for flash in app.flashes('success') %}
                 <div class="alert alert-success" role="alert">{{ flash }}</div>
             {% endfor %}
@@ -38,7 +38,9 @@
             {% block body %}{% endblock %}
         </main>
 
-        <footer class="border-top text-muted user-select-none mt-auto mb-0 pb-1 w-100 overflow-hidden">
+        {% include('mobile-nav-lower.html.twig') %}
+
+        <footer class="border-top text-muted user-select-none position-fixed bottom-0 pb-1 w-100 overflow-hidden">
             {% include('footer.html.twig') %}
         </footer>
     </div>
