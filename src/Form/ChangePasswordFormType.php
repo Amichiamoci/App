@@ -17,7 +17,7 @@ class ChangePasswordFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('plainPassword', RepeatedType::class, [
+            ->add(child: 'plainPassword', type: RepeatedType::class, options: [
                 'type' => PasswordType::class,
                 'options' => [
                     'attr' => [
@@ -27,10 +27,10 @@ class ChangePasswordFormType extends AbstractType
                 ],
                 'first_options' => [
                     'constraints' => [
-                        new NotBlank([
+                        new NotBlank(options: [
                             'message' => 'Immetti una password',
                         ]),
-                        new Length([
+                        new Length(exactly: [
                             'min' => 12,
                             'minMessage' => 'La password deve avere almeno {{ limit }} caratteri',
                             // max length allowed by Symfony for security reasons

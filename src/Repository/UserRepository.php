@@ -16,7 +16,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, User::class);
+        parent::__construct(registry: $registry, entityClass: User::class);
     }
 
     /**
@@ -25,11 +25,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
         if (!$user instanceof User) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
+            throw new UnsupportedUserException(
+                message: sprintf(format: 'Instances of "%s" are not supported.', values: $user::class));
         }
 
-        $user->setPassword($newHashedPassword);
-        $this->getEntityManager()->persist($user);
+        $user->setPassword(password: $newHashedPassword);
+        $this->getEntityManager()->persist(object: $user);
         $this->getEntityManager()->flush();
     }
 
@@ -60,11 +61,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function findByRole(string $role): array
     {
-        $qb = $this->createQueryBuilder('u');
+        $qb = $this->createQueryBuilder(alias: 'u');
 
         $qb
-            ->andWhere($qb->expr()->like('u.roles', ':role'))
-            ->setParameter('role', '%'.$role.'%');
+            ->andWhere(where: $qb->expr()->like(x: 'u.roles', y: ':role'))
+            ->setParameter(key: 'role', value: '%'.$role.'%');
 
         return $qb
             ->getQuery()

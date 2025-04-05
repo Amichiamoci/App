@@ -22,11 +22,11 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
 
     public function loadUserByUsername(string $username): UserInterface
     {
-        $user = $this->userRepository->findOneBy(['email' => $username]);
+        $user = $this->userRepository->findOneBy(criteria: ['email' => $username]);
 
         if (!isset($user)) {
             throw new AuthenticationException(
-                sprintf('Utente "%s" non trovato.', $username));
+                message: sprintf('Utente "%s" non trovato.', $username));
         }
 
         return $user;
@@ -34,23 +34,25 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
 
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        return $this->loadUserByUsername($identifier);
+        return $this->loadUserByUsername(username: $identifier);
     }
 
     public function refreshUser(UserInterface $user): UserInterface
     {
         if (!$user instanceof User) {
             throw new AuthenticationException(
-                sprintf('Istanze di "%s" non sono supportate.', User::class));
+                message: sprintf('Istanze di "%s" non sono supportate.',  User::class));
         }
 
         if ($this->userRepository instanceof UserProviderInterface) {
-            $refreshedUser = $this->userRepository->refreshUser($user);
+            $refreshedUser = $this->userRepository->refreshUser(user: $user);
         } else {
-            $refreshedUser = $this->userRepository->find($user->getId());
+            $refreshedUser = $this->userRepository->find(id: $user->getId());
             if (null === $refreshedUser) {
                 throw new AuthenticationException(
-                    sprintf('Utente con id %s non trovato', json_encode($user->getId())));
+                    message: sprintf(
+                        'Utente con id %s non trovato', 
+                    json_encode(value: $user->getId())));
             }
         }
 
@@ -60,32 +62,33 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
     public function loadUserByOAuthUserResponse(UserResponseInterface $response): UserInterface
     {
         try {
-            return $this->loadUserByUsername($response->getEmail());
+            return $this->loadUserByUsername(username: $response->getEmail());
         } catch (AuthenticationException) {
-            return $this->createUserFromOAuthResponse($response);
+            return $this->createUserFromOAuthResponse(response: $response);
         }
     }
 
     private function createUserFromOAuthResponse(UserResponseInterface $response): UserInterface
     {
         $user = new User();
-        $user->setEmail($response->getEmail());
-        $user->setName($response->getFirstName());
-        $user->setSurname($response->getLastName());
+        $user->setEmail(email: $response->getEmail());
+        $user->setName(
+            name: $response->getRealName() ?? 
+                ($response->getFirstName() . ' ' . $response->getLastName()));
 
-        $user->setVerified(true);
-        $user->addRole(User::EXTERNAL_PROVIDER);
+        $user->setVerified(isVerified: true);
+        $user->addRole(role: User::EXTERNAL_PROVIDER);
 
         // Generate a random password that the user won't know
         $user->setPassword(
-            $this->userPasswordHasher->hashPassword(
-                $user,
-                User::RandomPassword(32)
+            password: $this->userPasswordHasher->hashPassword(
+                user: $user,
+                plainPassword: User::RandomPassword(length: 48)
             )
         );
 
         // Save the new user in the DB
-        $this->entityManager->persist($user);
+        $this->entityManager->persist(object: $user);
         $this->entityManager->flush();
 
         return $user;

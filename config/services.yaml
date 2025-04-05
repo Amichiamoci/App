@@ -25,3 +25,5 @@ services:
             $properties:
                 'facebook': 'facebook'
                 'google': 'google'
+                'microsoft': 'microsoft'
+                'github': 'github'

@@ -1,19 +1,33 @@
-# This is a multi stage build
-
-# Base image (contains server and http)
 FROM php:8.4-apache AS base
-RUN apt install -y curl
+RUN apt update && \
+    apt install -y --no-install-recommends --upgrade \
+        libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
+        libzip-dev zip unzip \
+        curl libcurl4-openssl-dev wget \
+        apache2-utils \
+        libicu-dev libonig-dev \
+        sqlite3 libpq-dev && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install php extensions
-ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN install-php-extensions zip pgsql mysqli pdo pdo_mysql pdo_pgsql pdo_odbc sqlite3 ldap zip curl ffi fileinfo ftp gettext imap mbstring intl sockets
-
-# Enable mod_rewrite.c
-RUN a2enmod rewrite
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-configure intl && \
+    docker-php-ext-install -j$(nproc)\
+        zip \
+        fileinfo \
+        ftp \
+        gettext \
+        intl \
+        mbstring \
+        sockets \
+        mysqli pdo_mysql \
+        pgsql pdo_pgsql \
+        pdo
 
 # Use composer to build the dependencies
 FROM composer:latest AS builder
-WORKDIR /var/www/html/
+WORKDIR /app
 COPY composer.json .
 RUN composer update --no-interaction --no-progress
 
@@ -21,13 +35,17 @@ RUN composer update --no-interaction --no-progress
 FROM base AS final
 ENV BASE_PATH=/
 ENV APP_PATH=/
-WORKDIR /var/www/html/
+RUN mkdir -p /app
+RUN chown -R www-data /app 
+WORKDIR /app
+
+# Enable the site in apache
+COPY ./docker_files/apache.conf /etc/apache2/sites-enabled/app.conf
 COPY ./docker_files/php.ini /usr/local/etc/php/
-COPY ./docker_files/template.htaccess ./.htaccess
 
 # Move the downloaded dependencies to the actual place they need to be
-COPY --from=builder --chown=www-data /var/www/html/vendor/ ./vendor/
-COPY --from=builder --chown=www-data /var/www/html/var/ ./var/
+COPY --from=builder --chown=www-data /app/vendor ./vendor
+COPY --from=builder --chown=www-data /app/var ./var
 
 # Actually copy the code
 COPY . .

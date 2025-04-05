@@ -40,8 +40,10 @@ security:
                 use_forward: false
                 
                 resource_owners:
-                    # facebook: "/login/check-facebook"
-                    google:   "/login/check-google"
+                    facebook:  "/login/check-facebook"
+                    google:    "/login/check-google"
+                    github:    "/login/check-github"
+                    microsoft: "/login/check-microsoft"
                 oauth_user_provider:
                     service: App\Security\UserProvider
 

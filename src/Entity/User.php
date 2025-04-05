@@ -40,11 +40,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 128)]
+    #[ORM\Column(length: 256)]
     private ?string $name = null;
-
-    #[ORM\Column(length: 128)]
-    private ?string $surname = null;
 
     #[ORM\Column]
     private bool $isVerified = false;
@@ -203,7 +200,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         {
             $pass[] = $alphabet[random_int(min: 0, max: strlen(string: $alphabet) - 1)];
         }
-        return join(array: $pass);
+        return join(array: $pass, separator: '');
     }
 
     public function setName(string $name): static
@@ -215,17 +212,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getName(): ?string
     {
         return $this->name;
-    }
-
-    public function setSurname(string $surname): static
-    {
-        $this->surname = $surname;
-        return $this;
-    }
-
-    public function getSurname(): ?string
-    {
-        return $this->surname;
     }
 
     public function isVerified(): bool

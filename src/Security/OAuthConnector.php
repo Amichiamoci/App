@@ -24,19 +24,19 @@ final class OAuthConnector implements AccountConnectorInterface
             return;
         }
 
-        $dbUser = $this->userRepository->find($response->getUserIdentifier());
+        $dbUser = $this->userRepository->find(id: $response->getUserIdentifier());
         if (!isset($dbUser)) {
-            throw new \Exception('Utente non trovato');
+            throw new \Exception(message: 'Utente non trovato');
         }
         
         $property = new PropertyAccessor();
         $property->setValue(
-            $user, 
-            $this->properties[$response->getResourceOwner()->getName()], 
-            $response->getUserIdentifier());
+            objectOrArray: $user, 
+            propertyPath: $this->properties[$response->getResourceOwner()->getName()], 
+            value: $response->getUserIdentifier());
         //$user = $dbUser;
 
-        $this->entityManager->persist($user);
+        $this->entityManager->persist(object: $user);
         $this->entityManager->flush();
     }
 }

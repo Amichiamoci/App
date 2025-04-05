@@ -13,7 +13,7 @@ class AddRoleToUserFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, [
+            ->add(child: 'email', type: EmailType::class, options: [
                 'label' => 'Email',
                 'required' => true,
             ]);

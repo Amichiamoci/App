@@ -93,12 +93,26 @@
             </div>
         </li>
         <li>
-            <a 
-                class="text-reset link-underline link-underline-opacity-0 ps-3" 
-                href="{{ path('leaderboard') }}"
+            <button 
+                class="btn btn-toggle align-items-center rounded collapsed" 
+                data-bs-toggle="collapse" 
+                data-bs-target="#navbar-leaderboards-collapse" 
+                aria-expanded="false"
             >
                 Classifica
-            </a>
+            </button>
+            <div class="collapse" id="navbar-leaderboards-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-4">
+                    <li>
+                        <a class="text-reset link-underline link-underline-opacity-0" 
+                            href="{{ path('leaderboard') }}"
+                            title="Classifica delle Parrocchie"
+                        >
+                            delle Parrocchie
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </li>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             {% if app.user.isReferee() %}

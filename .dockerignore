@@ -1,9 +1,11 @@
 vendor/*
 var/*
-./.env.test
-./.env.local
-./.gitignore
-./README.md
+.env.test
+.env.local
+.gitignore
+*.md
 demo/*
 .github
 .vscode
+.git
+assets/vendor

@@ -34,7 +34,7 @@ class AdminController extends AbstractController
             $entityManager->persist(object: $user);
             $entityManager->flush();
 
-            $fullName = $user->getName() . ' ' . $user->getSurname();
+            $fullName = $user->getName();
             $this->addFlash(type: 'success', message: "'$fullName' non è più amministatore.");
         }
 
@@ -65,7 +65,7 @@ class AdminController extends AbstractController
                 $entityManager->persist(object: $user);
                 $entityManager->flush();
 
-                $fullName = $user->getName() . ' ' . $user->getSurname();
+                $fullName = $user->getName();
                 $this->addFlash(type: 'success', message: "'$fullName' è ora un amministratore");
             }
         }

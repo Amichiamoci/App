@@ -63,7 +63,7 @@ class SportMatch
     public function getScoresRow(): string
     {
         return join(separator: '; ', 
-            array_map(callback: function (Score $s): string {
+            array: array_map(callback: function (Score $s): string {
                 return $s->getHome() . " - " . $s->getGuest();
             }, array: $this->getScores()->getParsed())
         );

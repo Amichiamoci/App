@@ -17,5 +17,18 @@ hwi_oauth:
             scope:               "email profile"
             options:
                 access_type:     offline
+
+        microsoft:
+            type:          azure
+            client_id:     '%env(AZURE_ID)%'
+            client_secret: '%env(AZURE_SECRET)%'
+            options:
+                application: common
+        
+        github:
+            type:                github
+            client_id:           '%env(GITHUB_ID)%'
+            client_secret:       '%env(GITHUB_SECRET)%'
+            scope:               'read:user'
     connect:
         account_connector: App\Security\OAuthConnector

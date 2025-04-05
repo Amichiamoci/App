@@ -16,8 +16,8 @@ class UserChecker implements UserCheckerInterface
             return;
         }
 
-        if (!is_string($user->getEmail())) {
-            throw new AccessDeniedException('Email non riconosciuta');
+        if (!is_string(value: $user->getEmail())) {
+            throw new AccessDeniedException(message: 'Email non riconosciuta');
         }
     }
 
@@ -30,7 +30,7 @@ class UserChecker implements UserCheckerInterface
         if (!$user->isVerified()) {
             $email = $user->getEmail();
             throw new CustomUserMessageAccountStatusException(
-                "Account non verificato: controlla le email inviate a $email e clicca sul link per attivare l'account!");
+                message: "Account non verificato: controlla le email inviate a $email e clicca sul link per attivare l'account!");
         }
     }
 }

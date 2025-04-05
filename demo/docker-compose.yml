@@ -1,37 +1,14 @@
 services:
-  amichiamoci-app:
+  app:
     build:
       context: ../
       dockerfile: ./Dockerfile
     restart: always
-    container_name: app
     env_file:  ../.env.local
-    environment:
-      DATABASE_URL: "postgresql://amichiamoci:password@postgres:5432/amichiamoci?charset=utf8"
     volumes:
-      - ./uploads:/var/www/html/content/uploads:rw
-      - ./cache:/var/www/html/var/cache/:rw
-      - ./log:/var/www/html/var/log
+      - ./uploads:/app/content/uploads:rw
+      - ./cache:/app/cache/:rw
+      - ./log:/app/var/log
+      - ../var/data.db:/app/var/data.db:rw
     ports:
       - 80:80
-    depends_on:
-      - postgres
-    networks:
-       - db
-
-  postgres:
-    image: postgres
-    restart: always
-    container_name: postgres
-    environment:
-      - POSTGRES_USER=amichiamoci
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=amichiamoci
-    volumes:
-      - ./data:/var/lib/postgresql/data:rw
-    networks:
-       - db
-
-networks:
-  db:
-    driver: bridge

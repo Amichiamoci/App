@@ -21,40 +21,36 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
-            ->add('name', TextType::class, [
-                'label' => 'Nome',
+            ->add(child: 'email')
+            ->add(child: 'name', type: TextType::class, options: [
+                'label' => 'Nome completo',
                 'required' => true,
             ])
-            ->add('surname', TextType::class, [
-                'label' => 'Cognome',
-                'required' => true
-            ])
-            ->add('agreeTerms', CheckboxType::class, [
+            ->add(child: 'agreeTerms', type: CheckboxType::class, options: [
                 'mapped' => false,
                 'constraints' => [
-                    new IsTrue([
+                    new IsTrue(options: [
                         'message' => 'Ho letto l\'informativa sulla Privacy.',
                     ]),
                 ],
                 'label' => 'Accetto l\'informativa sulla privacy'
             ])
-            ->add('plainPassword', PasswordType::class, [
+            ->add(child: 'plainPassword', type: PasswordType::class, options: [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
-                    new NotBlank([
+                    new NotBlank(options: [
                         'message' => 'Per favore, inserisci una password',
                     ]),
-                    new Length([
+                    new Length(exactly: [
                         'min' => 10,
                         'minMessage' => 'La password deve avere almeno {{ limit }} caratteri',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
-                    new PasswordStrength([
+                    new PasswordStrength(options: [
                         'message' => 'Password troppo debole. Prova ad aggiungere cifre e caratteri speciali (es: !$%&?.=-)',
                     ]),
                 ],
@@ -64,7 +60,7 @@ class RegistrationFormType extends AbstractType
         if (isset($_ENV["RECAPTCHA3_KEY"]) && isset($_ENV["RECAPTCHA3_SECRET"]))
         {
             $builder
-                ->add('captcha', Recaptcha3Type::class, [
+                ->add(child: 'captcha', type: Recaptcha3Type::class, options: [
                     'constraints' => new Recaptcha3(),
                     'action_name' => 'App_Register',
                     'locale' => 'it',

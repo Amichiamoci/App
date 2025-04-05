@@ -24,74 +24,81 @@ class RegistrationController extends AbstractController
     {
     }
 
-    #[Route('/register', name: 'app_register')]
+    #[Route(path: '/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+        $form = $this->createForm(type: RegistrationFormType::class, data: $user);
+        $form->handleRequest(request: $request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
+                password: $userPasswordHasher->hashPassword(
+                    user: $user,
+                    plainPassword: $form->get(name: 'plainPassword')->getData()
                 )
             );
 
-            $entityManager->persist($user);
+            $entityManager->persist(object: $user);
             $entityManager->flush();
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation(
-                'app_verify_email', 
-                $user,
-                (new TemplatedEmail())
-                    ->from(new Address($_ENV["NO_REPLY_EMAIL"] ?? "no-reply@localhost", 'App Amichiamoci'))
-                    ->to($user->getEmail())
-                    ->subject('Conferma la tua email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                verifyEmailRouteName: 'app_verify_email', 
+                user: $user,
+                email: (new TemplatedEmail())
+                    ->from(addresses: new Address(address: $_ENV["NO_REPLY_EMAIL"] ?? "no-reply@localhost", name: 'App Amichiamoci'))
+                    ->to(addresses: $user->getEmail())
+                    ->subject(subject: 'Conferma la tua email')
+                    ->htmlTemplate(template: 'registration/confirmation_email.html.twig')
             );
             
             $this->addFlash(
-                'success', 
-                "Conferma la tua email cliccando sul link che hai ricevuto. Se non vedi nulla, controlla lo SPAM");
+                type: 'success', 
+                message: "Conferma la tua email cliccando sul link che hai ricevuto. Se non vedi nulla, controlla lo SPAM");
             
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute(route: 'home');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render(view: 'registration/register.html.twig', parameters: [
             'registrationForm' => $form,
         ]);
     }
 
-    #[Route('/verify/email', name: 'app_verify_email')]
+    #[Route(path: '/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator, UserRepository $userRepository): Response
     {
-        $id = $request->query->get('id');
+        $id = $request->query->get(key: 'id');
 
         if (null === $id) {
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute(route: 'app_register');
         }
 
-        $user = $userRepository->find($id);
+        $user = $userRepository->find(id: $id);
 
         if (null === $user) {
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute(route: 'app_register');
         }
 
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
-            $this->emailVerifier->handleEmailConfirmation($request, $user);
+            $this->emailVerifier->handleEmailConfirmation(request: $request, user: $user);
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
+            $this->addFlash(
+                type: 'verify_email_error', 
+                message: $translator->trans(
+                    id: $exception->getReason(), 
+                    parameters: [], 
+                    domain: 'VerifyEmailBundle',
+                )
+            );
 
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute(route: 'app_register');
         }
 
-        $this->addFlash('success', 'Il tuo indirizzo email è stato verificato.');
+        $this->addFlash(type: 'success', message: 'Il tuo indirizzo email è stato verificato.');
 
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute(route: 'home');
     }
 }
