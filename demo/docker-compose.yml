@@ -7,8 +7,6 @@ services:
     env_file:  ../.env.local
     volumes:
       - ./uploads:/app/content/uploads:rw
-      - ./cache:/app/cache/:rw
-      - ./log:/app/var/log
-      - ../var/data.db:/app/var/data.db:rw
+      - ../var:/app/var:rw
     ports:
       - 80:80

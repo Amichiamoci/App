@@ -3,17 +3,19 @@ RUN apt update && \
     apt install -y --no-install-recommends --upgrade \
         libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
         libzip-dev zip unzip \
-        curl libcurl4-openssl-dev wget \
+        curl libcurl4 libcurl4-openssl-dev wget \
         apache2-utils \
         libicu-dev libonig-dev \
-        sqlite3 libpq-dev && \
+        # libc-client-dev libkrb5-dev \
+        libsqlite3-dev sqlite3 libpq-dev && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Install php extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-configure intl && \
-    docker-php-ext-install -j$(nproc)\
+    # docker-php-ext-configure imap --with-kerberos --with-imap-ssl && \
+    docker-php-ext-install -j$(nproc) \
         zip \
         fileinfo \
         ftp \
@@ -23,7 +25,10 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
         sockets \
         mysqli pdo_mysql \
         pgsql pdo_pgsql \
-        pdo
+        pdo \
+        curl \
+        # imap \
+        pdo_sqlite
 
 # Use composer to build the dependencies
 FROM composer:latest AS builder
@@ -36,7 +41,6 @@ FROM base AS final
 ENV BASE_PATH=/
 ENV APP_PATH=/
 RUN mkdir -p /app
-RUN chown -R www-data /app 
 WORKDIR /app
 
 # Enable the site in apache
@@ -48,11 +52,12 @@ COPY --from=builder --chown=www-data /app/vendor ./vendor
 COPY --from=builder --chown=www-data /app/var ./var
 
 # Actually copy the code
-COPY . .
+COPY --chown=www-data . .
 
 # Enable cache handling
 RUN chmod +x bin/console
-RUN chmod -R 777 ./var/cache/
+VOLUME [ "/app/var" ]
+RUN chown www-data -R /app/var && chmod -R 777 /app/var
 
 # Download packages
 RUN php bin/console importmap:install
