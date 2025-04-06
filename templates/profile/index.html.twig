@@ -1,52 +1,48 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Utente{% endblock %}
-{% block description %}Il mio account utente{% endblock %}
+{% block description %}Il mio account{% endblock %}
 
 {% block body %}
 
-    <div class="row">
-        <h2>
-            Il mio account
-        </h2>
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="mailto:{{ app.user.email }}"
-                    class="link-underline link-underline-opacity-0">
-                    <twig:ux:icon name="bi:envelope-at" height="15" /> 
-                    {{ app.user.email }}
-                </a>
-            </li>
-            <li class="list-group-item">
-                Nome: {{ app.user.getName() }}
-            </li>
-        </ul>
-    </div>
+    <h1>
+        Il mio account
+    </h1>
+
+    <div class="card m-1">
+        <div class="card-header font-monospace user-select-none">
+            {{ app.user.getName() }}
+        </div>
+        <div class="card-body">
+            <div class="card-title font-monospace user-select-none">
+                <twig:ux:icon name="bi:envelope-at" height="15" /> 
+                {{ app.user.email }}
+            </div>
+            {% if app.user.isAdmin() %}
+                <h6 class="card-subtitle mb-2 user-select-none text-body-secondary">
+                    Amministratore
+                </h6>
+            {% endif %}
     
-    <div class="row">
-        <h3>
-            Azioni possibili:
-        </h3>
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <a href="{{ path('app_logout') }}" class="btn btn-outline-secondary">
-                <span>Esci</span>
-                <twig:ux:icon name="bi:box-arrow-right" height="14" />
-            </a>
+            <div class="btn-group" role="group" aria-label="Azioni possibili">
+                <a href="{{ path('app_logout') }}" class="btn btn-outline">
+                    <span>Esci</span>
+                    <twig:ux:icon name="bi:box-arrow-right" height="14" />
+                </a>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <h3>
-            Dati associati:
-        </h3>
-        {% for anagraphical in anagraphicals %}
-            {% include '/profile/anagraphical.html.twig' with { 'anagraphical': anagraphical } %}
-        {% else %}
-            <p>
-                Nessuna anagrafica associata alla mail
-                <a href="mailto:{{ app.user.email }}">{{ app.user.email }}</a>
-            </p>
-        {% endfor %}
-    </div>
+    {% for anagraphical in anagraphicals %}
+        {% include '/profile/anagraphical.html.twig' with { 'anagraphical': anagraphical } %}
+    {% else %}
+        <hr />
+        <p>
+            Nessuna anagrafica associata alla mail corrente.<br>
+            Se hai partecipato alle ultime edizioni e non vedi qui i tuoi dati
+            contatta uno staffista: è possibile che, nelle tue iscrizioni passate, tu non abbia
+            comunicato un'email oppure tu abbia comunicato un'email diversa da {{ app.user.email }}.
+        </p>
+    {% endfor %}
 
 {% endblock %}

@@ -12,9 +12,22 @@ class ProfileController extends AbstractController
     #[Route(path: '/profile', name: 'profile')]
     public function index(ApiManager $apiManager): Response
     {
-        return $this->render(view: 'profile/index.html.twig', parameters: [
-            'anagraphicals' => $apiManager->ManagedAnagraphicals(email: $this->getUser()->getUserIdentifier())
-        ]);
+        return $this->render(
+            view: 'profile/index.html.twig', 
+            parameters: [
+                'anagraphicals' => $apiManager->ManagedAnagraphicals(email: $this->getUser()->getUserIdentifier())
+            ],
+        );
     }
 
+    #[Route(path: '/profile/get_involved', name: 'get_involved')]
+    public function get_involved(ApiManager $apiManager): Response
+    {
+        return $this->render(
+            view: 'profile/index.html.twig', 
+            parameters: [
+                'anagraphicals' => $apiManager->ManagedAnagraphicals(email: $this->getUser()->getUserIdentifier())
+            ],
+        );
+    }
 }

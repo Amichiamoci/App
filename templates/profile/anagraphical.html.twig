@@ -1,83 +1,142 @@
-<ul class="list-group user-select-none">
-    <!-- {{ anagraphical.Id }}-->
-    <li class="list-group-item">
-        Nome: {{ anagraphical.Name }}
-    </li>
-    <li class="list-group-item">
-        Cognome: {{ anagraphical.Surname }}
-    </li>
-    <li class="list-group-item">
-        Codice Fiscale: <span class="text-uppercase text-monospace">{{ anagraphical.FiscalCode }}</span>
-    </li>
-    <li class="list-group-item">
-        Data di nascita: {{ anagraphical.BirthDate }}
-    </li>
+<div class="card" id="anagrafica-{{ anagraphical.Id }}">
+    <div class="card-body">
+        <div class="card-title">
+            <strong>
+                {{ anagraphical.Name }}
+            </strong>
+            <span class="user-select-none text-secondary">/</span>
+            <strong>
+                {{ anagraphical.Surname }}
+            </strong>
 
-    {% if anagraphical.hasEmail() %}
-        <li class="list-group-item">
-            <twig:ux:icon name="bi:envelope-at" height="15" />
-            <a class="link-underline-primary link-underline-opacity-75" 
-                href="mailto:{{ anagraphical.Email }}">
-                {{ anagraphical.Email }}
+            <a 
+                href=""
+                class="link-underline link-underline-opacity-0 link-primary text-end"
+                title="Modifica i dati">
+                <i class="bi bi-pencil-square"></i>
             </a>
-        </li>
-    {% endif %}
+        </div>
 
-    {% if anagraphical.hasPhone() %}
-        <li class="list-group-item">
-            <twig:ux:icon name="bi:telephone" height="15" />
-            <a class="link-underline-primary link-underline-opacity-75" 
-                href="tel:{{ anagraphical.Phone }}">
-                {{ anagraphical.Phone }}
-            </a>
-        </li>
-    {% endif %}
-
-    <li class="list-group-item">
-        <button class="btn btn-secondary" 
-            type="button" 
-            data-bs-toggle="collapse" 
-            data-bs-target="#identity-collapse-{{ anagraphical.Id }}" 
-            aria-expanded="false" 
-            aria-controls="identityDocument">
-            {{ anagraphical.Document.TypeName }}
-        </button>
+        <dl class="row">
         
-        <ul class="collapse list-group m-1" id="identity-collapse-{{ anagraphical.Id }}">
-            <div class="list-group-item">
-                Codice: {{ anagraphical.Document.Code }}
-            </div>
+            <dt class="col-sm-4 text-nowrap">
+                Codice Fiscale
+            </dt>
+            <dd class="col-sm-8">
+                <span class="text-uppercase text-monospace">{{ anagraphical.FiscalCode }}</span>
+            </dd>
             
-            {% if anagraphical.Document.hasMessage() %}
-                <div class="list-group-item">
-                    {{ anagraphical.Document.Message }}
-                </div>
+            <dt class="col-sm-4 text-nowrap">
+                <i class="bi bi-calendar4-week"></i>
+                Nato/a il
+            </dt>
+            <dd class="col-sm-8">
+                {{ anagraphical.BirthDate }}
+            </dd>
+
+            {% if anagraphical.hasEmail() %}
+                <dt class="col-sm-4 text-nowrap">
+                    <twig:ux:icon name="bi:envelope-at" height="15" />
+                    Email
+                </dt>
+                <dd class="cl-sm-8">
+                    <a class="link-underline-primary link-underline-opacity-75" 
+                        href="mailto:{{ anagraphical.Email }}"
+                    >
+                        {{ anagraphical.Email }}
+                    </a>
+                </dd>
             {% endif %}
-        </ul>
-    </li>
 
-    <li class="list-group-item">
-        <twig:ux:icon name="bi:card-checklist" height="15" />
-        {{ anagraphical.SubscriptionStatus }}
-    </li>
-    <li class="list-group-item">
-        <twig:ux:icon name="bi:clipboard2-pulse" height="15" />
-        Certificato medico: {{ anagraphical.MedicalCertificate }}
-    </li>
-    {% if anagraphical.hasShirtSize() %}
-        <li class="list-group-item">
-           Taglia maglia: {{ anagraphical.ShirtSize }}
-        </li>
-    {% endif %}
+            {% if anagraphical.hasPhone() %}
+                <dt class="col-sm-4 text-nowrap">
+                    <twig:ux:icon name="bi:telephone" height="15" />
+                    Telefono
+                </dt>
+                <dd class="cl-sm-8">
+                    <a class="link-underline-primary link-underline-opacity-75" 
+                        href="tel:{{ anagraphical.Phone }}"
+                    >
+                        {{ anagraphical.Phone }}
+                    </a>
+                </dd>
+            {% endif %}
 
-    {% if anagraphical.hasChurch() %}
-        <li class="list-group-item">
-            Parrocchia: 
-            <a href="{{ path('church_view', {'id': anagraphical.ChurchId }) }}" 
-                class="link-underline-primary link-underline-opacity-75"
-                title="Vedi {{ anagraphical.Church }}">
-                {{ anagraphical.Church }}
-            </a>
-        </li>
-    {% endif %}
-</ul>
+            <dt class="col-sm-4 text-nowrap">
+                {{ anagraphical.Document.TypeName }}
+            </dt>
+            <dd class="cl-sm-8">
+                <button class="btn btn-secondary" 
+                    type="button" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#identity-modal-{{ anagraphical.Id }}"
+                >
+                    {{ anagraphical.Document.Code }}
+                </button>
+                
+                <div class="modal fade" id="identity-modal-{{ anagraphical.Id }}" tabindex="-1" aria-labelledby="identity-modal-{{ anagraphical.Id }}-label" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="identity-modal-{{ anagraphical.Id }}-label">
+                                    {{ anagraphical.Document.TypeName }}
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            
+                            {% if anagraphical.Document.hasMessage() %}
+                                <div class="modal-body">
+                                    {{ anagraphical.Document.Message }}
+                                </div>
+                            {% endif %}
+
+                            <div class="modal-body">
+                                Codice documento: {{ anagraphical.Document.Code }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </dd>
+
+            <dt class="col-sm-4 text-nowrap">
+                <twig:ux:icon name="bi:card-checklist" height="15" />
+                Iscrizione
+            </dt>
+            <dd class="cl-sm-8">
+                {{ anagraphical.SubscriptionStatus }}
+            </dd>
+
+            <dt class="col-sm-4 text-nowrap">
+                <twig:ux:icon name="bi:clipboard2-pulse" height="15" />
+                Certificato medico
+            </dt>
+            <dd class="cl-sm-8">
+                {{ anagraphical.MedicalCertificate }}
+            </dd>
+
+            {% if anagraphical.hasShirtSize() %}
+                <dt class="col-sm-4 text-nowrap">
+                    Taglia
+                </dt>
+                <dd class="cl-sm-8">
+                    {{ anagraphical.ShirtSize }}
+                </dd>
+            {% endif %}
+
+            {% if anagraphical.hasChurch() %}
+                <dt class="col-sm-4 text-nowrap">
+                    Parrocchia
+                </dt>
+                <dd class="cl-sm-8">
+                    <a href="{{ path('church_view', {'id': anagraphical.ChurchId }) }}" 
+                        class="link-underline-primary link-underline-opacity-75"
+                        title="Vedi {{ anagraphical.Church }}">
+                        {{ anagraphical.Church }}
+                    </a>
+                </dd>
+            {% else %}
+
+            {% endif %}
+        </dl>
+    </div>
+</div>
