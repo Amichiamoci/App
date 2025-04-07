@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Iscriviti{% endblock %}
+{% block description %}Iscriviti ad Amichiamoci{% endblock %}
+
+{% block body %}
+
+    <h1>
+        Iscriviti ad Amichiamoci {{ 'now' | date('Y') }}
+    </h1>
+
+    {{ form(form) }}
+    
+{% endblock %}

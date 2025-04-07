@@ -34,19 +34,21 @@
                 {{ anagraphical.BirthDate }}
             </dd>
 
-            {% if anagraphical.hasEmail() %}
-                <dt class="col-sm-4 text-nowrap">
-                    <twig:ux:icon name="bi:envelope-at" height="15" />
-                    Email
-                </dt>
-                <dd class="cl-sm-8">
+            <dt class="col-sm-4 text-nowrap">
+                <twig:ux:icon name="bi:envelope-at" height="15" />
+                Email
+            </dt>
+            <dd class="cl-sm-8">
+                {% if anagraphical.hasEmail() %}
                     <a class="link-underline-primary link-underline-opacity-75" 
                         href="mailto:{{ anagraphical.Email }}"
                     >
                         {{ anagraphical.Email }}
                     </a>
-                </dd>
-            {% endif %}
+                {% else %}
+                    Mancante
+                {% endif %}
+            </dd>
 
             {% if anagraphical.hasPhone() %}
                 <dt class="col-sm-4 text-nowrap">

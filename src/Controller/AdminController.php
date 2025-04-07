@@ -22,7 +22,8 @@ class AdminController extends AbstractController
     public function removeAdmin(
         EntityManagerInterface $entityManager, 
         UserRepository $userRepository, 
-        int $id): Response
+        int $id,
+    ): Response
     {
         $user = $userRepository->find(id: $id);
         if (!isset($user))
@@ -45,7 +46,8 @@ class AdminController extends AbstractController
     public function index(
         Request $request,
         UserRepository $userRepository, 
-        EntityManagerInterface $entityManager): Response
+        EntityManagerInterface $entityManager,
+    ): Response
     {
         $email = '';
         $form = $this->createForm(type: AddRoleToUserFormType::class);
@@ -70,12 +72,18 @@ class AdminController extends AbstractController
             }
         }
 
-        return $this->render(view: 'admin/index.html.twig', parameters: [
-            'admins' => $userRepository->findByRole(role: User::ADMIN),
-            'allUsers' => array_filter(array: $userRepository->findAll(), callback: function (User $u): bool {
-                return !$u->isAdmin();
-            }),
-            'addAdminForm' => $form,
-        ]);
+        return $this->render(
+            view: 'admin/index.html.twig', 
+            parameters: [
+                'admins' => $userRepository->findByRole(role: User::ADMIN),
+                'allUsers' => array_filter(
+                    array: $userRepository->findAll(), 
+                    callback: function (User $u): bool {
+                        return !$u->isAdmin();
+                    },
+                ),
+                'addAdminForm' => $form,
+            ],
+        );
     }
 }
