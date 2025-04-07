@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1812bf6cb2f88791ae969c504ba4c866",
+    "content-hash": "ae10f0dc4d9b9c94bb7086eca23e25b7",
     "packages": [
         {
             "name": "amphp/amp",
@@ -8719,16 +8719,16 @@
         },
         {
             "name": "symfony/twig-bundle",
-            "version": "v7.1.6",
+            "version": "v7.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bundle.git",
-                "reference": "af902314a71fb412ae412094f7e1d7e49594507b"
+                "reference": "cd2be4563afaef5285bb6e0a06c5445e644a5c01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bundle/zipball/af902314a71fb412ae412094f7e1d7e49594507b",
-                "reference": "af902314a71fb412ae412094f7e1d7e49594507b",
+                "url": "https://api.github.com/repos/symfony/twig-bundle/zipball/cd2be4563afaef5285bb6e0a06c5445e644a5c01",
+                "reference": "cd2be4563afaef5285bb6e0a06c5445e644a5c01",
                 "shasum": ""
             },
             "require": {
@@ -8739,7 +8739,7 @@
                 "symfony/http-foundation": "^6.4|^7.0",
                 "symfony/http-kernel": "^6.4|^7.0",
                 "symfony/twig-bridge": "^6.4|^7.0",
-                "twig/twig": "^3.0.4"
+                "twig/twig": "^3.12"
             },
             "conflict": {
                 "symfony/framework-bundle": "<6.4",
@@ -8783,7 +8783,7 @@
             "description": "Provides a tight integration of Twig into the Symfony full-stack framework",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/twig-bundle/tree/v7.1.6"
+                "source": "https://github.com/symfony/twig-bundle/tree/v7.2.0"
             },
             "funding": [
                 {
@@ -8799,7 +8799,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-25T14:20:29+00:00"
+            "time": "2024-10-23T08:11:15+00:00"
         },
         {
             "name": "symfony/type-info",
