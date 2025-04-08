@@ -22,11 +22,21 @@ security:
             entry_point: form_login
             user_checker: App\Security\UserChecker
 
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
+                name: REMEMBERME
+                always_remember_me: false
+
             # Main provider (email and password)
             form_login:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
+                default_target_path: home
+                target_path_parameter: next
+                failure_path_parameter: prev
             logout:
                 path: app_logout
                 target: home
