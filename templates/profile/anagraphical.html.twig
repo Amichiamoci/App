@@ -10,24 +10,28 @@
             </strong>
 
             <a 
-                href=""
+                href="#"
                 class="link-underline link-underline-opacity-0 link-primary text-end"
-                title="Modifica i dati">
-                <i class="bi bi-pencil-square"></i>
+                title="Modifica i dati"
+            >
+                <twig:ux:icon name="bi:pencil-square" height="16" />
             </a>
         </div>
 
         <dl class="row">
         
             <dt class="col-sm-4 text-nowrap">
+                <twig:ux:icon name="clarity:id-badge-line" height="15" />
                 Codice Fiscale
             </dt>
             <dd class="col-sm-8">
-                <span class="text-uppercase text-monospace">{{ anagraphical.FiscalCode }}</span>
+                <output class="text-uppercase text-monospace user-select-none">
+                    {{ anagraphical.TaxCode|slice(0, 9) }}*******
+                </output>
             </dd>
             
             <dt class="col-sm-4 text-nowrap">
-                <i class="bi bi-calendar4-week"></i>
+                <twig:ux:icon name="fa:birthday-cake" height="15" />
                 Nato/a il
             </dt>
             <dd class="col-sm-8">
@@ -38,9 +42,9 @@
                 <twig:ux:icon name="bi:envelope-at" height="15" />
                 Email
             </dt>
-            <dd class="cl-sm-8">
+            <dd class="col-sm-8">
                 {% if anagraphical.hasEmail() %}
-                    <a class="link-underline-primary link-underline-opacity-75" 
+                    <a class="link-underline link-underline-opacity-75 text-reset" 
                         href="mailto:{{ anagraphical.Email }}"
                     >
                         {{ anagraphical.Email }}
@@ -55,8 +59,8 @@
                     <twig:ux:icon name="bi:telephone" height="15" />
                     Telefono
                 </dt>
-                <dd class="cl-sm-8">
-                    <a class="link-underline-primary link-underline-opacity-75" 
+                <dd class="col-sm-8">
+                    <a class="link-underline link-underline-opacity-75 text-reset" 
                         href="tel:{{ anagraphical.Phone }}"
                     >
                         {{ anagraphical.Phone }}
@@ -65,16 +69,18 @@
             {% endif %}
 
             <dt class="col-sm-4 text-nowrap">
-                {{ anagraphical.Document.TypeName }}
+                <twig:ux:icon name="mdi:file-document-outline" height="15" />
+                Documento
             </dt>
-            <dd class="cl-sm-8">
-                <button class="btn btn-secondary" 
-                    type="button" 
+            <dd class="col-sm-8">
+                <a class="text-reset"
                     data-bs-toggle="modal" 
                     data-bs-target="#identity-modal-{{ anagraphical.Id }}"
+                    title="{{ anagraphical.Document.TypeName }}"
+                    href="#"
                 >
-                    {{ anagraphical.Document.Code }}
-                </button>
+                    {{ anagraphical.Document.TypeName }}
+                </a>
                 
                 <div class="modal fade" id="identity-modal-{{ anagraphical.Id }}" tabindex="-1" aria-labelledby="identity-modal-{{ anagraphical.Id }}-label" aria-hidden="true">
                     <div class="modal-dialog">
@@ -93,7 +99,10 @@
                             {% endif %}
 
                             <div class="modal-body">
-                                Codice documento: {{ anagraphical.Document.Code }}
+                                Codice {{ anagraphical.Document.TypeName }}:
+                                <output class="font-monospace user-select-none">
+                                    {{ anagraphical.Document.Code }}
+                                </output>
                             </div>
                         </div>
                     </div>
@@ -104,7 +113,7 @@
                 <twig:ux:icon name="bi:card-checklist" height="15" />
                 Iscrizione
             </dt>
-            <dd class="cl-sm-8">
+            <dd class="col-sm-8">
                 {{ anagraphical.SubscriptionStatus }}
             </dd>
 
@@ -112,24 +121,26 @@
                 <twig:ux:icon name="bi:clipboard2-pulse" height="15" />
                 Certificato medico
             </dt>
-            <dd class="cl-sm-8">
+            <dd class="col-sm-8">
                 {{ anagraphical.MedicalCertificate }}
             </dd>
 
             {% if anagraphical.hasShirtSize() %}
                 <dt class="col-sm-4 text-nowrap">
+                    <twig:ux:icon name="la:tshirt" height="15" />
                     Taglia
                 </dt>
-                <dd class="cl-sm-8">
+                <dd class="col-sm-8">
                     {{ anagraphical.ShirtSize }}
                 </dd>
             {% endif %}
 
             {% if anagraphical.hasChurch() %}
                 <dt class="col-sm-4 text-nowrap">
+                    <twig:ux:icon name="material-symbols:church-outline" height="15" />
                     Parrocchia
                 </dt>
-                <dd class="cl-sm-8">
+                <dd class="col-sm-8">
                     <a href="{{ path('church_view', {'id': anagraphical.ChurchId }) }}" 
                         class="link-underline-primary link-underline-opacity-75"
                         title="Vedi {{ anagraphical.Church }}">

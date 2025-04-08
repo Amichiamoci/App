@@ -4,13 +4,11 @@ namespace App\Repository;
 
 use App\Entity\Anagraphical;
 use App\Entity\Staff;
-use App\Entity\Tourney;
 use App\Entity\Church\Church;
 use App\Entity\Church\ChurchScore;
 use App\Entity\Match\SportMatch;
 use App\Entity\Match\TodaySportMatch;
 use App\Entity\Match\Score;
-use App\Entity\Match\ScoreGroup;
 use App\Entity\Team\Team;
 use App\Entity\Team\TeamMember;
 use App\Entity\Team\TeamPosition;
@@ -28,26 +26,25 @@ use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use Symfony\Component\HttpClient\HttpOptions;
 
 class ApiManager
 {
     public function __construct(
         private HttpClientInterface $client,
-    ) {  }
+    ) { 
+        $this->client = $this->client->withOptions(
+            options: (new HttpOptions())
+                ->setBaseUri(uri: getenv(name: 'API_URL'))
+                ->setHeader(key: 'App-Bearer', value: getenv(name: 'API_TOKEN'))
+                ->toArray()
+        );
+    }
 
     //
     // Methods
     //
 
-    public static function apiUrl(): string
-    {
-        return $_ENV["API_URL"] ?? "";
-    }
-
-    private static function apiBearer(): string
-    {
-        return $_ENV["APP_SECRET"] ?? "";
-    }
     private static function getSerializer(): Serializer
     {
         return new Serializer(
@@ -68,23 +65,22 @@ class ApiManager
         );
     }
 
-    private function get(string $resource, $options = []):ResponseInterface
+    private function get(string $resource, array $options = []): ResponseInterface
     {
-        $headers = [
-            'App-Bearer' => self::apiBearer()
-        ];
+        $http_options = new HttpOptions();
         foreach ($options as $name => $value)
         {
-            $headers['Data-Param-' . $name] = $value;
+            $http_options = $http_options->setHeader(key: 'Data-Param-' . $name, value: $value);
         }
+
         return $this->client->request(
-            method: 'POST', 
-            url: self::apiUrl() . '?resource=' . $resource,
-            options: [ 'headers' => $headers ]
+            method: 'GET', 
+            url: '?resource=' . $resource,
+            options: $http_options->toArray(),
         );
     }
 
-    private function getObjectCollection(string $collectionName, string $className, $params = []): array
+    private function getObjectCollection(string $collectionName, string $className, array $params = []): array
     {
         try {
             $response = $this->get(resource: $collectionName, options: $params);
@@ -101,7 +97,11 @@ class ApiManager
                 ]
             );
         }
-        catch (\Throwable) {
+        catch (\Throwable $ex) {
+            if (getenv(name: 'APP_ENV') === 'dev')
+            {
+                throw $ex;
+            }
             return [];
         }
     }
@@ -192,7 +192,7 @@ class ApiManager
             collectionName: 'church', 
             className: Church::class, 
             params: [
-                'id' => $id
+                'Id' => $id
             ]
         );
         if (count(value: $churches) === 0) {
@@ -260,7 +260,7 @@ class ApiManager
     public function TournamentFromSport(string $sport): array
     {
         return $this->getObjectCollection(
-            collectionName: 'tourney-sport', 
+            collectionName: 'tournament-sport', 
             className: Tournament::class, 
             params: [
                 'Sport' => $sport
