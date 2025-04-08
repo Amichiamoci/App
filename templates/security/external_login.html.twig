@@ -3,15 +3,16 @@
 </h2>
 
 <div class="row m-1">
-    <div class="btn-group" 
+    <div class="input-group" 
         role="group" 
         aria-label="{{ label }} tramite provider esterni"
     >
         <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}" 
-            class="btn btn-outline" 
+            class="btn border" 
             role="button"
         >
             <twig:ux:icon name="logos:google-icon" height="14" />
+            Google
         </a>
         {#
         <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" 
@@ -19,19 +20,22 @@
             role="button"
         >
             <twig:ux:icon name="logos:facebook" height="14" />
+            FaceBook
         </a>
         #}
-        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'microsoft' }) }}" 
-            class="btn btn-outline-info" 
-            role="button"
-        >
-            <twig:ux:icon name="mdi:microsoft-github" height="14" />
-        </a>
         <a href="{{ path('hwi_oauth_service_redirect', {'service': 'github' }) }}" 
-            class="btn btn-outline-info" 
+            class="btn border" 
             role="button"
         >
             <twig:ux:icon name="logos:microsoft-icon" height="14" />
+            Microsoft
+        </a>
+        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'microsoft' }) }}" 
+            class="btn border" 
+            role="button"
+        >
+            <twig:ux:icon name="mdi:microsoft-github" height="14" />
+            GitHub
         </a>
     </div>
 </div>

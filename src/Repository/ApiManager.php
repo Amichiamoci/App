@@ -23,6 +23,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -32,6 +33,7 @@ class ApiManager
 {
     public function __construct(
         private HttpClientInterface $client,
+        private readonly string $environment = 'dev',
     ) { 
         $this->client = $this->client->withOptions(
             options: (new HttpOptions())
@@ -39,6 +41,11 @@ class ApiManager
                 ->setHeader(key: 'App-Bearer', value: getenv(name: 'API_TOKEN'))
                 ->toArray()
         );
+    }
+
+    private function isProd(): bool
+    {
+        return $this->environment === 'prod';
     }
 
     //
@@ -80,7 +87,11 @@ class ApiManager
         );
     }
 
-    private function getObjectCollection(string $collectionName, string $className, array $params = []): array
+    private function getObjectCollection(
+        string $collectionName, 
+        string $className, 
+        array $params = [],
+    ): array
     {
         try {
             $response = $this->get(resource: $collectionName, options: $params);
@@ -94,11 +105,11 @@ class ApiManager
                 context: [
                     AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
                     AbstractNormalizer::REQUIRE_ALL_PROPERTIES => false,
-                ]
+                ],
             );
         }
         catch (\Throwable $ex) {
-            if (getenv(name: 'APP_ENV') === 'dev')
+            if (!$this->isProd())
             {
                 throw $ex;
             }

@@ -27,3 +27,7 @@ services:
                 'google': 'google'
                 'microsoft': 'microsoft'
                 'github': 'github'
+    
+    App\Repository\ApiManager:
+        arguments:
+            $environment: '%kernel.environment%'
