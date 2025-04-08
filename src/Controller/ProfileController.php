@@ -31,7 +31,11 @@ class ProfileController extends AbstractController
     ): Response
     {
         $subscription = new Subscription(anagraphical: $id, shirt: '', church: 0);
-        $form = $this->createForm(type: SubscribeFormType::class, data: $subscription);
+        $form = $this->createForm(
+            type: SubscribeFormType::class, 
+            data: $subscription,
+            options: ['churches' => $apiManager->Churches()]
+        );
         $form->handleRequest(request: $request);
 
         if ($form->isSubmitted() && $form->isValid())

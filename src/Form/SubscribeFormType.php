@@ -3,12 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Subscription;
+use App\Entity\Church\Church;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SubscribeFormType extends AbstractType
@@ -36,11 +37,26 @@ class SubscribeFormType extends AbstractType
                     '3XL' => '3XL',
                 ],
             ])
-            ->add(child: 'ChurchId', type: IntegerType::class, options: [
+            ->add(child: 'ChurchId', type: ChoiceType::class, options: [
                 'required' => true,
-                'label' => 'Parrocchia'
+                'label' => 'Parrocchia',
+                'choices' => self::build_churches_list(churches: $options['churches']),
+            ])
+            ->add(child: 'subscribe', type: SubmitType::class, options: [
+                'label' => 'Iscriviti'
             ])
         ;
+    }
+    private static function build_churches_list(array $churches): array
+    {
+        $arr = [
+            'Scegli una Parrocchia' => '',
+        ];
+        foreach ($churches as $church)
+        {
+            $arr[$church->Name] = $church->Id;
+        }
+        return $arr;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -48,5 +64,6 @@ class SubscribeFormType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Subscription::class,
         ]);
+        $resolver->setDefault('churches', []);
     }
 }

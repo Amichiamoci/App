@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 use App\Entity\Church\Church;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Subscription
 {
@@ -17,6 +18,7 @@ class Subscription
         return $this;
     }
 
+    #[Assert\NotBlank]
     protected string $Shirt;
     public function getShirt(): string { return $this->Shirt; }
     public function hasShirt(): bool { return strlen(string: $this->Shirt) > 0; }
@@ -26,6 +28,8 @@ class Subscription
         return $this;
     }
 
+    #[Assert\NotEqualTo(value: 0)]
+    #[Assert\NotBlank]
     protected int $ChurchId;
     public function getChurchId(): ?int { return $this->ChurchId; }
     public function hasChurchId(): bool { return !empty($this->ChurchId); }

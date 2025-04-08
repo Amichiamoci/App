@@ -217,6 +217,14 @@ class ApiManager
         return $church;
     }
 
+    public function Churches(): array
+    {
+        return $this->getObjectCollection(
+            collectionName: 'churches', 
+            className: Church::class,
+        );
+    }
+
     /**
      * @param string $email
      * @return TodaySportMatch[]
