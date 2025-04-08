@@ -78,3 +78,8 @@ nav.upper, nav.lower {
 #content {
     height: 100vh;
 }
+
+html[data-bs-theme="dark"] a.hide-if-same-theme[data-bs-theme-value="dark"],
+html[data-bs-theme="light"] a.hide-if-same-theme[data-bs-theme-value="light"] {
+    display: none;
+}
