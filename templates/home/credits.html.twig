@@ -1,15 +1,72 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Crediti{% endblock %}
-{% block description %}Crediti App Amichiamoci{% endblock %}
+{% block description %}Crediti Applicazione{% endblock %}
 
 {% block body %}
+    <h1>
+        Realizzazione dell'applicazione
+    </h1>
     <p>
-        Il codice sorgente è disponibile a <a target="_blank" href="{{ repo_url }}">{{ repo_url }}</a><br />
+        Quest'applicazione è stata realizzata, e viene mantenuta, dal nostro Staff, in particolare:
+        <a href="https://ciucci.dev" 
+            target="_blank" 
+            title="Vai al sito personale"
+            class="text-reset link-underline link-underline-opacity-0"
+        >
+            Riccardo Ciucci
+            <twig:ux:icon name="majesticons:open" height="14" />
+        </a>
+        <br />
 
-        I creatori di quest'app possono essere contattati a <a href="mailto:{{ dev_email }}">{{ dev_email }}</a> <br />
+        Il codice sorgente è pubblico e si può trovare su
+        <a href="https://github.com/Amichiamoci/App" 
+            target="_blank" 
+            title="Vai al codice dell'applicazione"
+            class="text-reset link-underline link-underline-opacity-0"
+        ><twig:ux:icon name="mdi:microsoft-github" height="14" /> GitHub</a>.
+        <br />
+
+        I creatori di quest'app possono essere contattati per mail a
+        <a href="mailto:{{ dev_email }}"
+            title="Invai un'email agli sviluppatori"
+            class="text-reset link-underline link-underline-opacity-0"
+        >{{ dev_email }}</a>.
+    </p>
+
+    <h2>
+        Tecnologie impiegate
+    </h2>
+    <p>
+        L'applicazione è scritta in PHP, usando il framework 
+        <a href="https://symfony.com/" 
+            target="_blank" 
+            title="Vai alla pagina del framework"
+            class="text-reset link-underline link-underline-opacity-0"
+        ><twig:ux:icon name="logos:symfony" height="14" /> Symfony 7</a>.
+        <br />
+
+        Vengono impiegate varie librerie per l'aspetto, in particolare 
+        <a href="https://getbootstrap.com/" 
+            target="_blank" 
+            title="Vai alla pagina della libreria"
+            class="text-reset link-underline link-underline-opacity-0"
+        ><twig:ux:icon name="logos:bootstrap" height="14" /> Bootstrap 5</a>.
+        <br />
+
+        Le mappe sono offerte da 
+        <a href="https://leafletjs.com/" 
+            target="_blank" 
+            title="Vai alla pagina della libreria"
+            class="text-reset link-underline link-underline-opacity-0"
+        ><twig:ux:icon name="logos:leaflet" height="14" /></a>.
+        <br />
 
         Il santo del giorno è ottenuto da 
-            <a target="_blank" href="https://santodelgiorno.it">santodelgiorno.it</a>
+        <a href="https://santodelgiorno.it" 
+            target="_blank" 
+            title="Vai al santo del giorno"
+            class="text-reset link-underline link-underline-opacity-0"
+        >santodelgiorno.it</a>.
     </p>
 {% endblock %}

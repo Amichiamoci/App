@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class IdentityDocument
 {
     public string $Code;
     public function getCode(): string { return $this->Code; }
 
+    #[Assert\NotEqualTo(value: 0)]
     public int $TypeId;
     public string $TypeName;
     public function getTypeName(): string { return $this->TypeName; }

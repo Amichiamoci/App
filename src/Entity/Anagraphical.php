@@ -1,13 +1,17 @@
 <?php
 
 namespace App\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Anagraphical
 {
+    #[Assert\NotEqualTo(value: 0)]
     public int $Id;
     public function getId(): int { return $this->Id; }
 
+    #[Assert\NotBlank]
     public string $Name;
+    #[Assert\NotBlank]
     public string $Surname;
     public function getName(): string { return $this->Name; }
     public function getSurname(): string { return $this->Surname; }
@@ -34,6 +38,7 @@ class Anagraphical
     public function hasShirtSize(): bool { return is_string(value: $this->ShirtSize); }
 
     public ?string $Church;
+    #[Assert\NotEqualTo(value: 0)]
     public ?int $ChurchId;
     public function getChurch(): ?string { return $this->Church; }
     public function getChurchId(): ?int { return $this->ChurchId; }

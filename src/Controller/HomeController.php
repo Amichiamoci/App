@@ -108,7 +108,6 @@ class HomeController extends AbstractController
     {
         return $this->render(view: 'home/credits.html.twig', parameters: [
             'dev_email' => $_ENV["DEV_EMAIL"] ?? 'dev@email.com',
-            'repo_url' => $_ENV["REPO_URL"] ?? 'https://github.com'
         ]);
     }
 }

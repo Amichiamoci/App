@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Subscription
 {
+    #[Assert\NotEqualTo(value: 0)]
     protected ?int $Id = null;
     public function getId(): ?int { return $this->Id; }
     public function hasId(): bool { return !empty($this->Id); }
