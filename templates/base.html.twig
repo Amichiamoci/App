@@ -20,11 +20,11 @@
 </head>
 <body class="p-0 m-0">
     <header class="border border-1 border-left-0 overflow-x-hidden overflow-y-auto">
-        {% include('nav.html.twig') %}
+        {% include('aside.html.twig') %}
     </header>
 
     <div class="container p-0 overflow-y-auto position-relative" id="content">
-        {% include('mobile-nav-upper.html.twig') %}
+        {% include('nav-upper.html.twig') %}
 
         <main role="main" class="w-100 pt-3 pb-3 ps-1 pe-1 position-absolute">
             {% for flash in app.flashes('success') %}
@@ -38,21 +38,22 @@
             {% block body %}{% endblock %}
         </main>
 
-        {% include('mobile-nav-lower.html.twig') %}
+        {% include('nav-lower.html.twig') %}
 
         <footer class="border-top bg-body-secondary user-select-none position-fixed bottom-0 pb-1 w-100 overflow-hidden">
             {% include('footer.html.twig') %}
         </footer>
+
+        <button type="button"
+                class="btn btn-secondary btn-floating btn-lg d-none position-fixed z-3"
+                data-btn-to-top="true"
+                style="bottom: 20px; right: 20px;"
+                title="Torna su">
+            <twig:ux:icon name="bi:arrow-up" width="16" />
+        </button>
+
     </div>
     
-    <button type="button"
-            class="btn btn-secondary btn-floating btn-lg d-none position-fixed z-3"
-            data-btn-to-top="true"
-            style="bottom: 20px; right: 20px;"
-            title="Torna su">
-        <twig:ux:icon name="bi:arrow-up" width="16" />
-    </button>
-
     {% block javascripts %}
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}

@@ -7,13 +7,10 @@ import './bootstrap.js';
  */
 import './styles/app.css';
 
-import $ from 'jquery';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Popover } from 'bootstrap';
 
-$(function() {
-
+document.addEventListener('turbo:load', () => {
     // Bootstrap 5 Popovers
     const popoverTriggerList = [...document.querySelectorAll('[data-bs-toggle="popover"]')];
     console.log(`Reinitializing ${popoverTriggerList.length} popovers`);
@@ -25,5 +22,5 @@ $(function() {
 import handleScroll from './scroll.js';
 window.onscroll = handleScroll;
 
-import themeHandler from './theme-handling.js';
-themeHandler();
+import { themeHandlerInit } from './theme-handling.js';
+themeHandlerInit(); // Run only on firt page load

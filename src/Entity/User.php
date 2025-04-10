@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
+use App\Entity\Fanta\Participation;
+use App\Entity\Fanta\PlayerChoice;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -44,6 +48,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = false;
+
+    /**
+     * @var Collection<int, PlayerChoice>
+     */
+    #[ORM\OneToMany(targetEntity: PlayerChoice::class, mappedBy: 'User', orphanRemoval: true)]
+    private Collection $playerChoices;
+
+    /**
+     * @var Collection<int, Participation>
+     */
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'User', orphanRemoval: true)]
+    private Collection $participations;
+
+    public function __construct()
+    {
+        $this->playerChoices = new ArrayCollection();
+        $this->participations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -221,6 +243,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PlayerChoice>
+     */
+    public function getPlayerChoices(): Collection
+    {
+        return $this->playerChoices;
+    }
+
+    public function addPlayerChoice(PlayerChoice $playerChoice): static
+    {
+        if (!$this->playerChoices->contains($playerChoice)) {
+            $this->playerChoices->add($playerChoice);
+            $playerChoice->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayerChoice(PlayerChoice $playerChoice): static
+    {
+        if ($this->playerChoices->removeElement($playerChoice)) {
+            // set the owning side to null (unless already changed)
+            if ($playerChoice->getUser() === $this) {
+                $playerChoice->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participation>
+     */
+    public function getParticipations(): Collection
+    {
+        return $this->participations;
+    }
+
+    public function addParticipation(Participation $participation): static
+    {
+        if (!$this->participations->contains($participation)) {
+            $this->participations->add($participation);
+            $participation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipation(Participation $participation): static
+    {
+        if ($this->participations->removeElement($participation)) {
+            // set the owning side to null (unless already changed)
+            if ($participation->getUser() === $this) {
+                $participation->setUser(null);
+            }
+        }
 
         return $this;
     }

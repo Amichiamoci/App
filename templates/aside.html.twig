@@ -1,4 +1,4 @@
-<nav class="d-flex flex-column flex-shrink-0 p-3 h-100">
+<aside class="d-flex flex-column flex-shrink-0 p-3 h-100">
     <a 
         href="{{ path('home') }}" 
         class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none"
@@ -190,10 +190,11 @@
                 Tema
             </button>
             <div class="collapse" id="navbar-theme-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-4">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-4" {{ stimulus_controller('theme') }}>
                     <li>
                         <a class="text-reset link-underline link-underline-opacity-0" 
-                        href="#" data-bs-theme-value="light"
+                            href="#"
+                            data-bs-theme-value="light"
                         >
                             <twig:ux:icon name="bi:brightness-high" height="16" />
                             Chiaro
@@ -201,7 +202,8 @@
                     </li>
                     <li>
                         <a class="text-reset link-underline link-underline-opacity-0" 
-                            href="#" data-bs-theme-value="dark"
+                            href="#"
+                            data-bs-theme-value="dark"
                         >
                             <twig:ux:icon name="bi:moon" height="16" />
                             Scuro
@@ -244,4 +246,4 @@
             </li>
         </ul>
     {% endif %}
-</nav>
+</aside>
