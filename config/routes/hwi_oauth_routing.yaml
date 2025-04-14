@@ -16,8 +16,8 @@ google_login:
 github_login:
     path: /login/check-github
 
-facebook:
+facebook_login:
     path: /login/check-facebook
 
-microsoft:
+microsoft_login:
     path: /login/check-microsoft

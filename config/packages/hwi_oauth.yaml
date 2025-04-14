@@ -32,3 +32,5 @@ hwi_oauth:
             scope:               'read:user'
     connect:
         account_connector: App\Security\OAuthConnector
+        registration_form: App\Form\RegistrationFormType
+        registration_form_handler: App\Security\FormHandler

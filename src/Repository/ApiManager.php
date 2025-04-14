@@ -6,9 +6,11 @@ use App\Entity\Anagraphical;
 use App\Entity\Staff;
 use App\Entity\Church\Church;
 use App\Entity\Church\ChurchScore;
+use App\Entity\IdentityDocumentType;
 use App\Entity\Match\SportMatch;
 use App\Entity\Match\TodaySportMatch;
 use App\Entity\Match\Score;
+use App\Entity\Subscription;
 use App\Entity\Team\Team;
 use App\Entity\Team\TeamMember;
 use App\Entity\Team\TeamPosition;
@@ -225,6 +227,14 @@ class ApiManager
         );
     }
 
+    public function DocumentTypes(): array
+    {
+        return $this->getObjectCollection(
+            collectionName: 'document-types', 
+            className: IdentityDocumentType::class,
+        );
+    }
+
     /**
      * @param string $email
      * @return TodaySportMatch[]
@@ -343,4 +353,37 @@ class ApiManager
     {
         return $this->getObjectCollection(collectionName: 'leaderboard', className: ChurchScore::class);
     }
+
+    /*
+    public function Subscription(Subscription $subscription): ?Subscription
+    {
+        $result = $this->getObjectCollection(
+            collectionName: 'subscribe', 
+            className: Subscription::class, 
+            params: [
+                'Id' => $subscription->getId(),
+                'Anagraphical' => $subscription->getAnagraphicalId(),
+                'Church' => $subscription->getChurchId(),
+                'Shirt' => $subscription->getShirt(),
+            ],
+        );
+        if (count(value: $result) === 0)
+        {
+            if (empty($subscription->getId()))
+            {
+                // Could not add the record
+                return null;
+            }
+            return $subscription; // Successfully edited record
+        }
+        return $result[0];
+    }
+
+    public function SubscriptionCertificate(
+        int $subscriptionId, 
+        string $filePath
+    ): bool
+    {
+        return false;
+    }*/
 }

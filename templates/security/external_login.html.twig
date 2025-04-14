@@ -11,7 +11,7 @@
             class="btn border" 
             role="button"
         >
-            <twig:ux:icon name="logos:google-icon" height="14" />
+            <twig:ux:icon name="logos:google-icon" height="18" />
             Google
         </a>
         {#
@@ -19,22 +19,22 @@
             class="btn btn-outline-info"
             role="button"
         >
-            <twig:ux:icon name="logos:facebook" height="14" />
+            <twig:ux:icon name="logos:facebook" height="18" />
             FaceBook
         </a>
         #}
-        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'github' }) }}" 
-            class="btn border" 
-            role="button"
-        >
-            <twig:ux:icon name="logos:microsoft-icon" height="14" />
-            Microsoft
-        </a>
         <a href="{{ path('hwi_oauth_service_redirect', {'service': 'microsoft' }) }}" 
             class="btn border" 
             role="button"
         >
-            <twig:ux:icon name="mdi:microsoft-github" height="14" />
+            <twig:ux:icon name="logos:microsoft-icon" height="18" />
+            Microsoft
+        </a>
+        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'github' }) }}" 
+            class="btn border" 
+            role="button"
+        >
+            <twig:ux:icon name="mdi:microsoft-github" height="18" />
             GitHub
         </a>
     </div>

@@ -2,7 +2,6 @@
 
 namespace App\Security;
 
-use App\Repository\UserRepository;
 use HWI\Bundle\OAuthBundle\Connect\AccountConnectorInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -13,7 +12,6 @@ final class OAuthConnector implements AccountConnectorInterface
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly UserRepository $userRepository,
         private readonly array $properties
     ) {
     }
@@ -24,19 +22,10 @@ final class OAuthConnector implements AccountConnectorInterface
             return;
         }
 
-        $dbUser = $this->userRepository->find(id: $response->getUserIdentifier());
-        if (!isset($dbUser)) {
-            throw new \Exception(message: 'Utente non trovato');
-        }
-        
         $property = new PropertyAccessor();
-        $property->setValue(
-            objectOrArray: $user, 
-            propertyPath: $this->properties[$response->getResourceOwner()->getName()], 
-            value: $response->getUserIdentifier());
-        //$user = $dbUser;
+        $property->setValue($user, $this->properties[$response->getResourceOwner()->getName()], $response->getUserIdentifier());
 
-        $this->entityManager->persist(object: $user);
+        $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
 }

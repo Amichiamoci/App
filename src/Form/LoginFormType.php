@@ -25,12 +25,22 @@ class LoginFormType extends AbstractType
                 'attr' => [
                     'autocomplete' => 'email',
                     'autofocus' => true,
+                    'placeholder' => 'email@esempio.it',
                 ],
                 'required' => true,
+                'row_attr' => [
+                    'class' => 'form-floating mb-2',
+                ],
             ])
             ->add(child: '_password', type: PasswordType::class, options: [
                 'label' => 'Password',
                 'required' => true,
+                'attr' => [
+                    'placeholder' => 'Password segretissima',
+                ],
+                'row_attr' => [
+                    'class' => 'form-floating mb-2',
+                ],
             ])
             ->add(child: '_remember_me', type: CheckboxType::class, options: [
                 'label'    => 'Resta collegato',

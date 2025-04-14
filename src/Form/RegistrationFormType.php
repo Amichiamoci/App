@@ -25,6 +25,12 @@ class RegistrationFormType extends AbstractType
             ->add(child: 'name', type: TextType::class, options: [
                 'label' => 'Nome completo',
                 'required' => true,
+                'attr' => [
+                    'placeholder' => 'Pinco Pallino',
+                ],
+                'row_attr' => [
+                    'class' => 'form-floating mb-2',
+                ],
             ])
             ->add(child: 'agreeTerms', type: CheckboxType::class, options: [
                 'mapped' => false,
@@ -39,7 +45,13 @@ class RegistrationFormType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                    'placeholder' => 'La tua password super segreta',
+                ],
+                'row_attr' => [
+                    'class' => 'form-floating mb-2',
+                ],
                 'constraints' => [
                     new NotBlank(options: [
                         'message' => 'Per favore, inserisci una password',

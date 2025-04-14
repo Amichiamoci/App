@@ -17,10 +17,12 @@ class SecurityController extends AbstractController
         CsrfTokenManagerInterface $csrfTokenManager,
     ): Response
     {
-        if ($this->getUser() !== null)
+        /*
+        if ($this->isGranted(attribute: 'IS_AUTHENTICATED_FULLY'))
         {
             return $this->redirectToRoute(route: 'home');
         }
+        */
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

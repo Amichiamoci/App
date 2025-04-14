@@ -28,11 +28,24 @@
 
         <main role="main" class="w-100 pt-3 pb-3 ps-1 pe-1 position-absolute">
             {% for flash in app.flashes('success') %}
-                <div class="alert alert-success" role="alert">{{ flash }}</div>
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <twig:ux:icon name="mdi:success-circle" height="16" />
+                    <div>{{ flash }}</div>
+                </div>
+            {% endfor %}
+
+            {% for flash in app.flashes('warn') %}
+                <div class="alert alert-warning d-flex align-items-center" role="alert">
+                    <twig:ux:icon name="material-symbols:warning" height="16" />
+                    <div>{{ flash }}</div>
+                </div>
             {% endfor %}
 
             {% for flash in app.flashes('error') %}
-                <div class="alert alert-danger" role="alert">{{ flash }}</div>
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <twig:ux:icon name="material-symbols:error" height="16" />
+                    <div>{{ flash }}</div>
+                </div>
             {% endfor %}
 
             {% block body %}{% endblock %}
