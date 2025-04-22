@@ -1,24 +1,71 @@
 <nav class="lower border-top w-100 ms-0 me-0 position-fixed bottom-0 bg-secondary-subtle">
     <div class="row w-100">
-        <div class="col p-1 d-flex jusity-content-center align-items-center">
-            <div>
-                1
-            </div>
-        </div>
-        <div class="col p-1 d-flex jusity-content-center align-items-center">
-            <a href="{{ path('leaderboard') }}" 
+        <div class="col p-1 d-flex justify-content-center align-items-center">
+            <a href="{{ path('home') }}" 
                 class="d-flex align-items-center text-decoration-none text-reset"
-                title="Classifica corrente"
+                title="Home"
             >
-                <twig:ux:icon name="iconoir:leaderboard-star" height="16" />
+                <twig:ux:icon name="bi:house" height="16" />
             </a>
         </div>
-        <div class="col p-1 d-flex jusity-content-center align-items-center">
-            <div>
-                3
+        <div class="col p-1 d-flex justify-content-center align-items-center">
+            <div class="dropup dropup-center d-flex align-items-center ">
+                <a href="#"
+                    data-bs-toggle="dropdown" 
+                    aria-expanded="false"
+                    class="d-flex align-items-center text-decoration-none text-reset"
+                    title="Partite, tornei e classifiche"
+                >
+                    <twig:ux:icon name="tabler:shirt-sport" height="16" />
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a  href="{{ path('leaderboard') }}"
+                            class="dropdown-item"
+                            title="Classifica corrente"
+                        >
+                            <twig:ux:icon name="ion:podium-outline" height="15" />
+                            &nbsp;
+                            Classifica
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item"
+                            href="#" 
+                            role="button" 
+                            data-bs-toggle="modal"
+                            data-bs-target="#navbarMatchesModal"
+                        >
+                            <twig:ux:icon name="hugeicons:football-pitch" height="15" />
+                            &nbsp;
+                            Partite
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item"
+                            href="#" 
+                            role="button" 
+                            data-bs-toggle="modal"
+                            data-bs-target="#navbarTournamentsModal"
+                        >
+                            <twig:ux:icon name="bi:calendar3" height="15" />
+                            &nbsp;
+                            Tornei
+                        </a>
+                    </li>
+                </ul>
             </div>
+            
         </div>
-        <div class="col p-1 d-flex jusity-content-center align-items-center">
+        <div class="col p-1 d-flex justify-content-center align-items-center">
+            <a href="{{ path('fanta') }}" 
+                class="d-flex align-items-center text-decoration-none text-reset"
+                title="Fanta Amichiamoci"
+            >
+                <twig:ux:icon name="bi:star" height="16" />
+            </a>
+        </div>
+        <div class="col p-1 d-flex justify-content-center align-items-center">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <a href="{{ path('profile') }}" 
                     class="d-flex align-items-center text-decoration-none text-reset"
@@ -37,3 +84,108 @@
         </div>
     </div>
 </nav>
+
+            
+<div class="modal fade" 
+    id="navbarMatchesModal" 
+    tabindex="-1" 
+    aria-labelledby="navbarMatchesModalLabel" 
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="navbarMatchesModalLabel">
+                    Partite
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <a class="link-underline link-underline-opacity-0 text-reset" 
+                            href="{{ path('matches', {'sport': 'calcio'}) }}"
+                            title="Le partite di Calcio"
+                        >
+                            <twig:ux:icon name="twemoji:soccer-ball" height="15" />
+                            &nbsp;
+                            Calcio
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a class="link-underline link-underline-opacity-0 text-reset" 
+                            href="{{ path('matches', {'sport': 'pallavolo'}) }}"
+                            title="Le partite di Pallavolo"
+                        >
+                            <twig:ux:icon name="twemoji:volleyball" height="15" />
+                            &nbsp;
+                            Pallavolo
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a class="link-underline link-underline-opacity-0 text-reset" 
+                            href="{{ path('matches', {'sport': 'basket'}) }}"
+                            title="Le partite di Basket"
+                        >
+                            <twig:ux:icon name="twemoji:basketball" height="15" />
+                            &nbsp;
+                            Basket
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" 
+    id="navbarTournamentsModal" 
+    tabindex="-1" 
+    aria-labelledby="navbarTournamentsModalLabel" 
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="navbarTournamentsModalLabel">
+                    Tornei
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <a class="link-underline link-underline-opacity-0 text-reset" 
+                            href="{{ path('home_tournament_list', {'sport': 'calcio'}) }}"
+                            title="Le partite di Calcio"
+                        >
+                            <twig:ux:icon name="twemoji:soccer-ball" height="15" />
+                            &nbsp;
+                            Calcio
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a class="link-underline link-underline-opacity-0 text-reset" 
+                            href="{{ path('home_tournament_list', {'sport': 'pallavolo'}) }}"
+                            title="Le partite di Pallavolo"
+                        >
+                            <twig:ux:icon name="twemoji:volleyball" height="15" />
+                            &nbsp;
+                            Pallavolo
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a class="link-underline link-underline-opacity-0 text-reset" 
+                            href="{{ path('home_tournament_list', {'sport': 'basket'}) }}"
+                            title="Le partite di Basket"
+                        >
+                            <twig:ux:icon name="twemoji:basketball" height="15" />
+                            &nbsp;
+                            Basket
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

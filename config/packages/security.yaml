@@ -61,10 +61,11 @@ security:
 
 
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/connect, roles: PUBLIC_ACCESS }
         - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/fanta, roles: ROLE_USER }
 
 framework:
     rate_limiter:

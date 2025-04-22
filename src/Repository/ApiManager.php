@@ -15,6 +15,7 @@ use App\Entity\Team\Team;
 use App\Entity\Team\TeamMember;
 use App\Entity\Team\TeamPosition;
 use App\Entity\Tournament;
+use App\Entity\UserClaimLoad;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -199,6 +200,25 @@ class ApiManager
         return $this->getObjectCollection(collectionName: 'staff-list', className: Staff::class);
     }
 
+    public function CheckClaims(string $email): UserClaimLoad
+    {
+        /**
+         * @var UserClaimLoad[]
+         */
+        $arr = $this->getObjectCollection(
+            collectionName: 'get-user-claims', 
+            className: UserClaimLoad::class, 
+            params: [
+                'Email' => $email,
+            ],
+        );
+        if (count(value: $arr) === 0)
+        {
+            return new UserClaimLoad();
+        }
+        return $arr[0];
+    }
+
     public function Church(int $id): ?Church
     {
         $churches = $this->getObjectCollection(
@@ -227,6 +247,9 @@ class ApiManager
         );
     }
 
+    /**
+     * @return IdentityDocumentType[]
+     */
     public function DocumentTypes(): array
     {
         return $this->getObjectCollection(
