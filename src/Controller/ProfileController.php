@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Subscription;
+use App\Entity\Anagraphical;
 use App\Form\AnagraphicalFormType;
-use App\Form\SubscribeFormType;
 use App\Repository\ApiManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +13,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-use function PHPUnit\Framework\throwException;
 
 class ProfileController extends AbstractController
 {
@@ -24,13 +22,12 @@ class ProfileController extends AbstractController
         return $this->render(
             view: 'profile/index.html.twig', 
             parameters: [
-                'anagraphicals' => [],
-                /*'anagraphicals' => $apiManager->ManagedAnagraphicals(email: $this->getUser()->getUserIdentifier())*/
+                'anagraphicals' => $apiManager->ManagedAnagraphicals(email: $this->getUser()->getUserIdentifier())
             ],
         );
     }
 
-    /*
+    
     private static function certificate_handling(
         ?UploadedFile $certificate, 
         string $uploadDirectory,
@@ -50,13 +47,13 @@ class ProfileController extends AbstractController
             return false;
         }
 
-        return $apiManager->SubscriptionCertificate(
+        return false;/*$apiManager->SubscriptionCertificate(
             subscriptionId: $subscriptionId, 
             filePath: $file->getPath() . DIRECTORY_SEPARATOR . $file->getFilename(),
-        );
-    }*/
+        );*/
+    }
 
-    /*
+    
     #[Route(path: '/profile/get_involved/{id}', name: 'get_involved')]
     public function get_involved(
         ApiManager $apiManager, 
@@ -65,17 +62,33 @@ class ProfileController extends AbstractController
         #[Autowire('%kernel.project_dir%/public/uploads/certificates')] string $uploadDirectory
     ): Response
     {
-        $subscription = new Subscription(anagraphical: $id, shirt: '', church: 0);
+        $anagraphical = array_find(
+            array: $apiManager->ManagedAnagraphicals(email: $this->getUser()->getUserIdentifier()),
+            callback: function (Anagraphical $a) use ($id): bool {
+                return $a->Id === $id;
+            }
+        );
+        if ($anagraphical === null)
+        {
+            // Record not found or not accessible
+            throw $this->createAccessDeniedException(message: 'Dati non trovati o non accessibili');
+        }
+
         $form = $this->createForm(
-            type: SubscribeFormType::class, 
-            data: $subscription,
-            options: ['churches' => $apiManager->Churches()]
+            type: AnagraphicalFormType::class, 
+            data: $anagraphical,
+            options: [
+                'document_types' => $apiManager->DocumentTypes(),
+                'churches' => $apiManager->Churches(),
+                'anagraphical_only' => false,
+            ]
         );
         $form->handleRequest(request: $request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $subscription = $apiManager->Subscription(subscription: $form->getData());
+            /*
+            $subscription = $apiManager->(subscription: $form->getData());
             if ($subscription !== null)
             {
                 // Subscription ok
@@ -105,26 +118,39 @@ class ProfileController extends AbstractController
                     type: 'error', 
                     message: 'Non è stato possibile effettuare l\'iscrizione. Riprova più tardi',
                 );
-            }
+            }*/
         }
 
         return $this->render(
             view: 'profile/subscribe.html.twig', 
             parameters: [
-                'form' => $form,
+                'form' => $form->createView(),
+                'title' => 'Iscriviti per il ' . date(format: 'Y')
             ],
         );
     }
-    */
 
-    #[Route(path: '/profile/signup', name: 'signup')]
+    #[Route(path: '/profile/signup/{id}', name: 'signup')]
     public function signup(
         ApiManager $apiManager,
         Request $request,
+        ?int $id = null,
     ): Response
     {
+        $anagraphical = null;
+
+        if (!empty($id))
+        {
+            $anagraphical = array_find(
+                array: $apiManager->ManagedAnagraphicals(email: $this->getUser()->getUserIdentifier()),
+                callback: function (Anagraphical $a) use ($id): bool {
+                    return $a->Id === $id;
+                }
+            );
+        }
         $form = $this->createForm(
             type: AnagraphicalFormType::class, 
+            data: $anagraphical,
             options: [
                 'document_types' => $apiManager->DocumentTypes(),
                 'churches' => $apiManager->Churches(),
@@ -145,6 +171,7 @@ class ProfileController extends AbstractController
             view: 'profile/subscribe.html.twig', 
             parameters: [
                 'form' => $form->createView(),
+                'title' => empty($id) ? 'Aggiungi i tuoi dati' : 'Modifica i tuoi dati'
             ],
         );
     }

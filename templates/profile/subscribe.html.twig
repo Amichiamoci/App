@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Iscriviti{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 {% block description %}Iscriviti ad Amichiamoci{% endblock %}
 
 {% block body %}
 
     <h1>
-        Iscriviti ad Amichiamoci {{ 'now' | date('Y') }}
+        {{ title }}
     </h1>
 
     {{ form(form) }}

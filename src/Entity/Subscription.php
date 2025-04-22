@@ -21,14 +21,6 @@ class Subscription
         return $this;
     }
 
-    #[Assert\NotEqualTo(value: 0)]
-    #[Assert\NotBlank]
-    public int $ChurchId;
-    public function getChurchId(): ?int { return $this->ChurchId; }
-    public function hasChurchId(): bool { return !empty($this->ChurchId); }
-    public function setChurchId(int $value): self
-    {
-        $this->ChurchId = $value;
-        return $this;
-    }
+    public Church $Church;
+    public function getChurch(): Church { return $this->Church; }
 }

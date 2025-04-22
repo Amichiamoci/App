@@ -11,6 +11,7 @@ class Anagraphical
 
     #[Assert\NotBlank]
     public string $Name;
+
     #[Assert\NotBlank]
     public string $Surname;
     public function getName(): string { return $this->Name; }

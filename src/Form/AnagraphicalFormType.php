@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Anagraphical;
 use App\Form\Type\IdentityDocumentType;
+use App\Form\Type\SubscribeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -53,7 +54,7 @@ class AnagraphicalFormType extends AbstractType
                 ],
                 'constraints' => [
                     new Regex(
-                        pattern: '/[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]/',
+                        pattern: '/[A-Za-z]{6}[0-9]{2}[ABCDEHLMPRSTabcdehlmprst]{1}[0-9]{2}[A-Za-z]{1}[0-9LMNPQRSTUVlmnpqrstuv]{3}[A-Za-z]{1}/',
                         message: 'Codice Fiscale non valido',
                     ),
                 ],

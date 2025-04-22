@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Type;
 
 use App\Entity\Subscription;
-use App\Entity\Church\Church;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 
@@ -41,16 +39,10 @@ class SubscribeType extends AbstractType
                     'class' => 'form-floating mb-2',
                 ],
             ])
-            ->add(child: 'ChurchId', type: ChoiceType::class, options: [
+            ->add(child: 'Church', type: ChurchType::class, options: [
                 'required' => true,
-                'label' => 'Parrocchia',
-                'choices' => self::build_churches_list(churches: $options['churches']),
-                'attr' => [
-                    'placeholder' => 'Parrocchia',
-                ],
-                'row_attr' => [
-                    'class' => 'form-floating mb-2',
-                ],
+                'label' => false,
+                'churches' => $options['churches'],
             ])
             ->add(child: 'certificate', type: FileType::class, options: [
                 'mapped' => false,
@@ -76,17 +68,6 @@ class SubscribeType extends AbstractType
                 ],
             ])
         ;
-    }
-    private static function build_churches_list(array $churches): array
-    {
-        $arr = [
-            'Scegli una Parrocchia' => '',
-        ];
-        foreach ($churches as $church)
-        {
-            $arr[$church->Name] = $church->Id;
-        }
-        return $arr;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

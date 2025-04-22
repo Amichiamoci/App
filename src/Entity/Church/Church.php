@@ -2,13 +2,29 @@
 
 namespace App\Entity\Church;
 use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Church
 {
+    #[Assert\NotEqualTo(value: 0)]
     public int $Id;
-    public string $Name;
     public function getId(): int { return $this->Id; }
+    public function hasId(): bool { return !empty($this->Id); }
+    public function setId(int $value): self
+    {
+        $this->Id = $value;
+        return $this;
+    }
+    
+    #[Assert\NotBlank]
+    public string $Name;
     public function getName(): string { return $this->Name; }
+    public function hasName(): bool { return strlen(string: $this->Name) > 0; }
+    public function setName(string $value): self
+    {
+        $this->Name = $value;
+        return $this;
+    }
 
     public ?string $Address;
     public ?string $Website;

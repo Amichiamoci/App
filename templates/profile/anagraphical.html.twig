@@ -10,7 +10,7 @@
             </strong>
 
             <a 
-                href="#"
+                href="{{ path('signup', {'id': anagraphical.Id }) }}"
                 class="link-underline link-underline-opacity-0 link-primary text-end"
                 title="Modifica i dati"
             >
@@ -76,10 +76,10 @@
                 <a class="text-reset"
                     data-bs-toggle="modal" 
                     data-bs-target="#identity-modal-{{ anagraphical.Id }}"
-                    title="{{ anagraphical.Document.TypeName }}"
+                    title="{{ anagraphical.Document.Type.Label }}"
                     href="#"
                 >
-                    {{ anagraphical.Document.TypeName }}
+                    {{ anagraphical.Document.Type.Label }}
                 </a>
                 
                 <div class="modal fade" id="identity-modal-{{ anagraphical.Id }}" tabindex="-1" aria-labelledby="identity-modal-{{ anagraphical.Id }}-label" aria-hidden="true">
@@ -87,19 +87,13 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="identity-modal-{{ anagraphical.Id }}-label">
-                                    {{ anagraphical.Document.TypeName }}
+                                    {{ anagraphical.Document.Type.Label }}
                                 </h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            
-                            {% if anagraphical.Document.hasMessage() %}
-                                <div class="modal-body">
-                                    {{ anagraphical.Document.Message }}
-                                </div>
-                            {% endif %}
 
                             <div class="modal-body">
-                                Codice {{ anagraphical.Document.TypeName }}:
+                                Codice {{ anagraphical.Document.Type.Label }}:
                                 <output class="font-monospace user-select-none">
                                     {{ anagraphical.Document.Code }}
                                 </output>
@@ -109,23 +103,15 @@
                 </div>
             </dd>
 
-            <dt class="col-sm-4 text-nowrap">
-                <twig:ux:icon name="bi:card-checklist" height="15" />
-                Iscrizione
-            </dt>
-            <dd class="col-sm-8">
-                {{ anagraphical.SubscriptionStatus }}
-            </dd>
+            {% if anagraphical.Subscription %}
+                <dt class="col-sm-4 text-nowrap">
+                    <twig:ux:icon name="bi:card-checklist" height="15" />
+                    Iscrizione
+                </dt>
+                <dd class="col-sm-8 text-success font-monospace">
+                    #{{ anagraphical.Subscription.Id }}
+                </dd>
 
-            <dt class="col-sm-4 text-nowrap">
-                <twig:ux:icon name="bi:clipboard2-pulse" height="15" />
-                Certificato medico
-            </dt>
-            <dd class="col-sm-8">
-                {{ anagraphical.MedicalCertificate }}
-            </dd>
-
-            {% if anagraphical.hasShirtSize() %}
                 <dt class="col-sm-4 text-nowrap">
                     <twig:ux:icon name="la:tshirt" height="15" />
                     Taglia
@@ -133,22 +119,34 @@
                 <dd class="col-sm-8">
                     {{ anagraphical.ShirtSize }}
                 </dd>
-            {% endif %}
 
-            {% if anagraphical.hasChurch() %}
                 <dt class="col-sm-4 text-nowrap">
                     <twig:ux:icon name="material-symbols:church-outline" height="15" />
                     Parrocchia
                 </dt>
                 <dd class="col-sm-8">
-                    <a href="{{ path('church_view', {'id': anagraphical.ChurchId }) }}" 
+                    <a href="{{ path('church_view', {'id': anagraphical.Church.Id }) }}" 
                         class="link-underline-primary link-underline-opacity-75"
-                        title="Vedi {{ anagraphical.Church }}">
-                        {{ anagraphical.Church }}
+                        title="Vedi {{ anagraphical.Church.Name }}"
+                    >
+                        {{ anagraphical.Church.Name }}
                     </a>
                 </dd>
             {% else %}
-
+                <dt class="col-sm-4 text-nowrap">
+                    <twig:ux:icon name="bi:card-checklist" height="15" />
+                    Iscriviti
+                </dt>
+                <dd class="col-sm-8 text-success font-monospace">
+                    <a href="{{ path('get_involved', {'id': anagraphical.Id }) }}" 
+                        class="link-underline-primary link-underline-opacity-75"
+                        title="Iscrivi alla manifestazione"
+                    >
+                        <strong>
+                            Clicca qui
+                        </strong>
+                    </a>
+                </dd>
             {% endif %}
         </dl>
     </div>
