@@ -108,16 +108,38 @@
                     <twig:ux:icon name="bi:card-checklist" height="15" />
                     Iscrizione
                 </dt>
-                <dd class="col-sm-8 text-success font-monospace">
-                    #{{ anagraphical.Subscription.Id }}
-                </dd>
+                {% if anagraphical.hasStatus() %}
+                    <dd class="col-sm-8 text-warning">
+                        <twig:ux:icon name="mdi:alert-outline" height="14" />
+                        <a  href="#"
+                            class="font-monospace text-reset"
+                            role="button" 
+                            data-bs-toggle="popover" 
+                            data-bs-trigger="focus" 
+                            data-bs-container="body" 
+                            data-bs-placement="top" 
+                            data-bs-title="Iscrizione non valida"
+                            data-bs-content="Ci sono problemi con la tua iscrizione. Finché non saranno risolti non ti sarà possibile scendere in campo."
+                            title="Ci sono problemi"
+                        >
+                            #{{ anagraphical.Subscription.Id }}
+                        </a>
+                    </dd>
+                {% else %}
+                    <dd class="col-sm-8 text-success">
+                        <twig:ux:icon name="mdi:check-thick" height="14" />
+                        <strong class="font-monospace">
+                            #{{ anagraphical.Subscription.Id }}
+                        </strong>
+                    </dd>
+                {% endif %}
 
                 <dt class="col-sm-4 text-nowrap">
                     <twig:ux:icon name="la:tshirt" height="15" />
                     Taglia
                 </dt>
                 <dd class="col-sm-8">
-                    {{ anagraphical.ShirtSize }}
+                    {{ anagraphical.Subscription.Shirt }}
                 </dd>
 
                 <dt class="col-sm-4 text-nowrap">
@@ -125,11 +147,11 @@
                     Parrocchia
                 </dt>
                 <dd class="col-sm-8">
-                    <a href="{{ path('church_view', {'id': anagraphical.Church.Id }) }}" 
-                        class="link-underline-primary link-underline-opacity-75"
-                        title="Vedi {{ anagraphical.Church.Name }}"
+                    <a href="{{ path('church_view', {'id': anagraphical.Subscription.Church.Id }) }}" 
+                        class="text-reset link-underline link-underline-opacity-50"
+                        title="Vedi {{ anagraphical.Subscription.Church.Name }}"
                     >
-                        {{ anagraphical.Church.Name }}
+                        {{ anagraphical.Subscription.Church.Name }}
                     </a>
                 </dd>
             {% else %}
@@ -137,7 +159,7 @@
                     <twig:ux:icon name="bi:card-checklist" height="15" />
                     Iscriviti
                 </dt>
-                <dd class="col-sm-8 text-success font-monospace">
+                <dd class="col-sm-8">
                     <a href="{{ path('get_involved', {'id': anagraphical.Id }) }}" 
                         class="link-underline-primary link-underline-opacity-75"
                         title="Iscrivi alla manifestazione"
@@ -148,6 +170,18 @@
                     </a>
                 </dd>
             {% endif %}
+
+            {% for problem, message in anagraphical.Status %}
+                <dt class="col-sm-4 text-nowrap text-warning">
+                    <twig:ux:icon name="mdi:alert-outline" height="14" />
+                    {{ problem }}
+                </dt>
+                <dd class="col-sm-8">
+                    <strong>
+                        {{ message }}
+                    </strong>
+                </dd>
+            {% endfor %}
         </dl>
     </div>
 </div>
