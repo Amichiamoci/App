@@ -17,7 +17,8 @@ class Anagraphical
     public function getName(): string { return $this->Name; }
     public function getSurname(): string { return $this->Surname; }
 
-    #[Assert\Regex(pattern: '/[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]/')]
+    public const TaxCodePattern = '[A-Za-z]{6}[0-9]{2}[ABCDEHLMPRSTabcdehlmprst]{1}[0-9]{2}[A-Za-z]{1}[0-9LMNPQRSTUVlmnpqrstuv]{3}[A-Za-z]{1}';
+    #[Assert\Regex(pattern: '/' . self::TaxCodePattern . '/')]
     #[Assert\NotBlank]
     public string $TaxCode;
     public function getTaxCode(): string { return $this->TaxCode; }

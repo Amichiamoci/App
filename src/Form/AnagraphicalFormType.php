@@ -48,13 +48,14 @@ class AnagraphicalFormType extends AbstractType
                 'label' => 'Codice Fiscale',
                 'attr' => [
                     'placeholder' => 'Codice Fiscale',
+                    'pattern' => Anagraphical::TaxCodePattern,
                 ],
                 'row_attr' => [
                     'class' => 'form-floating mb-2',
                 ],
                 'constraints' => [
                     new Regex(
-                        pattern: '/[A-Za-z]{6}[0-9]{2}[ABCDEHLMPRSTabcdehlmprst]{1}[0-9]{2}[A-Za-z]{1}[0-9LMNPQRSTUVlmnpqrstuv]{3}[A-Za-z]{1}/',
+                        pattern: '/' . Anagraphical::TaxCodePattern . '/',
                         message: 'Codice Fiscale non valido',
                     ),
                 ],
