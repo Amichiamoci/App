@@ -99,9 +99,7 @@ class HomeController extends AbstractController
     #[Route(path: '/home/privacy', name: 'home_privacy',)]
     public function privacy(): Response
     {
-        return $this->render(view: 'home/privacy.html.twig', parameters: [
-            'dev_email' => $_ENV["DEV_EMAIL"] ?? 'dev@email.com'
-        ]);
+        return $this->render(view: 'home/privacy.html.twig');
     }
     #[Route(path: '/home/credits', name: 'home_credits',)]
     public function credits(): Response
