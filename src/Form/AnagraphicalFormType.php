@@ -60,14 +60,12 @@ class AnagraphicalFormType extends AbstractType
                     ),
                 ],
             ])
-            /*
             ->add(child: 'BirthDate', type: HiddenType::class, options: [
-                'required' => true,
+                'required' => false,
             ])
             ->add(child: 'BirthPlace', type: HiddenType::class, options: [
-                'required' => true,
+                'required' => false,
             ])
-            */
             ->add(child: 'Email', type: EmailType::class, options: [
                 'required' => true,
                 'label' => 'Email',
@@ -107,21 +105,23 @@ class AnagraphicalFormType extends AbstractType
             $builder
                 ->add(child: 'Subscription', type: SubscribeType::class, options: [
                     'label' => false,
-                    'required' => false,
+                    'required' => true,
                     'churches' => $options['churches'],
                 ])
                 ->add(child: 'subscribe', type: SubmitType::class, options: [
                     'label' => 'Iscriviti'
                 ]);
         }
+
+        $builder->setMethod(method: 'POST');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('document_types', []);
-        $resolver->setDefault('churches', []);
-        $resolver->setDefault('anagraphical_only', false);
-        $resolver->setDefaults([
+        $resolver->setDefault(option: 'document_types', value: []);
+        $resolver->setDefault(option: 'churches', value: []);
+        $resolver->setDefault(option: 'anagraphical_only', value: false);
+        $resolver->setDefaults(defaults: [
             'data_class' => Anagraphical::class,
         ]);
     }

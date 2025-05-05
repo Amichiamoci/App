@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\UX\Turbo\TurboBundle;
 
 
 class ProfileController extends AbstractController
@@ -66,7 +67,7 @@ class ProfileController extends AbstractController
             array: $apiManager->ManagedAnagraphicals(email: $this->getUser()->getUserIdentifier()),
             callback: function (Anagraphical $a) use ($id): bool {
                 return $a->Id === $id;
-            }
+            },
         );
         if ($anagraphical === null)
         {
@@ -81,20 +82,37 @@ class ProfileController extends AbstractController
                 'document_types' => $apiManager->DocumentTypes(),
                 'churches' => $apiManager->Churches(),
                 'anagraphical_only' => false,
+                'action' => $this->generateUrl(
+                    route: 'get_involved', 
+                    parameters: ['id' => $id],
+                ),
             ]
         );
         $form->handleRequest(request: $request);
 
+        $status_code = $form->isSubmitted() && !$form->isValid() ? 422 : 200;
+
         if ($form->isSubmitted() && $form->isValid())
         {
-            /*
-            $subscription = $apiManager->(subscription: $form->getData());
+            /**
+             * @var Anagraphical
+             */
+            $anagraphical = $form->getData();
+            if ($anagraphical->Id !== $id)
+            {
+                // Tried to change the target id
+                throw $this->createAccessDeniedException(message: 'Dati non trovati o non accessibili');
+            }
+            
+            $subscription = $apiManager->HandleSubscription(
+                anagraphical: $anagraphical->Id, 
+                subscription: $anagraphical->Subscription,
+            );
             if ($subscription !== null)
             {
-                // Subscription ok
-
-
-                /// @var UploadedFile $certificate
+                /**
+                 * @var UploadedFile
+                 */
                 $certificate = $form->get(name: 'certificate')->getData();
                 $certificate_uploaded = self::certificate_handling(
                     certificate: $certificate, 
@@ -102,6 +120,7 @@ class ProfileController extends AbstractController
                     apiManager: $apiManager,
                     subscriptionId: $subscription->getId(),
                 );
+
                 if ($certificate_uploaded) {
                     $this->addFlash(
                         type: 'success', 
@@ -113,20 +132,23 @@ class ProfileController extends AbstractController
                         message: 'L\'iscrizione è stata effettuata, tuttavia il certificato non è stato consegnato: senza di esso non è possibile partecipare alle attività sportive.',
                     );
                 }
-            } else {
-                $this->addFlash(
-                    type: 'error', 
-                    message: 'Non è stato possibile effettuare l\'iscrizione. Riprova più tardi',
-                );
-            }*/
+                return $this->redirectToRoute(route: 'profile');
+            } 
+
+            $this->addFlash(
+                type: 'error', 
+                message: 'Non è stato possibile effettuare l\'iscrizione. Riprova più tardi',
+            );
+            $status_code = 500;
         }
 
         return $this->render(
             view: 'profile/subscribe.html.twig', 
             parameters: [
-                'form' => $form->createView(),
-                'title' => 'Iscriviti per il ' . date(format: 'Y')
+                'form' => $form,
+                'title' => 'Iscriviti per il ' . date(format: 'Y'),
             ],
+            response: new Response(content: null, status: $status_code),
         );
     }
 

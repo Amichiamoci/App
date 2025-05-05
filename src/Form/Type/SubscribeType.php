@@ -72,9 +72,9 @@ class SubscribeType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(defaults: [
             'data_class' => Subscription::class,
         ]);
-        $resolver->setDefault('churches', []);
+        $resolver->setDefault(option: 'churches', value: []);
     }
 }

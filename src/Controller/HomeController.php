@@ -20,8 +20,13 @@ class HomeController extends AbstractController
     {
         $todayMatches = [];
         $user = $this->getUser();
-        if (isset($user)) {
+        if ($user !== null)
+        {
             $todayMatches = $apiManager->TodayMatchesOfUser(email: $user->getUserIdentifier());
+            if (!$apiManager->IsSubscribedOrParentOfSubscribed(email: $user->getUserIdentifier()))
+            {
+
+            }
         }
         return $this->render(view: 'home/index.html.twig', parameters: [
             'todayMatches' => $todayMatches,
