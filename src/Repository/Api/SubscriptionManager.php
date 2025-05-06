@@ -65,22 +65,69 @@ trait SubscriptionManager
         );
     }
 
+    public function HandleAnagraphical(Anagraphical $anagraphical): ?Anagraphical
+    {
+        $parameters = [
+            'Name' => $anagraphical->Name,
+            'Surname' => $anagraphical->Surname,
+            'TaxCode' => $anagraphical->TaxCode,
+            'Email' => $anagraphical->Email,
+            'BirthDate' => $anagraphical->BirthDate,
+        ];
+
+        if (!empty($anagraphical->Id))
+        {
+            $parameters['Id'] = $anagraphical->Id;
+        }
+        if ($anagraphical->hasPhone())
+        {
+            $parameters['Phone'] = $anagraphical->Phone;
+        }
+        if ($anagraphical->hasBirtPlace())
+        {
+            $parameters['BirthPlace'] = $anagraphical->BirthPlace;
+        }
+
+        $result = $this->_getObjectCollection(
+            collectionName: 'anagraphical', 
+            className: Anagraphical::class, 
+            params: $parameters,
+        );
+
+
+        if (count(value: $result) === 0)
+        {
+            if (empty($subscription->Id))
+            {
+                // Could not add the record
+                return null;
+            }
+            return $anagraphical; // Successfully edited record
+        }
+        return $result[0];
+    }
     
     public function HandleSubscription(int $anagraphical, Subscription $subscription): ?Subscription
     {
-        $result = $this->getObjectCollection(
+        $parameters = [
+            'Anagraphical' => $anagraphical,
+            'Church' => $subscription->getChurch()->getId(),
+            'Shirt' => $subscription->getShirt(),
+        ];
+        if (!empty($subscription->Id))
+        {
+            // Is editing an existing subscription
+            $parameters['Id'] = $subscription->Id;
+        }
+
+        $result = $this->_getObjectCollection(
             collectionName: 'subscribe', 
             className: Subscription::class, 
-            params: [
-                'Id' => $subscription->getId(),
-                'Anagraphical' => $anagraphical,
-                'Church' => $subscription->getChurch()->getId(),
-                'Shirt' => $subscription->getShirt(),
-            ],
+            params: $parameters,
         );
         if (count(value: $result) === 0)
         {
-            if (empty($subscription->getId()))
+            if (empty($subscription->Id))
             {
                 // Could not add the record
                 return null;

@@ -9,8 +9,14 @@
                 {{ anagraphical.Surname }}
             </strong>
 
+            {% if anagraphical.hasSubscription() %}
+                {% set edit_path = path('get_involved', {'id': anagraphical.Id }) %}
+            {% else %}
+                {% set edit_path = path('signup', {'id': anagraphical.Id }) %}
+            {% endif %}
+
             <a 
-                href="{{ path('signup', {'id': anagraphical.Id }) }}"
+                href="{{ edit_path }}"
                 class="link-underline link-underline-opacity-0 link-primary text-end"
                 title="Modifica i dati"
             >

@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\UX\Turbo\TurboBundle;
 
 
 class ProfileController extends AbstractController
@@ -54,6 +53,24 @@ class ProfileController extends AbstractController
         );*/
     }
 
+    private static function anagraphical_handling(
+        ApiManager $apiManager,
+        Anagraphical $anagraphical,
+        ?Anagraphical $original = null,
+        ?UploadedFile $document = null,
+    ): ?Anagraphical {
+        if ($original === null || $anagraphical !== $original)
+        {
+            $anagraphical = $apiManager->HandleAnagraphical(anagraphical: $anagraphical);
+        }
+        if ($anagraphical === null)
+        {
+            return null;
+        }
+
+
+        return null;
+    }
     
     #[Route(path: '/profile/get_involved/{id}', name: 'get_involved')]
     public function get_involved(
@@ -75,6 +92,7 @@ class ProfileController extends AbstractController
             throw $this->createAccessDeniedException(message: 'Dati non trovati o non accessibili');
         }
 
+        $origina_anagraphical = clone $anagraphical;
         $form = $this->createForm(
             type: AnagraphicalFormType::class, 
             data: $anagraphical,
@@ -103,6 +121,9 @@ class ProfileController extends AbstractController
                 // Tried to change the target id
                 throw $this->createAccessDeniedException(message: 'Dati non trovati o non accessibili');
             }
+
+            $anagraphical->reverseTaxCode();
+            $apiManager->HandleAnagraphical(anagraphical: $anagraphical);
             
             $subscription = $apiManager->HandleSubscription(
                 anagraphical: $anagraphical->Id, 
@@ -111,9 +132,12 @@ class ProfileController extends AbstractController
             if ($subscription !== null)
             {
                 /**
-                 * @var UploadedFile
+                 * @var ?UploadedFile
                  */
-                $certificate = $form->get(name: 'certificate')->getData();
+                $certificate = $form->has(name: 'certificate') ? 
+                    $form->get(name: 'certificate')->getData() : 
+                    null
+                ;
                 $certificate_uploaded = self::certificate_handling(
                     certificate: $certificate, 
                     uploadDirectory: $uploadDirectory,
@@ -183,10 +207,9 @@ class ProfileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $this->addFlash(
-                type: 'warn', 
-                message: 'Valid',
-            );
+            // TODO: handle anagraphical changes
+
+            return $this->redirectToRoute(route: 'profile');
         }
 
         return $this->render(

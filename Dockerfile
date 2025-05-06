@@ -34,7 +34,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
 FROM composer:latest AS builder
 WORKDIR /app
 COPY composer.json .
-RUN composer update --no-interaction --no-progress
+RUN composer update --no-interaction --no-progress --ignore-platform-reqs
 
 # Build the final image
 FROM base AS final

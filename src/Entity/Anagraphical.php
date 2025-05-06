@@ -2,6 +2,11 @@
 
 namespace App\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
+use CodiceFiscale\InverseCalculator;
+use nicholasricci\AnagraficheANPRISTAT\Collection\ComuneCollection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\Comparison;
+use Doctrine\Common\Collections\Order;
 
 class Anagraphical
 {
@@ -50,4 +55,47 @@ class Anagraphical
     public function hasStatus(): bool { return count(value: $this->Status) > 0; }
     public function getStatus(): array { return $this->Status; }
 
+    public function reverseTaxCode(): bool
+    {
+        if (strlen(string: $this->TaxCode) === 0)
+        {
+            return false;
+        }
+
+        try {
+            $cf = new InverseCalculator(codiceFiscale: $this->TaxCode)->getSubject();
+
+            $this->BirthDate = $cf->getBirthDate()->format(format: 'Y-m-d');
+            $belfiore = $cf->getBelfioreCode();
+
+            $criteria = new Criteria();
+            $criteria
+                ->where(expression: new Comparison(
+                    field: 'registry_code', 
+                    op: Comparison::IS, 
+                    value: $belfiore,
+                ))
+                ->andWhere(expression: new Comparison(
+                    field: 'status', 
+                    op: Comparison::IS, 
+                    value: 'active',
+                ))
+                ->orderBy(orderings: [
+                    'last_update' => Order::Ascending,
+                ])
+            ;
+
+            $places = (new ComuneCollection())->matching(criteria: $criteria);
+            if ($places->isEmpty())
+            {
+                return false;
+            }
+            $place = $places->first();
+            $this->BirthPlace = $place['name_it'] . ', ' . $place['provincial_code'];
+            
+            return true;
+        } catch (\Throwable) {
+            return false;
+        }
+    }
 }
