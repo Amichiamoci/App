@@ -59,10 +59,10 @@ class LoginFormType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(defaults: [
             'method' => 'POST',
         ]);
-        $resolver->setRequired('csrf_token');
+        $resolver->setRequired(optionNames: 'csrf_token');
     }
 
     public function getBlockPrefix(): string

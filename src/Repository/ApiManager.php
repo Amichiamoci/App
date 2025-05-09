@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use Symfony\Component\Serializer\Context\Normalizer\DateTimeNormalizerContextBuilder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -52,11 +53,13 @@ class ApiManager
                 ), 
                 new ArrayDenormalizer(),
                 new GetSetMethodNormalizer(), 
-                new DateTimeNormalizer()
+                new DateTimeNormalizer(defaultContext: [
+                    DateTimeNormalizer::FORMAT_KEY => \DateTime::RFC3339,
+                ]),
             ], 
             encoders: [
                 new JsonEncoder()
-            ]
+            ],
         );
     }
 

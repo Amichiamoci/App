@@ -39,6 +39,15 @@ class Anagraphical
     public ?string $BirthDate = null;
     public function hasBirtDate(): bool { return is_string(value: $this->BirthDate) && strlen(string: trim(string: $this->BirthDate)) > 0; }
     public function getBirthDate(): ?string { return $this->BirthDate; }
+    public function hasBirtDateItalian(): bool { return $this->hasBirtDate(); }
+    public function getBirthDateItalian(): ?string
+    { 
+        if (!$this->hasBirtDateItalian())
+        {
+            return null;
+        }
+        return (new \DateTime(datetime: $this->BirthDate))->format(format: 'd/m/Y');
+    }
 
     public ?string $BirthPlace = null;
     public function hasBirtPlace(): bool { return !empty($this->BirthPlace); }

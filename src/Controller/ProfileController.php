@@ -124,6 +124,7 @@ class ProfileController extends AbstractController
 
             $anagraphical->reverseTaxCode();
             $apiManager->HandleAnagraphical(anagraphical: $anagraphical);
+            // TODO: handle anagraphical document update
             
             $subscription = $apiManager->HandleSubscription(
                 anagraphical: $anagraphical->Id, 

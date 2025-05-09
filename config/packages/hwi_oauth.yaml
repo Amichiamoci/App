@@ -22,6 +22,7 @@ hwi_oauth:
             type:          azure
             client_id:     '%env(AZURE_ID)%'
             client_secret: '%env(AZURE_SECRET)%'
+            scope:         'openid profile email'
             options:
                 application: common
         

@@ -41,7 +41,7 @@
                 Nato/a il
             </dt>
             <dd class="col-sm-8">
-                {{ anagraphical.BirthDate }}
+                {{ anagraphical.BirthDateItalian }}
             </dd>
 
             <dt class="col-sm-4 text-nowrap">
@@ -102,6 +102,13 @@
                                 Codice {{ anagraphical.Document.Type.Label }}:
                                 <output class="font-monospace user-select-none">
                                     {{ anagraphical.Document.Code }}
+                                </output>
+                                
+                                <br />
+
+                                Scadenza:
+                                <output class="font-monospace user-select-none">
+                                    {{ anagraphical.Document.ExpirationItalian }}
                                 </output>
                             </div>
                         </div>

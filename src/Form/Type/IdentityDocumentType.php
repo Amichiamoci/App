@@ -7,7 +7,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Range;
 
 class IdentityDocumentType extends AbstractType
 {
@@ -24,6 +26,17 @@ class IdentityDocumentType extends AbstractType
                 'label' => 'Codice Documento',
                 'attr' => [
                     'placeholder' => 'Codice documento',
+                ],
+                'row_attr' => [
+                    'class' => 'form-floating mb-2',
+                ],
+            ])
+            ->add(child: 'Expiration', type: DateType::class, options: [
+                'required' => true,
+                'label' => 'Scadenza Documento',
+                'widget' => 'single_text',
+                'attr' => [
+                    'min' => date(format: 'Y-m-d'),
                 ],
                 'row_attr' => [
                     'class' => 'form-floating mb-2',
@@ -57,9 +70,9 @@ class IdentityDocumentType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(defaults: [
             'data_class' => IdentityDocument::class,
         ]);
-        $resolver->setDefault('document_types', []);
+        $resolver->setDefault(option: 'document_types', value: []);
     }
 }
