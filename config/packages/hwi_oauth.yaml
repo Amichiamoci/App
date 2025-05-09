@@ -24,7 +24,7 @@ hwi_oauth:
             client_secret: '%env(AZURE_SECRET)%'
             scope:         'openid profile email'
             options:
-                application: common
+                application: consumers
         
         github:
             type:                github
