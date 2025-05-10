@@ -54,6 +54,7 @@ class ProfileController extends AbstractController
     }
 
     private static function anagraphical_handling(
+        string $userId,
         ApiManager $apiManager,
         Anagraphical $anagraphical,
         ?Anagraphical $original = null,
@@ -61,7 +62,10 @@ class ProfileController extends AbstractController
     ): ?Anagraphical {
         if ($original === null || $anagraphical !== $original)
         {
-            $anagraphical = $apiManager->HandleAnagraphical(anagraphical: $anagraphical);
+            $anagraphical = $apiManager->HandleAnagraphical(
+                anagraphical: $anagraphical,
+                userId: $userId,
+            );
         }
         if ($anagraphical === null)
         {
@@ -123,11 +127,15 @@ class ProfileController extends AbstractController
             }
 
             $anagraphical->reverseTaxCode();
-            $apiManager->HandleAnagraphical(anagraphical: $anagraphical);
+            $apiManager->HandleAnagraphical(
+                anagraphical: $anagraphical,
+                userId: $this->getUser()->getUserIdentifier(),
+            );
             // TODO: handle anagraphical document update
             
             $subscription = $apiManager->HandleSubscription(
                 anagraphical: $anagraphical->Id, 
+                userId: $this->getUser()->getUserIdentifier(),
                 subscription: $anagraphical->Subscription,
             );
             if ($subscription !== null)

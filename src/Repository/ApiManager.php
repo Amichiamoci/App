@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ApiError;
 use Exception;
+
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -11,6 +12,7 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Serializer;
+
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
@@ -19,10 +21,14 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Component\HttpClient\HttpOptions;
 
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+
 class ApiManager
 {
     public function __construct(
         private HttpClientInterface $client,
+        private CacheInterface $cache,
         private readonly string $environment = 'dev',
     ) { 
         $this->client = $this->client->withOptions(
@@ -79,11 +85,11 @@ class ApiManager
         );
     }
 
-    public function _getObjectCollection(
+    private function loadWebCollection(
         string $collectionName, 
         string $className, 
         array $params = [],
-    ): array
+    ):array
     {
         try {
             $response = $this->get(resource: $collectionName, options: $params);
@@ -123,6 +129,67 @@ class ApiManager
             }
             return [];
         }
+    }
+
+    private static function cache_compute_key(
+        string $collectionName, 
+        array $params = [],
+        int $duration,
+    ): string {
+        $cache_key = $collectionName;
+        if (count(value: $params) !== 0)
+        {
+            $hash = sha1(string: serialize(value: $params) . $duration);
+            $cache_key .= "-$duration-$hash";
+        }
+        return $cache_key;
+    }
+
+    public function _cacheInvalidate(
+        string $collectionName, 
+        array $params = [],
+        int $duration = 3600,
+    ): bool {
+        $key = self::cache_compute_key(
+            collectionName: $collectionName, 
+            params: $params, 
+            duration: $duration,
+        );
+        return $this->cache->delete(key: $key);
+    }
+
+    public function _getObjectCollection(
+        string $collectionName, 
+        string $className, 
+        array $params = [],
+        int|false $cache = 3600,// 1h cache
+    ): array
+    {
+        if ($cache === false || $cache <= 0)
+        {
+            return $this->loadWebCollection(
+                collectionName: $collectionName, 
+                className: $className, 
+                params: $params,
+            );
+        }
+
+        return $this->cache->get(
+            key: self::cache_compute_key(
+                collectionName: $collectionName, 
+                params: $params, 
+                duration: $cache,
+            ), 
+            callback: function (ItemInterface $item) use($collectionName, $className, $params, $cache): array {
+                $item->expiresAfter(time: $cache); 
+                return $this->loadWebCollection(
+                    collectionName: $collectionName, 
+                    className: $className, 
+                    params: $params,
+                );
+            },
+        );
+        
     }
 
     use Api\SportManager;

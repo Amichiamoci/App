@@ -20,7 +20,10 @@ trait SportManager
      */
     public function TeamMembers(): array
     {
-        return $this->_getObjectCollection(collectionName: 'teams-members', className: TeamMember::class);
+        return $this->_getObjectCollection(
+            collectionName: 'teams-members', 
+            className: TeamMember::class,
+        );
     }
 
     /**
@@ -92,15 +95,19 @@ trait SportManager
             className: TodaySportMatch::class, 
             params: [
                 'Email' => $email,
-            ]
+            ],
         );
     }
 
     public function Tournament(int $id): ?Tournament
     {
-        $t = $this->_getObjectCollection(collectionName: 'tournament', className: Tournament::class, params: [
-            'Id' => $id,
-        ]);
+        $t = $this->_getObjectCollection(
+            collectionName: 'tournament', 
+            className: Tournament::class, 
+            params: [
+                'Id' => $id,
+            ],
+        );
         if (count(value: $t) === 0)
         {
             return null;
@@ -174,18 +181,24 @@ trait SportManager
             className: 'string', 
             params: [
                 'Id' => $id,
-            ]
+            ],
+            cache: false,
         );
         return count(value: $result) === 0;
     }
 
     public function AddResult(int $id, string $home, string $guest): ?Score
     {
-        $scores = $this->_getObjectCollection(collectionName: 'new-match-result', className: Score::class, params: [
-            'Id' => $id,
-            'Home' => $home,
-            'Guest' => $guest,
-        ]);
+        $scores = $this->_getObjectCollection(
+            collectionName: 'new-match-result', 
+            className: Score::class, 
+            params: [
+                'Id' => $id,
+                'Home' => $home,
+                'Guest' => $guest,
+            ],
+            cache: false,
+        );
         if (count(value: $scores) === 0)
         {
             return null;

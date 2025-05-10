@@ -15,7 +15,8 @@ trait ChurchesManager
             className: Church::class, 
             params: [
                 'Id' => $id
-            ]
+            ],
+            cache: 6 * 3600, // 6h
         );
         if (count(value: $churches) === 0) {
             return null;
@@ -33,10 +34,15 @@ trait ChurchesManager
         return $this->_getObjectCollection(
             collectionName: 'churches', 
             className: Church::class,
+            cache: 6 * 3600, // 6h
         );
     }
     public function Leaderboard(): array
     {
-        return $this->_getObjectCollection(collectionName: 'leaderboard', className: ChurchScore::class);
+        return $this->_getObjectCollection(
+            collectionName: 'leaderboard', 
+            className: ChurchScore::class,
+            cache: 10, // 10 minutes
+        );
     }
 }

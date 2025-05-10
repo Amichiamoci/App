@@ -12,7 +12,10 @@ trait StaffManager
      */
     public function Staff(): array
     {
-        return $this->_getObjectCollection(collectionName: 'staff-list', className: Staff::class);
+        return $this->_getObjectCollection(
+            collectionName: 'staff-list', 
+            className: Staff::class,
+        );
     }
 
     public function CheckClaims(string $email): UserClaimLoad
@@ -26,6 +29,7 @@ trait StaffManager
             params: [
                 'Email' => $email,
             ],
+            cache: false,
         );
         if (count(value: $arr) === 0)
         {

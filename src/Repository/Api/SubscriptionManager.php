@@ -19,7 +19,19 @@ trait SubscriptionManager
             className: Anagraphical::class,
             params: [
                 'Email' => $email
-            ]
+            ],
+            cache: 1800, // Every method that changes anagraphical data must invalidate the cache
+        );
+    }
+
+    private function InvalidateAnagraphicals(string $email): bool
+    {
+        return $this->_cacheInvalidate(
+            collectionName: 'managed-anagraphicals', 
+            params: [
+                'Email' => $email,
+            ],
+            duration: 1800,
         );
     }
 
@@ -65,7 +77,10 @@ trait SubscriptionManager
         );
     }
 
-    public function HandleAnagraphical(Anagraphical $anagraphical): ?Anagraphical
+    public function HandleAnagraphical(
+        Anagraphical $anagraphical,
+        string $userId,
+    ): ?Anagraphical
     {
         $parameters = [
             'Name' => $anagraphical->Name,
@@ -96,7 +111,9 @@ trait SubscriptionManager
             collectionName: 'anagraphical', 
             className: Anagraphical::class, 
             params: $parameters,
+            cache: false,
         );
+        $this->InvalidateAnagraphicals($userId);
 
 
         if (count(value: $result) === 0)
@@ -111,7 +128,11 @@ trait SubscriptionManager
         return $result[0];
     }
     
-    public function HandleSubscription(int $anagraphical, Subscription $subscription): ?Subscription
+    public function HandleSubscription(
+        int $anagraphical, 
+        string $userId,
+        Subscription $subscription,
+    ): ?Subscription
     {
         $parameters = [
             'Anagraphical' => $anagraphical,
@@ -128,7 +149,10 @@ trait SubscriptionManager
             collectionName: 'subscribe', 
             className: Subscription::class, 
             params: $parameters,
+            cache: false,
         );
+        $this->InvalidateAnagraphicals($userId);
+
         if (count(value: $result) === 0)
         {
             if (empty($subscription->Id))
