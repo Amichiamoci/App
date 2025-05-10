@@ -38,7 +38,7 @@
             
             <dt class="col-sm-4 text-nowrap">
                 <twig:ux:icon name="fa:birthday-cake" height="15" />
-                Nato/a il
+                {% if anagraphical.Sex == 'F' %}Nata{% else %}Nato{% endif %} il
             </dt>
             <dd class="col-sm-8">
                 {{ anagraphical.BirthDateItalian }}

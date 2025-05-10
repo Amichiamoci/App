@@ -107,4 +107,21 @@ class Anagraphical
             return false;
         }
     }
+
+    public function getSex(): ?string
+    {
+        if (strlen(string: $this->TaxCode) === 0)
+        {
+            return null;
+        }
+
+        try {
+            return 
+                (new InverseCalculator(codiceFiscale: $this->TaxCode))
+                ->getSubject()
+                ->getGender();
+        } catch (\Throwable) {
+            return null;
+        }
+    }
 }

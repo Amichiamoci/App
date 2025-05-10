@@ -70,9 +70,13 @@ trait SubscriptionManager
         $parameters = [
             'Name' => $anagraphical->Name,
             'Surname' => $anagraphical->Surname,
-            'TaxCode' => $anagraphical->TaxCode,
+            'Taxcode' => $anagraphical->TaxCode,
             'Email' => $anagraphical->Email,
-            'BirthDate' => $anagraphical->BirthDate,
+            'Birthdate' => $anagraphical->BirthDate,
+
+            'Documentexpiration' => $anagraphical->Document->Expiration->format(format: 'Y-m-d'),
+            'Documentcode' => $anagraphical->Document->Code,
+            'Documenttype' => $anagraphical->Document->Type->Id,
         ];
 
         if (!empty($anagraphical->Id))
@@ -85,7 +89,7 @@ trait SubscriptionManager
         }
         if ($anagraphical->hasBirtPlace())
         {
-            $parameters['BirthPlace'] = $anagraphical->BirthPlace;
+            $parameters['Birthplace'] = $anagraphical->BirthPlace;
         }
 
         $result = $this->_getObjectCollection(

@@ -2,7 +2,8 @@
 
 namespace App\Repository;
 
-use Symfony\Component\Serializer\Context\Normalizer\DateTimeNormalizerContextBuilder;
+use App\Entity\ApiError;
+use Exception;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -86,11 +87,27 @@ class ApiManager
     {
         try {
             $response = $this->get(resource: $collectionName, options: $params);
-            $arr = $response->getContent();
+            $data = $response->getContent(throw: false);
             $serializer = $this->getSerializer();
+
+            if ($response->getStatusCode() >= 500)
+            {
+                $server_exception = $serializer->deserialize(
+                    data: $data, 
+                    type: ApiError::class, 
+                    format: 'json', 
+                    context: [
+                        AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
+                        AbstractNormalizer::REQUIRE_ALL_PROPERTIES => false,
+                    ],
+                );
+                throw new Exception(
+                    message: $server_exception->BuildMessage(),
+                );
+            }
     
             return $serializer->deserialize(
-                data: $arr, 
+                data: $data, 
                 type: $className . "[]", 
                 format: 'json', 
                 context: [
