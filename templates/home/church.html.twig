@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Parrocchia {{ church.Name }}{% endblock %}
-{% block description %}La Parrocchia {{ church.Name }}{% endblock %}
+{% block description %}La parrocchia {{ church.Name }} della Diocesi di Livorno{% endblock %}
 
 {% block body %}
     <div class="card">
-        <h3 class="card-title text-primary m-1">
+        <h3 class="card-title m-1">
             Parrocchia {{ church.Name }}
         </h3>
         
@@ -15,8 +15,11 @@
             {% endif %}
 
             {% if church.hasWebsite() %}
-                <a href="{{ church.Website }}" class="card-link" 
-                    target="_blank" title="Sito web della parrocchia">
+                <a href="{{ church.Website }}" 
+                    class="card-link" 
+                    target="_blank" 
+                    title="Sito web della parrocchia"
+                >
                     {{ church.Website }}
                 </a>
             {% endif %}
@@ -31,7 +34,8 @@
                         <a href="mailto:{{ staff.Email }}" 
                             class="link-secondary link-underline link-underline-opacity-0"
                             title="Scrivimi una mail"
-                            aria-label="Contatta tramite Email">
+                            aria-label="Contatta tramite Email"
+                        >
                             <twig:ux:icon name="bi:envelope-at" height="15" />
                         </a>
                     {% endif %}
@@ -40,7 +44,8 @@
                         <a href="https://wa.me/39{{ staff.Phone }}?text=Ciao,%20vorrei%20sapere%20di%20Amichiamoci" 
                             class="link-secondary link-underline link-underline-opacity-0"
                             title="Scrivimi su WhatsApp"
-                            aria-label="Contatta tramite WhatsApp">
+                            aria-label="Contatta tramite WhatsApp"
+                        >
                             <twig:ux:icon name="bi:whatsapp" height="15" />
                         </a>
                     {% endif %}
