@@ -6,9 +6,10 @@ pwa:
     name: "Amichiamoci App"
     description: "App di Amichiamoci per rimanere aggiornati sulla Manifestazione"
     short_name: "Amichiamoci"
+    categories: ['event', 'fundraising', 'sports']
     
-    start_url: './'
-    scope: '%env(APP_PATH)%'
+    scope: "/"
+    start_url: "./"
     display: "standalone"
     background_color: "#ffffff"
 
@@ -17,32 +18,50 @@ pwa:
     orientation: "portrait"
 
     icons:
-      - src: "./images/favicon.png"
+      - src: "logos/favicon.png"
         sizes: [256]
 
-    
+    #serviceworker:
+    #  enabled: true
+    #  src: "sw.js"
+    #  workbox:
+    #    asset_cache:
+    #      enabled: true
+
     shortcuts:
       - name: "Vedi la classifica"
         short_name: "Classifica"
         description: "Apri l'app direttamente sulla classifica."
-        url: "./leaderboard"
+        url: leaderboard
+        #icons:
+        #  - src: "icons/feature2-96x96.png"
+        #    sizes: [96]
 
       - name: "Partite di pallavolo"
         short_name: "Pallavolo"
         description: "Apri l'app direttamente sulle partite di pallavolo."
-        url: "./matches/pallavolo"
+        url:
+          path: matches
+          params:
+            sport: pallavolo
       
       - name: "Partite di calcio"
         short_name: "Calcio"
         description: "Apri l'app direttamente sulle partite di calcio."
-        url: "./matches/calcio"
+        url:
+          path: matches
+          params:
+            sport: calcio
 
       - name: "Partite di basket"
         short_name: "Basket"
         description: "Apri l'app direttamente sulle partite di basket."
-        url: "./matches/basket"
+        url:
+          path: matches
+          params:
+            sport: basket
 
       - name: "Profilo"
         short_name: "Profilo"
         description: "Il mio profilo."
-        url: "./profile"
+        url: profile

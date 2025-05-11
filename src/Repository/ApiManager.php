@@ -133,8 +133,8 @@ class ApiManager
 
     private static function cache_compute_key(
         string $collectionName, 
-        array $params = [],
         int $duration,
+        array $params = [],
     ): string {
         $cache_key = $collectionName;
         if (count(value: $params) !== 0)

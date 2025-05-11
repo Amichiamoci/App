@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="it-it">
+<html dir="ltr" lang="it-it">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="{% block description %} App Amichiamoci {% endblock %}" />
+    <meta name="description" content="{% block description %}App Amichiamoci{% endblock %}" />
     <meta name="keywords" content="Amichiamoci, Livorno, Chiesa, Diocesi, Giovani, Sport" />
 
     <link rel="icon" href="{{ asset('logos/favicon.png') }}" />
@@ -49,6 +49,21 @@
             {% endfor %}
 
             {% block body %}{% endblock %}
+            
+            <div class="mx-auto max-w-screen-xl text-center px-4" 
+                {{ stimulus_controller('@pwa/connection-status', {'onlineMessage': 'Sei online', 'offlineMessage': 'Connessione a internet assente!'}) }}
+            >
+                <div
+                    {{ stimulus_target('@pwa/connection-status', 'attribute') }}
+                    class="alert align-items-center online:d-none online:alert-success offline:d-flex offline:alert-warning offline:fw-bold"
+                    role="alert"
+                >
+                    <span {{ stimulus_target('@pwa/connection-status', 'message') }}>
+                        Stiamo cercando di verficiare lo stato 
+                        della connessione a internet 
+                    </span>
+                </div>
+            </div>
         </main>
 
         {% include('nav-lower.html.twig') %}
