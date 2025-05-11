@@ -4,16 +4,19 @@ namespace App\Repository;
 
 use App\Entity\TodaySaint;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class TodaySaintManager
 {
     public function __construct(
         private HttpClientInterface $client,
+        private CacheInterface $cache,
     ) {  }
 
     private const URL = 'https://www.santodelgiorno.it/santi.json';
 
-    public function Get(): array
+    private function loadFromSource(): array
     {
         try {
             $response = $this->client->request(method: 'GET', url: self::URL);
@@ -35,6 +38,17 @@ class TodaySaintManager
         } catch (\Throwable) {
             return [];
         }
+    }
+
+    public function Get(): array
+    {
+        return $this->cache->get(
+            key: 'saint-of-the-day-' . date(format: 'Y-m-d'), 
+            callback: function (ItemInterface $item): array {
+                $item->expiresAfter(time: 24 * 3600); // 1 day 
+                return $this->loadFromSource();
+            },
+        );
     }
 
     public function Default(): ?TodaySaint

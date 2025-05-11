@@ -36,7 +36,7 @@
 
             {% for flash in app.flashes('warn') %}
                 <div class="alert alert-warning d-flex align-items-center" role="alert">
-                    <twig:ux:icon name="material-symbols:warning" height="16" />
+                    {#<twig:ux:icon name="material-symbols:warning" height="16" />#}
                     <div>{{ flash }}</div>
                 </div>
             {% endfor %}

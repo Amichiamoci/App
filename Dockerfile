@@ -57,7 +57,7 @@ COPY --chown=www-data . .
 # Enable cache handling
 RUN chmod +x bin/console
 VOLUME [ "/app/var" ]
-RUN chown www-data -R /app/var && chmod -R 777 /app/var
+RUN chown -R www-data /app/var
 
 # Download packages
 RUN php bin/console importmap:install
