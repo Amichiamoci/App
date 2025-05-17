@@ -38,14 +38,14 @@ RUN composer update --no-interaction --no-progress --ignore-platform-reqs
 
 # Build the final image
 FROM base AS final
-ENV BASE_PATH=/
-ENV APP_PATH=/
 RUN mkdir -p /app
 WORKDIR /app
 
 # Enable the site in apache
 COPY ./docker_files/apache.conf /etc/apache2/sites-enabled/app.conf
 COPY ./docker_files/php.ini /usr/local/etc/php/
+COPY --chown=www-data ./docker_files/entrypoint.sh .
+RUN chmod +x ./entrypoint.sh
 
 # Move the downloaded dependencies to the actual place they need to be
 COPY --from=builder --chown=www-data /app/vendor ./vendor
@@ -56,6 +56,8 @@ COPY --chown=www-data . .
 
 # Enable cache handling
 RUN chmod +x bin/console
+
+# Volumes setup
 VOLUME [ "/app/var" ]
 RUN chown -R www-data /app/var
 
@@ -65,4 +67,4 @@ RUN php bin/console asset-map:compile
 
 # Start the server
 EXPOSE 80
-ENTRYPOINT [ "apache2ctl", "-D", "FOREGROUND" ]
+ENTRYPOINT [ "./entrypoint.sh" ]

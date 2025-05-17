@@ -80,18 +80,19 @@ trait SubscriptionManager
     public function HandleAnagraphical(
         Anagraphical $anagraphical,
         string $userId,
+        ?string $documentFile,
     ): ?Anagraphical
     {
         $parameters = [
             'Name' => $anagraphical->Name,
             'Surname' => $anagraphical->Surname,
-            'Taxcode' => $anagraphical->TaxCode,
+            'Tax-Code' => $anagraphical->TaxCode,
             'Email' => $anagraphical->Email,
-            'Birthdate' => $anagraphical->BirthDate,
+            'Birth-Date' => $anagraphical->BirthDate,
 
-            'Documentexpiration' => $anagraphical->Document->Expiration->format(format: 'Y-m-d'),
-            'Documentcode' => $anagraphical->Document->Code,
-            'Documenttype' => $anagraphical->Document->Type->Id,
+            'Document-Expiration' => $anagraphical->Document->Expiration->format(format: 'Y-m-d'),
+            'Document-Code' => $anagraphical->Document->Code,
+            'Document-Type' => $anagraphical->Document->Type->Id,
         ];
 
         if (!empty($anagraphical->Id))
@@ -104,7 +105,11 @@ trait SubscriptionManager
         }
         if ($anagraphical->hasBirtPlace())
         {
-            $parameters['Birthplace'] = $anagraphical->BirthPlace;
+            $parameters['Birth-Place'] = $anagraphical->BirthPlace;
+        }
+        if (!empty($documentFile))
+        {
+            $parameters['Document-Url'] = 'app:///' . $documentFile;
         }
 
         $result = $this->_getObjectCollection(
@@ -132,6 +137,7 @@ trait SubscriptionManager
         int $anagraphical, 
         string $userId,
         Subscription $subscription,
+        ?string $certificate = null,
     ): ?Subscription
     {
         $parameters = [
@@ -143,6 +149,10 @@ trait SubscriptionManager
         {
             // Is editing an existing subscription
             $parameters['Id'] = $subscription->Id;
+        }
+        if (!empty($certificate))
+        {
+            $parameters['Certificate'] = 'app:///' . $certificate;
         }
 
         $result = $this->_getObjectCollection(
@@ -164,13 +174,4 @@ trait SubscriptionManager
         }
         return $result[0];
     }
-
-    public function SubscriptionCertificate(
-        int $subscriptionId, 
-        string $filePath
-    ): bool
-    {
-        return false;
-    }
-
 }

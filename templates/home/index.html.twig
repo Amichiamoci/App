@@ -6,16 +6,24 @@
 {% block body %}
 
     {% for match in todayMatches %}
+        {# If it has matches is already both logged-in and subscribed #}
         {% include 'match/small.html.twig' with { 'match': match } %}
     {% else %}
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <p>
-                Nessuna partita in programma per te oggi
-            </p>
+            <div class="alert alert-info d-flex align-items-left" role="alert">
+                <p class="m-0 user-select-none">Nessuna partita in programma per te oggi.</p>
+            </div>
+
+            {# Check if it is subscribed #}
         {% else %}
-            <p>
-                Effettua il <a href="{{ path('app_login') }}" class="link-secondary">login</a> per vedere le tue partite di oggi
-            </p>
+            <div class="alert alert-warning d-flex align-items-left" role="alert">
+                <p class="m-0 user-select-none">
+                    Effettua il 
+                    <a href="{{ path('app_login') }}" class="text-reset link-underline link-underline-secondary fw-bold">login</a>
+                    per vedere le tue partite di oggi, 
+                    <strong>iscriverti</strong> e molto altro.
+                </p>
+            </div>
         {% endif %}
     {% endfor %}
 
@@ -31,8 +39,10 @@
             <div class="col">
                 <span>Oggi la Chiesa ricorda</span> 
                 {% if todaySaint.hasDescription() %}
-                    <a href="#"
+                    <a 
                         role="button" 
+                        href="#"
+                        data-turbo="false"
                         data-bs-toggle="popover" 
                         data-bs-trigger="focus" 
                         data-bs-container="body" 
@@ -40,9 +50,9 @@
                         data-bs-title="{{ todaySaint.Typology }}"
                         data-bs-content="{{ todaySaint.Description|raw }}"
                         title="Vedi dettagli"
-                        class="link-info link-underline link-underline-info link-offset-2-hover link-underline-opacity-0 link-underline-opacity-75-hover"
+                        class="text-reset link-underline link-underline-info link-offset-2-hover link-underline-opacity-0 link-underline-opacity-75-hover"
                     >
-                    {{ todaySaint.Name }}
+                        {{ todaySaint.Name }}
                     </a>        
                 {% else %}
                     <span>{{ todaySaint.Name }}, {{ todaySaint. Typology }}</span>

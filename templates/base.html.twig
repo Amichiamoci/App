@@ -50,6 +50,7 @@
 
             {% block body %}{% endblock %}
             
+            {#
             <div class="mx-auto max-w-screen-xl text-center px-4" 
                 {{ stimulus_controller('@pwa/connection-status', {'onlineMessage': 'Sei online', 'offlineMessage': 'Connessione a internet assente!'}) }}
             >
@@ -64,11 +65,12 @@
                     </span>
                 </div>
             </div>
+            #}
         </main>
 
         {% include('nav-lower.html.twig') %}
 
-        <footer class="border-top bg-body-secondary user-select-none position-fixed bottom-0 pb-1 w-100 overflow-hidden">
+        <footer class="border-top bg-body-secondary user-select-none position-fixed bottom-0 pb-1 w-100 z-3 overflow-hidden">
             {% include('footer.html.twig') %}
         </footer>
 

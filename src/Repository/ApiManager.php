@@ -162,7 +162,7 @@ class ApiManager
         string $collectionName, 
         string $className, 
         array $params = [],
-        int|false $cache = 3600,// 1h cache
+        int|bool $cache = true,
     ): array
     {
         if ($cache === false || $cache <= 0)
@@ -172,6 +172,10 @@ class ApiManager
                 className: $className, 
                 params: $params,
             );
+        }
+        if ($cache === true)
+        {
+            $cache = 3600; // 1h cache
         }
 
         return $this->cache->get(

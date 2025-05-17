@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Anagraphical;
 use App\Form\AnagraphicalFormType;
 use App\Repository\ApiManager;
+use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,53 +28,133 @@ class ProfileController extends AbstractController
         );
     }
 
-    
-    private static function certificate_handling(
-        ?UploadedFile $certificate, 
-        string $uploadDirectory,
+
+    private function anagraphical_handling(
         ApiManager $apiManager,
-        int $subscriptionId,
-    ): bool
-    {
-        if ($certificate === null || !$certificate)
-        {
-            return false;
-        }
 
-        $fileName = uniqid(more_entropy: true) . '.' . $certificate->guessExtension();
-        try {
-            $file = $certificate->move(directory: $uploadDirectory, name: $fileName);
-        } catch (FileException $e) {
-            return false;
-        }
-
-        return false;/*$apiManager->SubscriptionCertificate(
-            subscriptionId: $subscriptionId, 
-            filePath: $file->getPath() . DIRECTORY_SEPARATOR . $file->getFilename(),
-        );*/
-    }
-
-    private static function anagraphical_handling(
-        string $userId,
-        ApiManager $apiManager,
         Anagraphical $anagraphical,
         ?Anagraphical $original = null,
-        ?UploadedFile $document = null,
+
+        ?string $uploadDirectory = null,
     ): ?Anagraphical {
-        if ($original === null || $anagraphical !== $original)
-        {
-            $anagraphical = $apiManager->HandleAnagraphical(
-                anagraphical: $anagraphical,
-                userId: $userId,
-            );
-        }
         if ($anagraphical === null)
         {
-            return null;
+            throw new InvalidArgumentException(
+                message: 'È necessario fornire dei dati.',
+            );
+        }
+        if ($uploadDirectory === null)
+        {
+            throw new InvalidArgumentException(
+                message: 'Directory dove salvare temporaneamente il file non fornita.',
+            );
         }
 
+        if ($original === null && !$anagraphical->Document->hasFile())
+        {
+            // We are creating the data, but a document was not provided
 
-        return null;
+            throw new InvalidArgumentException(
+                message: 'È necessario fornire un proprio documento quando si creano i propri dati.',
+            );
+        }
+        $document = $anagraphical->Document->getFile();
+
+        $file_name = null;
+        if ($document !== null)
+        {
+            $ext = '.' . $document->guessExtension();
+            $file_name = 'document-' . uniqid(more_entropy: true) . $ext;
+            try {
+                $document->move(directory: $uploadDirectory, name: $file_name);
+            } catch (FileException) {
+                return null;
+            }
+        }
+
+        if ($original === null || $anagraphical !== $original || !empty($file_name))
+        {
+            // We are creating the data or making changes to existing
+
+            $anagraphical = $apiManager->HandleAnagraphical(
+                anagraphical: $anagraphical,
+                userId: $this->getUser()->getUserIdentifier(),
+                documentFile: $file_name,
+            );
+
+            if ($anagraphical === null)
+            {
+                // The update went wrong
+                return null;
+            }
+        }
+
+        if (!$anagraphical->hasSubscription())
+        {
+            return $anagraphical;
+        }
+
+        if ($anagraphical->Subscription->hasCertificate())
+        {
+            $ext = '.' . $anagraphical->Subscription->Certificate->guessExtension();
+            $file_name = 'certificate-' . uniqid(more_entropy: true) . $ext;
+            try {
+                $anagraphical->Subscription->Certificate->move(directory: $uploadDirectory, name: $file_name);
+            } catch (FileException) {
+
+                $this->addFlash(
+                    type: 'warn', 
+                    message: 'È avvenuto un errore durante il caricamento del certificato. Si prega di riprovare più tardi',
+                );
+                $anagraphical->Subscription->Certificate = null;
+            }
+        }
+        $anagraphical->Subscription = $apiManager->HandleSubscription(
+            anagraphical: $anagraphical->Id, 
+            userId: $this->getUser()->getUserIdentifier(),
+            subscription: $anagraphical->Subscription,
+            certificate: $file_name,
+        );
+        if (!$anagraphical->hasSubscription())
+        {
+            // Subscription hadling went wrong
+
+            if ($original->hasSubscription())
+            {
+                $this->addFlash(
+                    type: 'error', 
+                    message: 'Non è stato possibile modificare l\'iscrizione. Riprova più tardi',
+                );
+            } else {
+                $this->addFlash(
+                    type: 'success', 
+                    message: 'Non è stato possibile creare l\'iscrizione. Riprova più tardi',
+                );
+            }
+            return $anagraphical;
+        }
+        if (!$original->hasSubscription() && !$anagraphical->Subscription->hasCertificate())
+        {
+            $this->addFlash(
+                type: 'warn', 
+                message: 'L\'iscrizione è stata effettuata, tuttavia un certificato non è stato presentato. Non sarà possibile scendere in campo fino ache il certificato non sarà caricato',
+            );
+        }
+
+        if ($original->hasSubscription())
+        {
+            $this->addFlash(
+                type: 'success', 
+                message: 'Iscrizione modificata correttamente',
+            );
+        } else {
+            $this->addFlash(
+                type: 'success', 
+                message: 'Iscrizione modificata correttamente',
+            );
+        }
+
+        return $anagraphical;
     }
     
     #[Route(path: '/profile/get_involved/{id}', name: 'get_involved')]
@@ -81,7 +162,7 @@ class ProfileController extends AbstractController
         ApiManager $apiManager, 
         Request $request,
         int $id,
-        #[Autowire('%kernel.project_dir%/public/uploads/certificates')] string $uploadDirectory
+        #[Autowire('%kernel.project_dir%/var/uploads')] string $uploadDirectory
     ): Response
     {
         $anagraphical = array_find(
@@ -96,7 +177,7 @@ class ProfileController extends AbstractController
             throw $this->createAccessDeniedException(message: 'Dati non trovati o non accessibili');
         }
 
-        $origina_anagraphical = clone $anagraphical;
+        $original_anagraphical = clone $anagraphical;
         $form = $this->createForm(
             type: AnagraphicalFormType::class, 
             data: $anagraphical,
@@ -127,46 +208,18 @@ class ProfileController extends AbstractController
             }
 
             $anagraphical->reverseTaxCode();
-            $apiManager->HandleAnagraphical(
+            $anagraphical = $this->anagraphical_handling(
+                apiManager: $apiManager,
+                
                 anagraphical: $anagraphical,
-                userId: $this->getUser()->getUserIdentifier(),
-            );
-            // TODO: handle anagraphical document update
-            
-            $subscription = $apiManager->HandleSubscription(
-                anagraphical: $anagraphical->Id, 
-                userId: $this->getUser()->getUserIdentifier(),
-                subscription: $anagraphical->Subscription,
-            );
-            if ($subscription !== null)
-            {
-                /**
-                 * @var ?UploadedFile
-                 */
-                $certificate = $form->has(name: 'certificate') ? 
-                    $form->get(name: 'certificate')->getData() : 
-                    null
-                ;
-                $certificate_uploaded = self::certificate_handling(
-                    certificate: $certificate, 
-                    uploadDirectory: $uploadDirectory,
-                    apiManager: $apiManager,
-                    subscriptionId: $subscription->getId(),
-                );
+                original: $original_anagraphical,
 
-                if ($certificate_uploaded) {
-                    $this->addFlash(
-                        type: 'success', 
-                        message: 'Iscrizione correttamente effettuata con certificato',
-                    );
-                } else {
-                    $this->addFlash(
-                        type: 'warn', 
-                        message: 'L\'iscrizione è stata effettuata, tuttavia il certificato non è stato consegnato: senza di esso non è possibile partecipare alle attività sportive.',
-                    );
-                }
+                uploadDirectory: $uploadDirectory,
+            );
+            if ($anagraphical !== null)
+            {
                 return $this->redirectToRoute(route: 'profile');
-            } 
+            }
 
             $this->addFlash(
                 type: 'error', 

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 use App\Entity\Church\Church;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Subscription
@@ -23,4 +24,8 @@ class Subscription
 
     public Church $Church;
     public function getChurch(): Church { return $this->Church; }
+    
+    public ?UploadedFile $Certificate = null;
+    public function hasCertificate(): bool { return $this->Certificate !== null; }
+    public function getCertificate(): ?UploadedFile { return $this->Certificate; }
 }

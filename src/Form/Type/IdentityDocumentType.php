@@ -42,18 +42,30 @@ class IdentityDocumentType extends AbstractType
                     'class' => 'form-floating mb-2',
                 ],
             ])
-            ->add(child: 'DocumentFile', type: FileType::class, options: [
-                'mapped' => false,
+            ->add(child: 'File', type: FileType::class, options: [
+                //'mapped' => false,
                 'required' => false,
                 'label' => 'File Documento',
                 'constraints' => [
                     new File(options: [
                         'maxSize' => '64M',
                         'mimeTypes' => [
+                            // PDF types
                             'application/pdf',
                             'application/x-pdf',
+                            
+                            // Word and PowerPoint types
+                            'application/msword',
+                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                            'application/vnd.ms-powerpoint',
+                            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+
+                            // Image types
                             'image/jpeg',
                             'image/png',
+                            'image/avif',
+                            'image/tiff',
+                            'image/webp',
                         ],
                         'mimeTypesMessage' => 'Per favore, invia un file PDF, immagine o Documento Word',
                     ])
@@ -64,6 +76,9 @@ class IdentityDocumentType extends AbstractType
                 'row_attr' => [
                     'class' => 'form-floating mb-2',
                 ],
+                'post_max_size_message' => 'File troppo grande!',
+                'invalid_message' => 'Per favore, seleziona un file tra i tipi consentiti',
+                'help' => 'Carica un PDF, un\'immagine o un documento Word',
             ])
         ;
     }
@@ -72,6 +87,8 @@ class IdentityDocumentType extends AbstractType
     {
         $resolver->setDefaults(defaults: [
             'data_class' => IdentityDocument::class,
+            'allow_extra_fileds' => true,
+            'allow_file_upload' => true,
         ]);
         $resolver->setDefault(option: 'document_types', value: []);
     }

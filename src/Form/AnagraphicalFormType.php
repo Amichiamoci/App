@@ -123,6 +123,8 @@ class AnagraphicalFormType extends AbstractType
         $resolver->setDefault(option: 'anagraphical_only', value: false);
         $resolver->setDefaults(defaults: [
             'data_class' => Anagraphical::class,
+            'allow_extra_fileds' => true,
+            'allow_file_upload' => true,
         ]);
     }
 }

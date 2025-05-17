@@ -6,7 +6,6 @@ services:
     restart: always
     env_file:  ../.env.local
     volumes:
-      - ./uploads:/app/content/uploads:rw
       - ../var:/app/var:rw
     ports:
       - 80:80

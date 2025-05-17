@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Entity;
+
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class IdentityDocument
@@ -21,4 +23,8 @@ class IdentityDocument
         return $this->Expiration->format(format: 'd/m/Y');
     }
     public IdentityDocumentType $Type;
+
+    public ?UploadedFile $File = null;
+    public function hasFile(): bool { return $this->File !== null; }
+    public function getFile(): ?UploadedFile { return $this->File; }
 }
