@@ -23,6 +23,7 @@ class ChurchType extends AbstractType
                 'row_attr' => [
                     'class' => 'form-floating mb-2',
                 ],
+                'invalid_message' => 'Per favore, scegli una parrocchia tra le proposte',
             ])
         ;
     }

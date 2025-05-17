@@ -22,6 +22,7 @@ class IdentityDocumentTypeType extends AbstractType
                 'row_attr' => [
                     'class' => 'form-floating mb-2',
                 ],
+                'invalid_message' => 'Per favore, seleziona una tipologia di documento',
             ])
         ;
     }
@@ -41,9 +42,9 @@ class IdentityDocumentTypeType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(defaults: [
             'data_class' => DocumentType::class,
         ]);
-        $resolver->setDefault('document_types', []);
+        $resolver->setDefault(option: 'document_types', value: []);
     }
 }

@@ -30,6 +30,7 @@ class IdentityDocumentType extends AbstractType
                 'row_attr' => [
                     'class' => 'form-floating mb-2',
                 ],
+                'invalid_message' => 'Per favore, indica il codice o il numero del tuo documento',
             ])
             ->add(child: 'Expiration', type: DateType::class, options: [
                 'required' => true,
@@ -41,10 +42,10 @@ class IdentityDocumentType extends AbstractType
                 'row_attr' => [
                     'class' => 'form-floating mb-2',
                 ],
+                'invalid_message' => 'Per favore, seleziona una data di scadenza valida e non nel passato',
             ])
             ->add(child: 'File', type: FileType::class, options: [
-                //'mapped' => false,
-                'required' => false,
+                'required' => $options['require_file'],
                 'label' => 'File Documento',
                 'constraints' => [
                     new File(options: [
@@ -78,7 +79,7 @@ class IdentityDocumentType extends AbstractType
                 ],
                 'post_max_size_message' => 'File troppo grande!',
                 'invalid_message' => 'Per favore, seleziona un file tra i tipi consentiti',
-                'help' => 'Carica un PDF, un\'immagine o un documento Word',
+                'help' => 'Carica un unico PDF, un\'immagine o un documento Word. Un documento di riconoscimento contiene la tua foto',
             ])
         ;
     }
@@ -91,5 +92,6 @@ class IdentityDocumentType extends AbstractType
             'allow_file_upload' => true,
         ]);
         $resolver->setDefault(option: 'document_types', value: []);
+        $resolver->setDefault(option: 'require_file', value: false);
     }
 }

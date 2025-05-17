@@ -32,6 +32,7 @@ class AnagraphicalFormType extends AbstractType
                 'row_attr' => [
                     'class' => 'form-floating mb-2',
                 ],
+                'invalid_message' => 'Per favore, indica un nome',
             ])
             ->add(child: 'Surname', type: TextType::class, options: [
                 'required' => true,
@@ -42,6 +43,7 @@ class AnagraphicalFormType extends AbstractType
                 'row_attr' => [
                     'class' => 'form-floating mb-2',
                 ],
+                'invalid_message' => 'Per favore, indica un cognome',
             ])
             ->add(child: 'TaxCode', type: TextType::class, options: [
                 'required' => true,
@@ -59,6 +61,7 @@ class AnagraphicalFormType extends AbstractType
                         message: 'Codice Fiscale non valido',
                     ),
                 ],
+                'invalid_message' => 'Per favore, indica un codice fiscale valido',
             ])
             ->add(child: 'BirthDate', type: HiddenType::class, options: [
                 'required' => false,
@@ -66,6 +69,7 @@ class AnagraphicalFormType extends AbstractType
             ->add(child: 'BirthPlace', type: HiddenType::class, options: [
                 'required' => false,
             ])
+            /*
             ->add(child: 'Email', type: EmailType::class, options: [
                 'required' => true,
                 'label' => 'Email',
@@ -77,41 +81,44 @@ class AnagraphicalFormType extends AbstractType
                     'class' => 'form-floating mb-2',
                 ],
             ])
+            */
+            ->add(child: 'Email', type: HiddenType::class, options: [
+                'required' => false, // Will be set in the controller by user account
+            ])
             ->add(child: 'Phone', type: TelType::class, options: [
                 'required' => false,
-                'label' => 'Telefono',
+                'label' => 'Telefono (opzionale)',
                 'attr' => [
                     'placeholder' => '314 159 2653',
                 ],
                 'row_attr' => [
                     'class' => 'form-floating mb-2',
                 ],
+                //'help' => 'Questo campo è opzionale',
             ])
 
             ->add(child: 'Document', type: IdentityDocumentType::class, options: [
                 'label' => false,
                 'required' => true,
                 'document_types' => $options['document_types'],
+                'require_file' => (bool)$options['anagraphical_only']
             ])
         ;
 
-        if ($options['anagraphical_only'])
+        if (!$options['anagraphical_only'])
         {
-            $builder
-                ->add(child: 'signup', type: SubmitType::class, options: [
-                    'label' => 'Invia i dati'
-                ]);
-        } else {
             $builder
                 ->add(child: 'Subscription', type: SubscribeType::class, options: [
                     'label' => false,
                     'required' => true,
                     'churches' => $options['churches'],
-                ])
-                ->add(child: 'subscribe', type: SubmitType::class, options: [
-                    'label' => 'Iscriviti'
                 ]);
         }
+
+        $builder
+            ->add(child: 'signup', type: SubmitType::class, options: [
+                'label' => 'Invia i dati',
+            ]);
 
         $builder->setMethod(method: 'POST');
     }

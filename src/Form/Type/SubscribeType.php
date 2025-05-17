@@ -38,6 +38,7 @@ class SubscribeType extends AbstractType
                 'row_attr' => [
                     'class' => 'form-floating mb-2',
                 ],
+                'invalid_message' => 'Per favore, scegli una taglia tra le seguenti',
             ])
             ->add(child: 'Church', type: ChurchType::class, options: [
                 'required' => true,
@@ -66,6 +67,9 @@ class SubscribeType extends AbstractType
                 'row_attr' => [
                     'class' => 'form-floating mb-2',
                 ],
+                'post_max_size_message' => 'File troppo grande!',
+                'invalid_message' => 'Per favore, seleziona un file tra i tipi consentiti',
+                'help' => 'Carica un unico PDF, un\'immagine o un documento Word. Il certificato medico può anche essere caricato in futuro. Per giocare, è richiesto un certificato medico sportivo almeno di livello non agonistico',
             ])
         ;
     }

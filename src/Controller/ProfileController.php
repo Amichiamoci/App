@@ -75,7 +75,7 @@ class ProfileController extends AbstractController
         if ($original === null || $anagraphical !== $original || !empty($file_name))
         {
             // We are creating the data or making changes to existing
-
+            $_s = $anagraphical->Subscription;
             $anagraphical = $apiManager->HandleAnagraphical(
                 anagraphical: $anagraphical,
                 userId: $this->getUser()->getUserIdentifier(),
@@ -87,6 +87,7 @@ class ProfileController extends AbstractController
                 // The update went wrong
                 return null;
             }
+            $anagraphical->Subscription = $_s;
         }
 
         if (!$anagraphical->hasSubscription())
@@ -207,7 +208,11 @@ class ProfileController extends AbstractController
                 throw $this->createAccessDeniedException(message: 'Dati non trovati o non accessibili');
             }
 
+            // Load fields not visible to user
             $anagraphical->reverseTaxCode();
+            $anagraphical->Email = $this->getUser()->getUserIdentifier();
+
+            // Stuff really happens here
             $anagraphical = $this->anagraphical_handling(
                 apiManager: $apiManager,
                 
@@ -243,19 +248,17 @@ class ProfileController extends AbstractController
         ApiManager $apiManager,
         Request $request,
         ?int $id = null,
+        #[Autowire('%kernel.project_dir%/var/uploads')] string $uploadDirectory,
     ): Response
     {
-        $anagraphical = null;
+        $anagraphical = array_find(
+            array: $apiManager->ManagedAnagraphicals(email: $this->getUser()->getUserIdentifier()),
+            callback: function (Anagraphical $a) use ($id): bool {
+                return $a->Id === $id;
+            },
+        );
 
-        if (!empty($id))
-        {
-            $anagraphical = array_find(
-                array: $apiManager->ManagedAnagraphicals(email: $this->getUser()->getUserIdentifier()),
-                callback: function (Anagraphical $a) use ($id): bool {
-                    return $a->Id === $id;
-                }
-            );
-        }
+        $original_anagraphical = clone $anagraphical;
         $form = $this->createForm(
             type: AnagraphicalFormType::class, 
             data: $anagraphical,
@@ -263,23 +266,60 @@ class ProfileController extends AbstractController
                 'document_types' => $apiManager->DocumentTypes(),
                 'churches' => $apiManager->Churches(),
                 'anagraphical_only' => true,
+                'action' => $this->generateUrl(
+                    route: 'signup', 
+                    parameters: ['id' => $id],
+                ),
             ]
         );
         $form->handleRequest(request: $request);
 
+        $status_code = $form->isSubmitted() && !$form->isValid() ? 422 : 200;
+
         if ($form->isSubmitted() && $form->isValid())
         {
-            // TODO: handle anagraphical changes
+            /**
+             * @var Anagraphical
+             */
+            $anagraphical = $form->getData();
+            if ($anagraphical->Id !== $id)
+            {
+                // Tried to change the target id
+                throw $this->createAccessDeniedException(message: 'Dati non trovati o non accessibili');
+            }
 
-            return $this->redirectToRoute(route: 'profile');
+            // Load fields not visible to user
+            $anagraphical->reverseTaxCode();
+            $anagraphical->Email = $this->getUser()->getUserIdentifier();
+
+            // Stuff really happens here
+            $anagraphical = $this->anagraphical_handling(
+                apiManager: $apiManager,
+                
+                anagraphical: $anagraphical,
+                original: $original_anagraphical,
+
+                uploadDirectory: $uploadDirectory,
+            );
+            if ($anagraphical !== null)
+            {
+                return $this->redirectToRoute(route: 'profile');
+            }
+
+            $this->addFlash(
+                type: 'error', 
+                message: 'Non è stato possibile caricare i dati anagrafici. Si prega di riprova più tardi',
+            );
+            $status_code = 500;
         }
 
         return $this->render(
             view: 'profile/subscribe.html.twig', 
             parameters: [
-                'form' => $form->createView(),
+                'form' => $form,
                 'title' => empty($id) ? 'Aggiungi i tuoi dati' : 'Modifica i tuoi dati'
             ],
+            response: new Response(content: null, status: $status_code),
         );
     }
 }
