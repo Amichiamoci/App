@@ -59,16 +59,41 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     //        ;
     //    }
 
+    /**
+     * Finds all the users with the specified role
+     * @param string $role The role we want to search for (case insensitive)
+     * @return array
+     */
     public function findByRole(string $role): array
     {
-        $qb = $this->createQueryBuilder(alias: 'u');
+        // Filter the string for annoying characters
+        $role = strtoupper(string: $role);
+        $role = str_replace(search: '"', replace: '', subject: $role);
+        $role = trim(string: $role);
 
-        $qb
-            ->andWhere(where: $qb->expr()->like(x: 'u.roles', y: ':role'))
-            ->setParameter(key: 'role', value: '%'.$role.'%');
+        // Role everyone has -> it's not stored in db
+        if ($role === 'ROLE_USER')
+        {
+            return $this->findAll();
+        }
 
-        return $qb
+        $builder = $this ->createQueryBuilder(alias: 'u');
+        $query = $builder
+            ->Where($builder->expr()->like(x: 'u.roles', y: ':role'))
+            //->andWhere(...)
+            ->setParameter(key: 'role', value: '%'.$role.'%')
             ->getQuery()
-            ->getResult();
+        ;
+
+        return $query->getResult();
+    }
+
+    /**
+     * Finds all users that have logged in at least once with an external provider
+     * @return array
+     */
+    public function findOauthUsers(): array
+    {
+        return $this->findByRole(role: User::EXTERNAL_PROVIDER);
     }
 }

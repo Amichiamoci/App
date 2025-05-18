@@ -16,7 +16,10 @@
                     <p class="m-0 user-select-none">
                         {{ app.user.getName() }}, non sei ancora iscritto ad Amichiamoci!<br />
                         Rimedia subito 
-                        <a href="{{ path('profile') }}" class="link-underline link-underline-opacity-75 fw-bold">qui</a>
+                        <a href="{{ path('profile') }}" 
+                            class="link-underline link-underline-opacity-75 fw-bold"
+                            title="Vai al tuo profilo"
+                        >qui</a>.
                     </p>
                 </div>
             {% else %}
@@ -35,9 +38,7 @@
                     <a href="{{ path('app_login') }}" 
                         class="text-reset link-underline link-underline-secondary fw-bold"
                         title="Accedi"
-                    >
-                        login
-                    </a>
+                    >login</a>
                     per vedere le tue partite di oggi, 
                     <strong>iscriverti</strong> e molto altro.
                 </p>
