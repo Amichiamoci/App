@@ -50,11 +50,18 @@
             </dt>
             <dd class="col-sm-8">
                 {% if anagraphical.hasEmail() %}
-                    <a class="text-reset" 
-                        href="mailto:{{ anagraphical.Email }}"
-                    >
-                        {{ anagraphical.Email }}
-                    </a>
+                    {% if app.user.isReferee() %}
+                        <a class="text-reset link-underline link-underline-opacity-0" 
+                            href="mailto:{{ anagraphical.Email }}"
+                            title="Invia un'email a {{ anagraphical.Name }}"
+                        >
+                            {{ anagraphical.Email }}
+                        </a>
+                    {% else %}
+                        <span class="user-select-none font-monospace">
+                            {{ anagraphical.Email }}
+                        </span>
+                    {% endif %}
                 {% else %}
                     Mancante
                 {% endif %}
@@ -66,11 +73,18 @@
                     Telefono
                 </dt>
                 <dd class="col-sm-8">
-                    <a class="text-reset" 
-                        href="tel:{{ anagraphical.Phone }}"
-                    >
-                        {{ anagraphical.Phone }}
-                    </a>
+                    {% if app.user.isReferee() %}
+                        <a class="text-reset link-underline link-underline-opacity-0" 
+                            href="{{ anagraphical.PhoneLinkHref }}"
+                            title="Invia un messaggio a {{ anagraphical.Name }}"
+                        >
+                            {{ anagraphical.Phone }}
+                        </a>
+                    {% else %}
+                        <span class="user-select-none font-monospace">
+                            {{ anagraphical.Phone }}
+                        </span>
+                    {% endif %}
                 </dd>
             {% endif %}
 

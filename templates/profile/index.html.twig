@@ -36,13 +36,57 @@
     {% for anagraphical in anagraphicals %}
         {% include '/profile/anagraphical.html.twig' with { 'anagraphical': anagraphical } %}
     {% else %}
-        <hr />
-        <p>
-            Nessuna anagrafica associata alla mail corrente.<br>
-            Se hai partecipato alle ultime edizioni e non vedi qui i tuoi dati
-            contatta uno staffista: è possibile che, nelle tue iscrizioni passate, tu non abbia
-            comunicato un'email oppure tu abbia comunicato un'email diversa da {{ app.user.email }}.
-        </p>
+        <div class="alert alert-info d-flex align-items-left" role="alert">
+            <p class="m-0 user-select-none">
+                Nessuna anagrafica associata alla mail corrente.<br />
+                Se hai partecipato alle ultime edizioni e non vedi qui i tuoi dati
+                contatta uno staffista: è possibile che, nelle tue iscrizioni passate, tu non abbia
+                comunicato un'email oppure tu abbia comunicato un'email diversa da 
+                {{ app.user.email }}.
+            </p>
+        </div>
     {% endfor %}
+
+    <div class="card m-1 mb-3">
+        <div class="card-body">
+            <h3 class="card-title user-select-none">
+                Aggiungi nuovi dati
+            </h3>
+
+            <p class="m-0">
+                I dati saranno associati all'email 
+                <span class="font-monospace user-select-none">{{ app.user.email }}</span>,
+                solo con questo account sarà possibile modificarli in futuro.<br />
+
+                In caso di iscrizione di un <strong>minore</strong> è necessario che 
+            </p>
+            <ol class="list-group list-group-numbered list-group-flush m-0">
+                <li class="list-group-item pe-0 d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        Un genitore o un tutore fornisca i dati tramite la stessa procedura
+                    </div>
+                </li>
+                <li class="list-group-item pe-0 d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        Il nome del genitore o del tutore venga comunicato
+                        ad uno staffista della propria parrocchia, in modo che questo possa
+                        associare i dati di genitore (o tutore) a quelli del/della figlio/a.
+                    </div>
+                </li>
+                <li class="list-group-item pe-0 d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        Un genitore, una volta associato potrà modificare i dati
+                        del/della figlio/a tramite il suo account e fornire eventuali
+                        documenti mancanti (come il certificato medico).
+                    </div>
+                </li>
+            </ol>
+    
+            <a href="{{ path('signup') }}" class="btn btn-primary m-2">
+                <span>Aggiungi nuovi dati</span>
+                <twig:ux:icon name="bitcoin-icons:sign-outline" height="17" />
+            </a>
+        </div>
+    </div>    
 
 {% endblock %}

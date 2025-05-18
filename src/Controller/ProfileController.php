@@ -247,8 +247,9 @@ class ProfileController extends AbstractController
     public function signup(
         ApiManager $apiManager,
         Request $request,
-        ?int $id = null,
         #[Autowire('%kernel.project_dir%/var/uploads')] string $uploadDirectory,
+
+        ?int $id = null,
     ): Response
     {
         $anagraphical = array_find(
@@ -258,7 +259,7 @@ class ProfileController extends AbstractController
             },
         );
 
-        $original_anagraphical = clone $anagraphical;
+        $original_anagraphical = $anagraphical !== null ? (clone $anagraphical) : null;
         $form = $this->createForm(
             type: AnagraphicalFormType::class, 
             data: $anagraphical,

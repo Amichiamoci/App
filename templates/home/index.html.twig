@@ -4,38 +4,46 @@
 {% block description %}L'app di Amichiamoci{% endblock %}
 
 {% block body %}
-
     {% for match in todayMatches %}
         {# If it has matches is already both logged-in and subscribed #}
         {% include 'match/small.html.twig' with { 'match': match } %}
     {% else %}
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <div class="alert alert-info d-flex align-items-left" role="alert">
-                <p class="m-0 user-select-none">Nessuna partita in programma per te oggi.</p>
-            </div>
-
-            {# Check if it is subscribed #}
+            {# User is logged in but there are no matches for him/her today #}
+            {% if showSubscriptionReminder %}
+                {# There are no matches because it is not subscribed #}
+                <div class="alert alert-primary d-flex align-items-left" role="alert">
+                    <p class="m-0 user-select-none">
+                        {{ app.user.getName() }}, non sei ancora iscritto ad Amichiamoci!<br />
+                        Rimedia subito 
+                        <a href="{{ path('profile') }}" class="link-underline link-underline-opacity-75 fw-bold">qui</a>
+                    </p>
+                </div>
+            {% else %}
+                {# Simply there aren't matches today for him/her #}
+                <div class="alert alert-info d-flex align-items-left" role="alert">
+                    <p class="m-0 user-select-none">
+                        Nessuna partita in programma per te oggi.
+                    </p>
+                </div>
+            {% endif %}
         {% else %}
+            {# User is not logged-in (that's why we couldn't load any matches) #}
             <div class="alert alert-warning d-flex align-items-left" role="alert">
                 <p class="m-0 user-select-none">
                     Effettua il 
-                    <a href="{{ path('app_login') }}" class="text-reset link-underline link-underline-secondary fw-bold">login</a>
+                    <a href="{{ path('app_login') }}" 
+                        class="text-reset link-underline link-underline-secondary fw-bold"
+                        title="Accedi"
+                    >
+                        login
+                    </a>
                     per vedere le tue partite di oggi, 
                     <strong>iscriverti</strong> e molto altro.
                 </p>
             </div>
         {% endif %}
     {% endfor %}
-
-    {% if showSubscriptionReminder %}
-        <div class="alert alert-primary d-flex align-items-left" role="alert">
-            <p class="m-0 user-select-none">
-                {{ app.user.getName() }}, non sei ancora iscritto ad Amichiamoci!<br />
-                Rimedia subito 
-                <a href="{{ path('profile') }}" class="link-underline link-underline-opacity-75 fw-bold">qui</a>
-            </p>
-        </div>
-    {% endif %}
 
     {% if problematicSubscriptionsCount == 1 %}
         <div class="alert alert-warning d-flex align-items-left" role="alert">
@@ -48,7 +56,7 @@
     {% elseif problematicSubscriptionsCount > 1 %}
         <div class="alert alert-warning d-flex align-items-left" role="alert">
             <p class="m-0 user-select-none">
-                {{ problematicSubscriptionsCount }}, delle iscrizioni associate a questo account
+                {{ problematicSubscriptionsCount }} delle iscrizioni associate a questo account
                 presentano problemi.<br />
                 Controllale 
                 <a href="{{ path('profile') }}" class="text-reset fw-bold">qui</a>

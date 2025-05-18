@@ -11,6 +11,7 @@ use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Repository\ApiManager;
 
 class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInterface
 {
@@ -18,6 +19,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         private readonly UserRepository $userRepository,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
         private readonly EntityManagerInterface $entityManager,
+        private readonly ApiManager $apiManager,
     ) { }
 
     public function loadUserByUsername(string $username): UserInterface
@@ -58,7 +60,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
 
         return $refreshedUser;
     }
-
+    
     public function loadUserByOAuthUserResponse(UserResponseInterface $response): UserInterface
     {
         try {
@@ -78,6 +80,16 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
 
         $user->setVerified(isVerified: true);
         $user->addRole(role: User::EXTERNAL_PROVIDER);
+
+        $external_claims = $this->apiManager->CheckClaims(email: $user->getEmail());
+        if ($external_claims->Admin)
+        {
+            $user->addRole(role: User::ADMIN);
+        }
+        if ($external_claims->Referee)
+        {
+            $user->addRole(role: User::REFEREE);
+        }
 
         // Generate a random password that the user won't know
         $user->setPassword(

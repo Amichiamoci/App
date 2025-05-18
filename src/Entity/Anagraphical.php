@@ -36,6 +36,26 @@ class Anagraphical
     public function hasEmail(): bool { return is_string(value: $this->Email) && strlen(string: trim(string: $this->Email)) > 0; }
     public function hasPhone(): bool { return is_string(value: $this->Phone) && strlen(string: trim(string: $this->Phone)) > 0; }
 
+    public function getPhoneLinkHref(): ?string
+    {
+        if (!$this->hasPhone())
+        {
+            return null;
+        }
+        $number = str_replace(search: ' ', replace: '', subject: $this->Phone);
+        if (str_starts_with(haystack: $number, needle: "+39"))
+        {
+            // Remove italian +39 prefix
+            $number = substr(string: $number, offset: 3);
+        }
+        if (str_starts_with(haystack: $number, needle: '+'))
+        {
+            // Other prefixes, just use tel: protocol
+            return "tel:$number";
+        }
+        return "https://wa.me/$number";
+    }
+
     public ?string $BirthDate = null;
     public function hasBirtDate(): bool { return is_string(value: $this->BirthDate) && strlen(string: trim(string: $this->BirthDate)) > 0; }
     public function getBirthDate(): ?string { return $this->BirthDate; }
