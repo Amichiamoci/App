@@ -20,18 +20,20 @@ class HomeController extends AbstractController
     {
         $todayMatches = [];
         $user = $this->getUser();
+        $show_sub_reminder = false;
+        $subscription_problems = 0;
         if ($user !== null)
         {
             $todayMatches = $apiManager->TodayMatchesOfUser(email: $user->getUserIdentifier());
-            if (!$apiManager->IsSubscribedOrParentOfSubscribed(email: $user->getUserIdentifier()))
-            {
-
-            }
+            $show_sub_reminder = !$apiManager->IsSubscribedOrParentOfSubscribed(email: $user->getUserIdentifier());
+            $subscription_problems = $apiManager->SubscriptionsWithProblems(email: $user->getUserIdentifier());
         }
         return $this->render(view: 'home/index.html.twig', parameters: [
             'todayMatches' => $todayMatches,
             'todaySaint' => $todaySaintManager->Default(),
             'leaderboard' => $apiManager->Leaderboard(),
+            'showSubscriptionReminder' => $show_sub_reminder,
+            'problematicSubscriptionsCount' => $subscription_problems,
         ]);
     }
 

@@ -27,6 +27,35 @@
         {% endif %}
     {% endfor %}
 
+    {% if showSubscriptionReminder %}
+        <div class="alert alert-primary d-flex align-items-left" role="alert">
+            <p class="m-0 user-select-none">
+                {{ app.user.getName() }}, non sei ancora iscritto ad Amichiamoci!<br />
+                Rimedia subito 
+                <a href="{{ path('profile') }}" class="link-underline link-underline-opacity-75 fw-bold">qui</a>
+            </p>
+        </div>
+    {% endif %}
+
+    {% if problematicSubscriptionsCount == 1 %}
+        <div class="alert alert-warning d-flex align-items-left" role="alert">
+            <p class="m-0 user-select-none">
+                {{ app.user.getName() }}, c'è un problema con la tua iscrizione!<br />
+                Controlla i tuoi dati  
+                <a href="{{ path('profile') }}" class="text-reset fw-bold">qui</a>
+            </p>
+        </div>
+    {% elseif problematicSubscriptionsCount > 1 %}
+        <div class="alert alert-warning d-flex align-items-left" role="alert">
+            <p class="m-0 user-select-none">
+                {{ problematicSubscriptionsCount }}, delle iscrizioni associate a questo account
+                presentano problemi.<br />
+                Controllale 
+                <a href="{{ path('profile') }}" class="text-reset fw-bold">qui</a>
+            </p>
+        </div>
+    {% endif %}
+
     {% if leaderboard %}
         <h2 class="h2">
             Classifica corrente

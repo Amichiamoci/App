@@ -62,6 +62,23 @@ trait SubscriptionManager
         );
     }
 
+    
+    /**
+     * Returns true if the current email is associted to a subscribed person
+     * or to a parent of a subscribed person
+     * @param string $email The email to check for, case INSENSITIVE
+     * @return bool
+     */
+    public function SubscriptionsWithProblems(string $email): int
+    {
+        return count(value: array_filter(
+            array: $this->ManagedAnagraphicals($email), 
+            callback: function (Anagraphical $a): bool {
+                return $a->hasSubscription() && $a->hasStatus();
+            },
+        ));
+    }
+
     /**
      * Returns true if the current email is associted to a subscribed person
      * @param string $email The email to check for, case INSENSITIVE
