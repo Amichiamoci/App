@@ -71,31 +71,4 @@
         </h2>
         {% include 'home/leaderboard/block.html.twig' with { 'leaderboard': leaderboard } %}
     {% endif %}
-
-    {% if todaySaint %}
-        <div class="row user-select-none">
-            <div class="col">
-                <span>Oggi la Chiesa ricorda</span> 
-                {% if todaySaint.hasDescription() %}
-                    <a 
-                        role="button" 
-                        href="#"
-                        data-turbo="false"
-                        data-bs-toggle="popover" 
-                        data-bs-trigger="focus" 
-                        data-bs-container="body" 
-                        data-bs-placement="top" 
-                        data-bs-title="{{ todaySaint.Typology }}"
-                        data-bs-content="{{ todaySaint.Description|raw }}"
-                        title="Vedi dettagli"
-                        class="text-reset link-underline link-underline-info link-offset-2-hover link-underline-opacity-0 link-underline-opacity-75-hover"
-                    >
-                        {{ todaySaint.Name }}
-                    </a>        
-                {% else %}
-                    <span>{{ todaySaint.Name }}, {{ todaySaint. Typology }}</span>
-                {% endif %}
-            </div>
-        </div>
-    {% endif %}
 {% endblock %}

@@ -84,9 +84,29 @@ nav.lower {
 
 #content {
     height: 100vh;
+
+    transition: filter .5s ease-in-out;
 }
 
 html[data-bs-theme="dark"] a.hide-if-same-theme[data-bs-theme-value="dark"],
 html[data-bs-theme="light"] a.hide-if-same-theme[data-bs-theme-value="light"] {
     display: none;
 }
+
+.transition {
+    z-index: 3000;
+    height: 0px;
+    transform: height .5s ease-in-out;
+
+    opacity: 0.9;
+    color: var(--bs-body-color);
+    background-color: var(--bs-body-bg);
+}
+    body.turbo-loading #content, 
+    body.turbo-loaded #content {
+        filter: blur(2px);
+    }
+    body.turbo-loading > .transition, 
+    body.turbo-loaded > .transition {
+        height: 100vh !important;
+    }

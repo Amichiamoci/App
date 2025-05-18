@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\ApiManager;
-use App\Repository\TodaySaintManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,7 +15,7 @@ class HomeController extends AbstractController
     //
 
     #[Route(path: '/', name: 'home',)]
-    public function index(ApiManager $apiManager, TodaySaintManager $todaySaintManager): Response
+    public function index(ApiManager $apiManager): Response
     {
         $todayMatches = [];
         $user = $this->getUser();
@@ -30,12 +29,12 @@ class HomeController extends AbstractController
         }
         return $this->render(view: 'home/index.html.twig', parameters: [
             'todayMatches' => $todayMatches,
-            'todaySaint' => $todaySaintManager->Default(),
             'leaderboard' => $apiManager->Leaderboard(),
             'showSubscriptionReminder' => $show_sub_reminder,
             'problematicSubscriptionsCount' => $subscription_problems,
         ]);
     }
+
 
     #[Route(path: '/leaderboard', name: 'leaderboard',)]
     public function leaderboard(ApiManager $apiManager): Response

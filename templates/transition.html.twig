@@ -1,0 +1,35 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("styles/loader/#{random(1..9)}.css") }}" />
+{% endblock %}
+
+<div class="transition position-absolute t-0 l-0 w-100 m-0 p-0 d-flex flex-column justify-content-center align-items-center user-select-none overflow-hidden">
+    <div class="loader"></div>
+
+    <div class="container mt-5 text-center user-select-none d-none" {{ stimulus_controller('saint') }}>
+        <h5>
+            Lo sapevi?
+        </h5>
+        <span>Oggi la Chiesa ricorda</span> 
+        <span class="saint-output"></span>
+    </div>
+
+    {#
+    {% if todaySaint.hasDescription() %}
+        <a 
+            role="button" 
+            href="#"
+            data-turbo="false"
+            data-bs-toggle="popover" 
+            data-bs-trigger="focus" 
+            data-bs-container="body" 
+            data-bs-placement="top" 
+            data-bs-title="{{ todaySaint.Typology }}"
+            data-bs-content="{{ todaySaint.Description|raw }}"
+            title="Vedi dettagli"
+            class="text-reset link-underline link-underline-info link-offset-2-hover link-underline-opacity-0 link-underline-opacity-75-hover"
+        >
+            {{ todaySaint.Name }}
+        </a>
+    {% endif %}
+    #}
+</div>
