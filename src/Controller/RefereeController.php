@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,7 +17,11 @@ use App\Repository\ApiManager;
 use App\Repository\UserRepository;
 use App\Form\AddRoleToUserFormType;
 
-#[IsGranted(attribute: User::REFEREE)]
+#[IsGranted(
+    attribute: new Expression(
+        'is_granted("' . User::REFEREE . '") or is_granted("' . User::ADMIN . '")'
+    ),
+)]
 class RefereeController extends AbstractController
 {
     #[Route(path: '/referee', name: 'referee_dashboard')]
@@ -50,23 +55,26 @@ class RefereeController extends AbstractController
 
     #[Route(path: '/referee/remove/{id}', name: 'referee_remove',)]
     #[IsGranted(attribute: User::ADMIN)]
-    public function removeAdmin(
+    public function remove(
         EntityManagerInterface $entityManager, 
         UserRepository $userRepository, 
         int $id,
     ): Response
     {
+        /**
+         * @var ?User
+         */
         $user = $userRepository->find(id: $id);
-        if (!isset($user))
+        if ($user === null)
         {
             $this->addFlash(type: 'error', message: "Utente '$id' non trovato");
         } else {
             
-            $user->removeRole(User::REFEREE);
+            $user->removeRole(role: User::REFEREE);
             $entityManager->persist(object: $user);
             $entityManager->flush();
 
-            $fullName = $user->getName() . ' ' . $user->getSurname();
+            $fullName = $user->getName();
             $this->addFlash(type: 'success', message: "'$fullName' non è più un arbitro.");
         }
 
@@ -76,7 +84,11 @@ class RefereeController extends AbstractController
     
     #[Route(path: '/referee/new', name: 'new_referee')]
     #[IsGranted(attribute: User::ADMIN)]
-    public function new(Request $request,UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    public function new (
+        Request $request,
+        UserRepository $userRepository, 
+        EntityManagerInterface $entityManager,
+    ): Response
     {
         $email = '';
         $form = $this->createForm(type: AddRoleToUserFormType::class);
@@ -84,19 +96,25 @@ class RefereeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) 
         {
+            /**
+             * @var ?string
+             */
             $email = $form->get(name: 'email')->getData();
 
+            /**
+             * @var ?User
+             */
             $user = $userRepository->findOneBy(criteria: ['email' => $email]);
-            if (!isset($user))
+            if ($user === null)
             {
                 $this->addFlash(type: 'error', message: "Utente '$email' non trovato");
             } else {
                 // Add the role and save
-                $user->addRole(User::REFEREE);
+                $user->addRole(role: User::REFEREE);
                 $entityManager->persist(object: $user);
                 $entityManager->flush();
 
-                $fullName = $user->getName() . ' ' . $user->getSurname();
+                $fullName = $user->getName();
                 $this->addFlash(type: 'success', message: "'$fullName' è ora un arbitro");
             }
         }
