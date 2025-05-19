@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\AddUserRole;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Form\AddRoleToUserFormType;
-
+use App\Form\RemoveRoleFromUserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,24 +20,31 @@ class AdminController extends AbstractController
 {
 
     #[Route(path: '/admin/remove/{id}', name: 'admin_remove',)]
-    public function removeAdmin(
+    public function remove(
+        int $id,
+        Request $request,
         EntityManagerInterface $entityManager, 
         UserRepository $userRepository, 
-        int $id,
     ): Response
     {
-        $user = $userRepository->find(id: $id);
-        if (!isset($user))
+        if ($request->isMethod(method: 'POST'))
         {
-            $this->addFlash(type: 'error', message: "Utente '$id' non trovato");
-        } else {
-            
-            $user->removeRole(User::ADMIN);
-            $entityManager->persist(object: $user);
-            $entityManager->flush();
+            /**
+             * @var ?User
+             */
+            $user = $userRepository->find(id: $id);
+            if ($user === null)
+            {
+                $this->addFlash(type: 'error', message: "Utente '$id' non trovato");
+            } else {
+                
+                $user->removeRole(role: User::ADMIN);
+                $entityManager->persist(object: $user);
+                $entityManager->flush();
 
-            $fullName = $user->getName();
-            $this->addFlash(type: 'success', message: "'$fullName' non è più amministatore.");
+                $fullName = $user->getName();
+                $this->addFlash(type: 'success', message: "'$fullName' non è più amministatore.");
+            }
         }
 
         return $this->redirectToRoute(route: 'admin');
@@ -49,41 +57,59 @@ class AdminController extends AbstractController
         EntityManagerInterface $entityManager,
     ): Response
     {
-        $email = '';
-        $form = $this->createForm(type: AddRoleToUserFormType::class);
+        $form = $this->createForm(
+            type: AddRoleToUserFormType::class, 
+            data: new AddUserRole(role: User::ADMIN),
+            options:[
+                'users' => array_filter(
+                    array: $userRepository->findAll(), 
+                    callback: function (User $u): bool {
+                        return !$u->isAdmin();
+                    },
+                )
+            ]
+        );
         $form->handleRequest(request: $request);
+        $status_code = $form->isSubmitted() && !$form->isValid() ? 422 : 200;
 
         if ($form->isSubmitted() && $form->isValid()) 
         {
-            $email = $form->get(name: 'email')->getData();
-
-            $user = $userRepository->findOneBy(criteria: ['email' => $email]);
-            if (!isset($user))
+            /**
+             * @var AddUserRole
+             */
+            $add_role = $form->getData();
+            if ($add_role->Role !== User::ADMIN)
             {
-                $this->addFlash(type: 'error', message: "Utente '$email' non trovato");
-            } else {
-                // Add the role and save
-                $user->addRole(User::ADMIN);
+                throw new \InvalidArgumentException(message: 'Trying to set unallowed role via this form');
+            }
+
+            /**
+             * @var ?User
+             */
+            $user = $userRepository->findOneBy(criteria: ['email' => $add_role->User]);
+            if ($user !== null)
+            {
+                // All ok
+                $user->addRole(role: $add_role->Role);
                 $entityManager->persist(object: $user);
                 $entityManager->flush();
 
                 $fullName = $user->getName();
                 $this->addFlash(type: 'success', message: "'$fullName' è ora un amministratore");
+                return $this->redirectToRoute(route: 'admin');
             }
+
+            $this->addFlash(type: 'error', message: "Utente non trovato");
+            $status_code = 500;
         }
 
         return $this->render(
             view: 'admin/index.html.twig', 
             parameters: [
                 'admins' => $userRepository->findByRole(role: User::ADMIN),
-                'allUsers' => array_filter(
-                    array: $userRepository->findAll(), 
-                    callback: function (User $u): bool {
-                        return !$u->isAdmin();
-                    },
-                ),
                 'addAdminForm' => $form,
             ],
+            response: new Response(content: null, status: $status_code),
         );
     }
 }
