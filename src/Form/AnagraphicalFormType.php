@@ -101,7 +101,7 @@ class AnagraphicalFormType extends AbstractType
                 'label' => false,
                 'required' => true,
                 'document_types' => $options['document_types'],
-                'require_file' => (bool)$options['anagraphical_only']
+                'require_file' => (bool)$options['force_document_upload']
             ])
         ;
 
@@ -128,6 +128,7 @@ class AnagraphicalFormType extends AbstractType
         $resolver->setDefault(option: 'document_types', value: []);
         $resolver->setDefault(option: 'churches', value: []);
         $resolver->setDefault(option: 'anagraphical_only', value: false);
+        $resolver->setDefault(option: 'force_document_upload', value: false);
         $resolver->setDefaults(defaults: [
             'data_class' => Anagraphical::class,
             'allow_extra_fileds' => true,

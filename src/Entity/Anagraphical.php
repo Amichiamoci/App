@@ -11,7 +11,8 @@ use Doctrine\Common\Collections\Order;
 class Anagraphical
 {
     #[Assert\NotEqualTo(value: 0)]
-    public int $Id;
+    public int $Id/* = 0*/;
+    public function hasId(): bool { return !empty($this->Id); }
     public function getId(): int { return $this->Id; }
 
     #[Assert\NotBlank]

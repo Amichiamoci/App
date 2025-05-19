@@ -267,6 +267,7 @@ class ProfileController extends AbstractController
                 'document_types' => $apiManager->DocumentTypes(),
                 'churches' => $apiManager->Churches(),
                 'anagraphical_only' => true,
+                'force_document_upload' => $anagraphical === null, // If we are creating the data we are gonna need at least one file
                 'action' => $this->generateUrl(
                     route: 'signup', 
                     parameters: ['id' => $id],
@@ -283,7 +284,7 @@ class ProfileController extends AbstractController
              * @var Anagraphical
              */
             $anagraphical = $form->getData();
-            if ($anagraphical->Id !== $id)
+            if (!empty($id) && $anagraphical->Id !== $id)
             {
                 // Tried to change the target id
                 throw $this->createAccessDeniedException(message: 'Dati non trovati o non accessibili');
