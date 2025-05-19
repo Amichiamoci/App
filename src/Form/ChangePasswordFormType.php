@@ -24,6 +24,9 @@ class ChangePasswordFormType extends AbstractType
                         'autocomplete' => 'new-password',
                         'class' => 'form-control',
                     ],
+                    'row_attr' => [
+                        'class' => 'form-floating mb-2',
+                    ],
                 ],
                 'first_options' => [
                     'constraints' => [
