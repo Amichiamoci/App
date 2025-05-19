@@ -14,7 +14,7 @@ class SecurityController extends AbstractController
     #[Route(path: '/app_login', name: 'app_login')]
     public function login(
         AuthenticationUtils $authenticationUtils, 
-        CsrfTokenManagerInterface $csrfTokenManager,
+        //CsrfTokenManagerInterface $csrfTokenManager,
     ): Response
     {
         /*
@@ -31,12 +31,12 @@ class SecurityController extends AbstractController
             $this->addFlash(type: 'error', message: $error->getMessage());
         }
 
-        $csrfToken = $csrfTokenManager->getToken(tokenId: 'authenticate')->getValue();
+        //$csrfToken = $csrfTokenManager->getToken(tokenId: 'authenticate')->getValue();
         $form = $this->createForm(
             type: LoginFormType::class, 
-            options: [
-                'csrf_token' => $csrfToken,
-            ]
+            //options: [
+            //    'csrf_token' => $csrfToken,
+            //]
         );
 
         return $this->render(

@@ -47,10 +47,16 @@ class LoginFormType extends AbstractType
                 'required' => false,
                 'mapped'   => false,
             ])
-            ->add(child: '_csrf_token', type: HiddenType::class, options: [
-                'mapped' => false,
-                'data' => $options['csrf_token'],
-            ])
+        ;
+        if (array_key_exists(key: 'csrf_token', array: $options) && $options['csrf_token'] !== null)
+        {
+            $builder
+                ->add(child: '_csrf_token', type: HiddenType::class, options: [
+                    'mapped' => false,
+                    'data' => $options['csrf_token'],
+                ]);
+        }
+        $builder
             ->add(child: '_login', type: SubmitType::class, options: [
                 'label' => 'Accedi'
             ])
@@ -62,7 +68,7 @@ class LoginFormType extends AbstractType
         $resolver->setDefaults(defaults: [
             'method' => 'POST',
         ]);
-        $resolver->setRequired(optionNames: 'csrf_token');
+        $resolver->setDefault(option: 'csrf_token', value: null);
     }
 
     public function getBlockPrefix(): string
