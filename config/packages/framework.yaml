@@ -9,6 +9,9 @@ framework:
     #esi: true
     #fragments: true
     default_locale: it
+    
+    trusted_proxies: 'private_ranges'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port', 'x-forwarded-prefix']
 
 when@test:
     framework:
