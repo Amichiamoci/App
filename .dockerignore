@@ -9,3 +9,7 @@ demo/*
 .vscode
 .git
 assets/vendor
+Dockerfile
+.vscode
+.github
+migrations/*
