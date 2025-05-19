@@ -95,6 +95,7 @@ class ProfileController extends AbstractController
             return $anagraphical;
         }
 
+        $file_name = null;
         if ($anagraphical->Subscription->hasCertificate())
         {
             $ext = '.' . $anagraphical->Subscription->Certificate->guessExtension();

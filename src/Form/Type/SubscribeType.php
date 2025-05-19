@@ -45,18 +45,29 @@ class SubscribeType extends AbstractType
                 'label' => false,
                 'churches' => $options['churches'],
             ])
-            ->add(child: 'certificate', type: FileType::class, options: [
-                'mapped' => false,
+            ->add(child: 'Certificate', type: FileType::class, options: [
                 'required' => false,
                 'label' => 'Certificato medico',
                 'constraints' => [
                     new File(options: [
                         'maxSize' => '64M',
                         'mimeTypes' => [
+                            // PDF types
                             'application/pdf',
                             'application/x-pdf',
+                            
+                            // Word and PowerPoint types
+                            'application/msword',
+                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                            'application/vnd.ms-powerpoint',
+                            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+
+                            // Image types
                             'image/jpeg',
                             'image/png',
+                            'image/avif',
+                            'image/tiff',
+                            'image/webp',
                         ],
                         'mimeTypesMessage' => 'Per favore, invia un file PDF, immagine o Documento Word',
                     ])
