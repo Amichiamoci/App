@@ -31,3 +31,8 @@ services:
     App\Repository\ApiManager:
         arguments:
             $environment: '%kernel.environment%'
+
+    
+    #Symfony\Component\Routing\RequestContext:
+    #    arguments:
+    #        $scheme: 'https'

@@ -8,6 +8,6 @@ CACHE_DIRECTORY=/app/var/cache
 
 mkdir -p $UPLOAD_DIRECTORY $LOGS_DIRECTORY $CACHE_DIRECTORY
 echo 'deny from all' > $UPLOAD_DIRECTORY/.htaccess
-chown -R www-data:www-data $UPLOAD_DIRECTORY $LOGS_DIRECTORY $CACHE_DIRECTORY
+chown -R www-data:www-data $UPLOAD_DIRECTORY $LOGS_DIRECTORY
 
 apache2ctl -D FOREGROUND

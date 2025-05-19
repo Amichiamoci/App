@@ -19,18 +19,19 @@ hwi_oauth:
                 access_type:     offline
 
         microsoft:
-            type:          azure
-            client_id:     '%env(AZURE_ID)%'
-            client_secret: '%env(AZURE_SECRET)%'
-            scope:         'openid profile email'
+            type:               azure
+            client_id:          '%env(AZURE_ID)%'
+            client_secret:      '%env(AZURE_SECRET)%'
+            scope:              'openid profile email'
             options:
-                application: consumers
+                application:    consumers
         
         github:
             type:                github
             client_id:           '%env(GITHUB_ID)%'
             client_secret:       '%env(GITHUB_SECRET)%'
             scope:               'read:user'
+
     connect:
         account_connector: App\Security\OAuthConnector
         registration_form: App\Form\RegistrationFormType
