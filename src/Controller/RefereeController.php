@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\User;
+use App\Entity\AddUserRole;
 use App\Form\AddMatchResultFormType;
 use App\Repository\ApiManager;
 use App\Repository\UserRepository;
@@ -56,26 +57,30 @@ class RefereeController extends AbstractController
     #[Route(path: '/referee/remove/{id}', name: 'referee_remove',)]
     #[IsGranted(attribute: User::ADMIN)]
     public function remove(
+        int $id,
+        Request $request,
         EntityManagerInterface $entityManager, 
         UserRepository $userRepository, 
-        int $id,
     ): Response
     {
-        /**
-         * @var ?User
-         */
-        $user = $userRepository->find(id: $id);
-        if ($user === null)
+        if ($request->isMethod(method: 'POST'))
         {
-            $this->addFlash(type: 'error', message: "Utente '$id' non trovato");
-        } else {
-            
-            $user->removeRole(role: User::REFEREE);
-            $entityManager->persist(object: $user);
-            $entityManager->flush();
+            /**
+             * @var ?User
+             */
+            $user = $userRepository->find(id: $id);
+            if ($user === null)
+            {
+                $this->addFlash(type: 'error', message: "Utente '$id' non trovato");
+            } else {
+                
+                $user->removeRole(role: User::REFEREE);
+                $entityManager->persist(object: $user);
+                $entityManager->flush();
 
-            $fullName = $user->getName();
-            $this->addFlash(type: 'success', message: "'$fullName' non è più un arbitro.");
+                $fullName = $user->getName();
+                $this->addFlash(type: 'success', message: "'$fullName' non è più un arbitro.");
+            }
         }
 
         return $this->redirectToRoute(route: 'new_referee');
@@ -90,47 +95,63 @@ class RefereeController extends AbstractController
         EntityManagerInterface $entityManager,
     ): Response
     {
-        $email = '';
-        $form = $this->createForm(type: AddRoleToUserFormType::class);
+        $form = $this->createForm(
+            type: AddRoleToUserFormType::class, 
+            data: new AddUserRole(role: User::REFEREE),
+            options:[
+                'users' => array_filter(
+                    array: $userRepository->findAll(), 
+                    callback: function (User $u): bool {
+                        return !$u->isReferee();
+                    },
+                )
+            ]
+        );
         $form->handleRequest(request: $request);
+        $status_code = $form->isSubmitted() && !$form->isValid() ? 422 : 200;
 
         if ($form->isSubmitted() && $form->isValid()) 
         {
             /**
-             * @var ?string
+             * @var AddUserRole
              */
-            $email = $form->get(name: 'email')->getData();
+            $add_role = $form->getData();
+            if ($add_role->Role !== User::REFEREE)
+            {
+                throw new \InvalidArgumentException(message: 'Trying to set unallowed role via this form');
+            }
 
             /**
              * @var ?User
              */
-            $user = $userRepository->findOneBy(criteria: ['email' => $email]);
-            if ($user === null)
+            $user = $userRepository->findOneBy(criteria: ['email' => $add_role->User]);
+            if ($user !== null)
             {
-                $this->addFlash(type: 'error', message: "Utente '$email' non trovato");
-            } else {
-                // Add the role and save
-                $user->addRole(role: User::REFEREE);
+                // All ok
+                $user->addRole(role: $add_role->Role);
                 $entityManager->persist(object: $user);
                 $entityManager->flush();
 
                 $fullName = $user->getName();
                 $this->addFlash(type: 'success', message: "'$fullName' è ora un arbitro");
+                return $this->redirectToRoute(route: 'new_referee');
             }
+
+            $this->addFlash(type: 'error', message: "Utente non trovato");
+            $status_code = 500;
         }
 
-        $referees = $userRepository->findByRole(role: User::REFEREE);
-
-        return $this->render(view: 'referee/new.html.twig', parameters: [
-            'addRefereeForm' => $form,
-            'referees' => $referees,
-            'allUsers' => array_filter(array: $userRepository->findAll(), callback: function (User $u): bool {
-                return !$u->isReferee();
-            }),
-        ]);
+        return $this->render(
+            view: 'referee/new.html.twig', 
+            parameters: [
+                'addRefereeForm' => $form,
+                'referees' => $userRepository->findByRole(role: User::REFEREE),
+            ],
+            response: new Response(content: null, status: $status_code),
+        );
     }
 
-    #[Route('/referee/result/delete/{id}', name: 'delete_result',)]
+    #[Route(path: '/referee/result/delete/{id}', name: 'delete_result',)]
     public function resultDelete(ApiManager $apiManager, int $id): Response
     {
         if ($apiManager->DeleteResult(id: $id)){
@@ -143,7 +164,7 @@ class RefereeController extends AbstractController
         return $this->redirectToRoute(route: 'referee_dashboard');
     }
 
-    #[Route('/referee/result/add/{id}', name: 'add_result', methods: 'POST')]
+    #[Route(path: '/referee/result/add/{id}', name: 'add_result', methods: 'POST')]
     public function resultAdd(Request $request, ApiManager $apiManager, int $id): Response
     {
         $content = $request->getPayload()->get(key: 'content');

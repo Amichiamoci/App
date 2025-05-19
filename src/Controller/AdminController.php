@@ -6,7 +6,6 @@ use App\Entity\AddUserRole;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Form\AddRoleToUserFormType;
-use App\Form\RemoveRoleFromUserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
