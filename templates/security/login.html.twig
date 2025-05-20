@@ -13,13 +13,11 @@
     <p class="mb-1 small">
         Password dimenticata?
         Clicca
-        <a 
-            href="{{ path('app_forgot_password_request') }}" 
+        <a  href="{{ path('app_forgot_password_request') }}" 
             class="link-underline link-underline-opacity-0 link-primary"
-            title="Recupera la password">
-            qui
-        </a>
+            title="Recupera la password"
+        >qui</a>.
     </p>
 
-    {% include 'security/external_login.html.twig' with { 'label': 'Login' }  %}
+    {% include 'security/external_login.html.twig' with { 'label': 'Effettua il Login' }  %}
 {% endblock %}

@@ -5,7 +5,7 @@
                 class="d-flex align-items-center text-decoration-none text-reset"
                 title="Home"
             >
-                <twig:ux:icon name="bi:house" height="16" />
+                <twig:ux:icon name="bi:house" height="20" />
             </a>
         </div>
         <div class="col p-1 d-flex justify-content-center align-items-center">
@@ -16,7 +16,7 @@
                     class="d-flex align-items-center text-decoration-none text-reset"
                     title="Partite, tornei e classifiche"
                 >
-                    <twig:ux:icon name="tabler:shirt-sport" height="16" />
+                    <twig:ux:icon name="tabler:shirt-sport" height="20" />
                 </a>
                 <ul class="dropdown-menu">
                     <li>
@@ -24,7 +24,7 @@
                             class="dropdown-item"
                             title="Classifica corrente"
                         >
-                            <twig:ux:icon name="ion:podium-outline" height="15" />
+                            <twig:ux:icon name="ion:podium-outline" height="18" />
                             &nbsp;
                             Classifica
                         </a>
@@ -36,7 +36,7 @@
                             data-bs-toggle="modal"
                             data-bs-target="#navbarMatchesModal"
                         >
-                            <twig:ux:icon name="hugeicons:football-pitch" height="15" />
+                            <twig:ux:icon name="hugeicons:football-pitch" height="18" />
                             &nbsp;
                             Partite
                         </a>
@@ -48,7 +48,7 @@
                             data-bs-toggle="modal"
                             data-bs-target="#navbarTournamentsModal"
                         >
-                            <twig:ux:icon name="bi:calendar3" height="15" />
+                            <twig:ux:icon name="bi:calendar3" height="18" />
                             &nbsp;
                             Tornei
                         </a>
@@ -62,7 +62,7 @@
                 class="d-flex align-items-center text-decoration-none text-reset"
                 title="Fanta Amichiamoci"
             >
-                <twig:ux:icon name="bi:star" height="16" />
+                <twig:ux:icon name="bi:star" height="20" />
             </a>
         </div>
         <div class="col p-1 d-flex justify-content-center align-items-center">
@@ -71,14 +71,14 @@
                     class="d-flex align-items-center text-decoration-none text-reset"
                     title="{{ app.user.getName() }}"
                 >
-                    <twig:ux:icon name="uil:user" height="16" />
+                    <twig:ux:icon name="uil:user" height="20" />
                 </a>
             {% else %}
                 <a href="{{ path('app_login') }}" 
                     class="d-flex align-items-center text-decoration-none text-reset"
                     title="Accedi"
                 >
-                    <twig:ux:icon name="material-symbols:login" height="16" />
+                    <twig:ux:icon name="material-symbols:login" height="20" />
                 </a>
             {% endif %}
         </div>
@@ -107,7 +107,7 @@
                             href="{{ path('matches', {'sport': 'calcio'}) }}"
                             title="Le partite di Calcio"
                         >
-                            <twig:ux:icon name="twemoji:soccer-ball" height="15" />
+                            <twig:ux:icon name="twemoji:soccer-ball" height="18" />
                             &nbsp;
                             Calcio
                         </a>
@@ -117,7 +117,7 @@
                             href="{{ path('matches', {'sport': 'pallavolo'}) }}"
                             title="Le partite di Pallavolo"
                         >
-                            <twig:ux:icon name="twemoji:volleyball" height="15" />
+                            <twig:ux:icon name="twemoji:volleyball" height="18" />
                             &nbsp;
                             Pallavolo
                         </a>
@@ -127,7 +127,7 @@
                             href="{{ path('matches', {'sport': 'basket'}) }}"
                             title="Le partite di Basket"
                         >
-                            <twig:ux:icon name="twemoji:basketball" height="15" />
+                            <twig:ux:icon name="twemoji:basketball" height="18" />
                             &nbsp;
                             Basket
                         </a>
@@ -159,7 +159,7 @@
                             href="{{ path('home_tournament_list', {'sport': 'calcio'}) }}"
                             title="Le partite di Calcio"
                         >
-                            <twig:ux:icon name="twemoji:soccer-ball" height="15" />
+                            <twig:ux:icon name="twemoji:soccer-ball" height="18" />
                             &nbsp;
                             Calcio
                         </a>
@@ -169,7 +169,7 @@
                             href="{{ path('home_tournament_list', {'sport': 'pallavolo'}) }}"
                             title="Le partite di Pallavolo"
                         >
-                            <twig:ux:icon name="twemoji:volleyball" height="15" />
+                            <twig:ux:icon name="twemoji:volleyball" height="18" />
                             &nbsp;
                             Pallavolo
                         </a>
@@ -179,7 +179,7 @@
                             href="{{ path('home_tournament_list', {'sport': 'basket'}) }}"
                             title="Le partite di Basket"
                         >
-                            <twig:ux:icon name="twemoji:basketball" height="15" />
+                            <twig:ux:icon name="twemoji:basketball" height="18" />
                             &nbsp;
                             Basket
                         </a>

@@ -31,21 +31,21 @@
         <main role="main" class="w-100 pt-3 pb-3 ps-1 pe-1 position-absolute">
             {% for flash in app.flashes('success') %}
                 <div class="alert alert-success d-flex align-items-center" role="alert">
-                    <twig:ux:icon name="mdi:success-circle" height="16" />
+                    <twig:ux:icon name="mdi:success-circle" height="25" />
                     <div>{{ flash }}</div>
                 </div>
             {% endfor %}
 
             {% for flash in app.flashes('warn') %}
                 <div class="alert alert-warning d-flex align-items-center" role="alert">
-                    {#<twig:ux:icon name="material-symbols:warning" height="16" />#}
+                    {#<twig:ux:icon name="material-symbols:warning" height="25" />#}
                     <div>{{ flash }}</div>
                 </div>
             {% endfor %}
 
             {% for flash in app.flashes('error') %}
                 <div class="alert alert-danger d-flex align-items-center" role="alert">
-                    <twig:ux:icon name="material-symbols:error" height="16" />
+                    <twig:ux:icon name="material-symbols:error" height="25" />
                     <div>{{ flash }}</div>
                 </div>
             {% endfor %}
@@ -76,6 +76,7 @@
             {% include('footer.html.twig') %}
         </footer>
 
+        {#
         <button type="button"
                 class="btn btn-secondary btn-floating btn-lg d-none position-fixed z-3"
                 data-btn-to-top="true"
@@ -83,7 +84,7 @@
                 title="Torna su">
             <twig:ux:icon name="bi:arrow-up" width="16" />
         </button>
-
+        #}
     </div>
     
     {% block javascripts %}
