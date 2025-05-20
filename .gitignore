@@ -27,3 +27,5 @@
 .vscode
 
 !/var/uploads/.htaccess
+
+demo/*.env

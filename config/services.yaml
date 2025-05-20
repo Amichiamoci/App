@@ -32,6 +32,9 @@ services:
         arguments:
             $environment: '%kernel.environment%'
 
+    App\EventListener\RequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 100 }
     
     #Symfony\Component\Routing\RequestContext:
     #    arguments:

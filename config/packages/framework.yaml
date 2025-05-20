@@ -9,7 +9,8 @@ framework:
     #fragments: true
     default_locale: it
     
-    trusted_proxies: 'private_ranges'
+    #trusted_proxies: 'private_ranges'
+    trusted_proxies: '127.0.0.1,172.20.0.2,10.89.0.5,REMOTE_ADDR'
     trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port', 'x-forwarded-prefix']
 
 when@test:

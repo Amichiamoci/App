@@ -9,3 +9,23 @@ services:
       - ../var:/app/var:rw
     ports:
       - 80:80
+    container_name: app
+    networks:
+      - reverse-proxy
+  #cloudflare:
+  #  image: cloudflare/cloudflared
+  #  container_name: cloudflared
+  #  env_file: ./cloudflare.env
+  #  command: tunnel --no-autoupdate run
+  #  networks:
+  #    - reverse-proxy
+  #whoami:
+  #  image: traefik/whoami
+  #  expose:
+  #    - 80:80
+  #  container_name: app
+  #  networks:
+  #    - reverse-proxy
+
+networks:
+  reverse-proxy:
