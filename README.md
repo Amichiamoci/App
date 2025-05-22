@@ -3,8 +3,6 @@
 # Amichiamoci App
 [![Docker image](https://github.com/Amichiamoci/App/actions/workflows/docker-build.yml/badge.svg)](https://github.com/Amichiamoci/App/actions/workflows/docker-build.yml)
 
-[![🚀 FTP deploy on push](https://github.com/Amichiamoci/App/actions/workflows/ftp-deploy.yml/badge.svg)](https://github.com/Amichiamoci/App/actions/workflows/ftp-deploy.yml)
-
 Questo è il codice sorgente della App di Amichiamoci, disponibile come repository ed anche come immagine docker.
 
 ## Scaricare con Docker
@@ -18,16 +16,10 @@ Clona la repo
 git clone https://github.com/Amichiamoci/App && cd App
 ```
 
-Esegui
+Ed esegui
 ```bash
-docker build . --tag 'amichiamoci-app'
+cd demo && docker-compose down && docker-compose up -d --build && cd ..
 ```
-E dopo
-```bash
-cd demo && docker-compose down && docker-compose up -d && cd ..
-```
-L'ultimo comando avvierà anche un'istanza di phpMyAdmin sulla porta 8080
-
 
 ## Costruire con composer
 Clona la repo
