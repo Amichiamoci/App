@@ -12,5 +12,14 @@
 
     {{ form(registrationForm) }}
 
+    <p class="mb-1 small">
+        Hai già un account?
+        Accedi
+        <a  href="{{ path('app_login') }}" 
+            class="link-underline link-underline-opacity-0 link-primary"
+            title="Effettua il login"
+        >qui</a>.
+    </p>
+
     {% include 'security/external_login.html.twig' with { 'label': 'Registrati' } %}
 {% endblock %}
