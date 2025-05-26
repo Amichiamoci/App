@@ -113,12 +113,14 @@
                             </div>
 
                             <div class="modal-body">
-                                Codice {{ anagraphical.Document.Type.Label }}:
-                                <output class="font-monospace user-select-none">
-                                    {{ anagraphical.Document.Code }}
-                                </output>
-                                
-                                <br />
+                                {% if anagraphical.Document.Code %}
+                                    Codice {{ anagraphical.Document.Type.Label }}:
+                                    <output class="font-monospace user-select-none">
+                                        {{ anagraphical.Document.Code }}
+                                    </output>
+                                    
+                                    <br />
+                                {% endif %}
 
                                 Scadenza:
                                 <output class="font-monospace user-select-none">

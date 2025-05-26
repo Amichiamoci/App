@@ -22,8 +22,8 @@ class IdentityDocumentType extends AbstractType
                 'document_types'  => $options['document_types'],
             ])
             ->add(child: 'Code', type: TextType::class, options: [
-                'required' => true,
-                'label' => 'Codice Documento',
+                'required' => false,
+                'label' => 'Codice Documento (facoltativo)',
                 'attr' => [
                     'placeholder' => 'Codice documento',
                 ],

@@ -257,9 +257,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function addPlayerChoice(PlayerChoice $playerChoice): static
     {
-        if (!$this->playerChoices->contains($playerChoice)) {
-            $this->playerChoices->add($playerChoice);
-            $playerChoice->setUser($this);
+        if (!$this->playerChoices->contains(element: $playerChoice)) {
+            $this->playerChoices->add(element: $playerChoice);
+            $playerChoice->setUser(User: $this);
         }
 
         return $this;
@@ -267,10 +267,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removePlayerChoice(PlayerChoice $playerChoice): static
     {
-        if ($this->playerChoices->removeElement($playerChoice)) {
+        if ($this->playerChoices->removeElement(element: $playerChoice)) {
             // set the owning side to null (unless already changed)
             if ($playerChoice->getUser() === $this) {
-                $playerChoice->setUser(null);
+                $playerChoice->setUser(User: null);
             }
         }
 
@@ -287,9 +287,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function addParticipation(Participation $participation): static
     {
-        if (!$this->participations->contains($participation)) {
-            $this->participations->add($participation);
-            $participation->setUser($this);
+        if (!$this->participations->contains(element: $participation)) {
+            $this->participations->add(element: $participation);
+            $participation->setUser(User: $this);
         }
 
         return $this;
@@ -297,10 +297,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeParticipation(Participation $participation): static
     {
-        if ($this->participations->removeElement($participation)) {
+        if ($this->participations->removeElement(element: $participation)) {
             // set the owning side to null (unless already changed)
             if ($participation->getUser() === $this) {
-                $participation->setUser(null);
+                $participation->setUser(User: null);
             }
         }
 

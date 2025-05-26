@@ -108,7 +108,6 @@ trait SubscriptionManager
             'Birth-Date' => $anagraphical->BirthDate,
 
             'Document-Expiration' => $anagraphical->Document->Expiration->format(format: 'Y-m-d'),
-            'Document-Code' => $anagraphical->Document->Code,
             'Document-Type' => $anagraphical->Document->Type->Id,
         ];
 
@@ -127,6 +126,10 @@ trait SubscriptionManager
         if (!empty($documentFile))
         {
             $parameters['Document-Url'] = 'app:///' . $documentFile;
+        }
+        if (!empty($anagraphical->Document->hasCode()))
+        {
+            $parameters['Document-Code'] = $anagraphical->Document->Code;
         }
 
         $result = $this->_getObjectCollection(

@@ -87,7 +87,7 @@ class AnagraphicalFormType extends AbstractType
             ])
             ->add(child: 'Phone', type: TelType::class, options: [
                 'required' => false,
-                'label' => 'Telefono (opzionale)',
+                'label' => 'Telefono (facoltativo)',
                 'attr' => [
                     'placeholder' => '314 159 2653',
                 ],

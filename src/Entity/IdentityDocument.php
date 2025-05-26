@@ -7,9 +7,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class IdentityDocument
 {
-    #[Assert\NotBlank]
-    public string $Code;
+    public ?string $Code = null;
     public function getCode(): string { return $this->Code; }
+    public function hasCode(): bool { return is_string(value: $this->Code) && strlen(string: trim(string: $this->Code)) > 0; }
 
     #[Assert\NotBlank]
     public \DateTimeInterface $Expiration;

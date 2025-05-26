@@ -108,8 +108,8 @@ class Player
 
     public function addBonus(Bonus $bonus): static
     {
-        if (!$this->Bonuses->contains($bonus)) {
-            $this->Bonuses->add($bonus);
+        if (!$this->Bonuses->contains(element: $bonus)) {
+            $this->Bonuses->add(element: $bonus);
         }
 
         return $this;
@@ -117,7 +117,7 @@ class Player
 
     public function removeBonus(Bonus $bonus): static
     {
-        $this->Bonuses->removeElement($bonus);
+        $this->Bonuses->removeElement(element: $bonus);
 
         return $this;
     }
@@ -132,9 +132,9 @@ class Player
 
     public function addPlayerChoice(PlayerChoice $playerChoice): static
     {
-        if (!$this->playerChoices->contains($playerChoice)) {
-            $this->playerChoices->add($playerChoice);
-            $playerChoice->setPlayer($this);
+        if (!$this->playerChoices->contains(element: $playerChoice)) {
+            $this->playerChoices->add(element: $playerChoice);
+            $playerChoice->setPlayer(Player: $this);
         }
 
         return $this;
@@ -142,10 +142,10 @@ class Player
 
     public function removePlayerChoice(PlayerChoice $playerChoice): static
     {
-        if ($this->playerChoices->removeElement($playerChoice)) {
+        if ($this->playerChoices->removeElement(element: $playerChoice)) {
             // set the owning side to null (unless already changed)
             if ($playerChoice->getPlayer() === $this) {
-                $playerChoice->setPlayer(null);
+                $playerChoice->setPlayer(Player: null);
             }
         }
 

@@ -86,9 +86,9 @@ class Bonus
 
     public function addPlayer(Player $player): static
     {
-        if (!$this->Players->contains($player)) {
-            $this->Players->add($player);
-            $player->addBonus($this);
+        if (!$this->Players->contains(element: $player)) {
+            $this->Players->add(element: $player);
+            $player->addBonus(bonus: $this);
         }
 
         return $this;
@@ -96,8 +96,8 @@ class Bonus
 
     public function removePlayer(Player $player): static
     {
-        if ($this->Players->removeElement($player)) {
-            $player->removeBonus($this);
+        if ($this->Players->removeElement(element: $player)) {
+            $player->removeBonus(bonus: $this);
         }
 
         return $this;
