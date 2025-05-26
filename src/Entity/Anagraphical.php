@@ -30,8 +30,8 @@ class Anagraphical
     public function getTaxCode(): string { return $this->TaxCode; }
     
     #[Assert\Email]
-    public ?string $Email;
-    public ?string $Phone;
+    public ?string $Email = null;
+    public ?string $Phone = null;
     public function getEmail(): ?string { return $this->Email; }
     public function getPhone(): ?string { return $this->Phone; }
     public function hasEmail(): bool { return is_string(value: $this->Email) && strlen(string: trim(string: $this->Email)) > 0; }
