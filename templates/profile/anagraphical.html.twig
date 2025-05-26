@@ -36,11 +36,11 @@
                 </output>
             </dd>
             
-            <dt class="col-sm-4 text-nowrap">
+            <dt class="col-4 text-nowrap">
                 <twig:ux:icon name="fa:birthday-cake" height="15" />
                 {% if anagraphical.Sex == 'F' %}Nata{% else %}Nato{% endif %} il
             </dt>
-            <dd class="col-sm-8">
+            <dd class="col-8">
                 {{ anagraphical.BirthDateItalian }}
             </dd>
 
@@ -68,11 +68,11 @@
             </dd>
 
             {% if anagraphical.hasPhone() %}
-                <dt class="col-sm-4 text-nowrap">
+                <dt class="col-4 text-nowrap">
                     <twig:ux:icon name="bi:telephone" height="15" />
                     Telefono
                 </dt>
-                <dd class="col-sm-8">
+                <dd class="col-8">
                     {% if app.user.isReferee() %}
                         <a class="text-reset link-underline link-underline-opacity-0" 
                             href="{{ anagraphical.PhoneLinkHref }}"
@@ -88,57 +88,33 @@
                 </dd>
             {% endif %}
 
-            <dt class="col-sm-4 text-nowrap">
+            <dt class="col-4 text-nowrap">
                 <twig:ux:icon name="mdi:file-document-outline" height="15" />
                 Documento
             </dt>
-            <dd class="col-sm-8">
+            <dd class="col-8">
                 <a class="text-reset"
-                    data-bs-toggle="modal" 
-                    data-bs-target="#identity-modal-{{ anagraphical.Id }}"
-                    title="{{ anagraphical.Document.Type.Label }}"
                     href="#"
+                    role="button" 
+                    data-bs-toggle="popover" 
+                    data-bs-trigger="focus" 
+                    data-bs-container="body" 
+                    data-bs-placement="top" 
+                    data-bs-title="{{ anagraphical.Document.Type.Label }}{% if anagraphical.Document.Code %} {{ anagraphical.Document.Code }}{% endif %}"
+                    data-bs-content="Scadenza: {{ anagraphical.Document.ExpirationItalian }}"
+                    title="{{ anagraphical.Document.Type.Label }}"
                 >
                     {{ anagraphical.Document.Type.Label }}
                 </a>
-                
-                <div class="modal fade" id="identity-modal-{{ anagraphical.Id }}" tabindex="-1" aria-labelledby="identity-modal-{{ anagraphical.Id }}-label" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="identity-modal-{{ anagraphical.Id }}-label">
-                                    {{ anagraphical.Document.Type.Label }}
-                                </h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-
-                            <div class="modal-body">
-                                {% if anagraphical.Document.Code %}
-                                    Codice {{ anagraphical.Document.Type.Label }}:
-                                    <output class="font-monospace user-select-none">
-                                        {{ anagraphical.Document.Code }}
-                                    </output>
-                                    
-                                    <br />
-                                {% endif %}
-
-                                Scadenza:
-                                <output class="font-monospace user-select-none">
-                                    {{ anagraphical.Document.ExpirationItalian }}
-                                </output>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </dd>
 
             {% if anagraphical.Subscription %}
-                <dt class="col-sm-4 text-nowrap">
+                <dt class="col-4 text-nowrap">
                     <twig:ux:icon name="bi:card-checklist" height="15" />
                     Iscrizione
                 </dt>
                 {% if anagraphical.hasStatus() %}
-                    <dd class="col-sm-8 text-warning">
+                    <dd class="col-8 text-warning">
                         <twig:ux:icon name="mdi:alert-outline" height="14" />
                         <a  href="#"
                             class="font-monospace text-reset"
@@ -155,7 +131,7 @@
                         </a>
                     </dd>
                 {% else %}
-                    <dd class="col-sm-8 text-success">
+                    <dd class="col-8 text-success">
                         <twig:ux:icon name="mdi:check-thick" height="14" />
                         <strong class="font-monospace">
                             #{{ anagraphical.Subscription.Id }}
@@ -163,11 +139,11 @@
                     </dd>
                 {% endif %}
 
-                <dt class="col-sm-4 text-nowrap">
+                <dt class="col-4 text-nowrap">
                     <twig:ux:icon name="la:tshirt" height="15" />
                     Taglia
                 </dt>
-                <dd class="col-sm-8">
+                <dd class="col-8">
                     {{ anagraphical.Subscription.Shirt }}
                 </dd>
 
@@ -201,7 +177,7 @@
             {% endif %}
 
             {% for problem, message in anagraphical.Status %}
-                <dt class="col-sm-4 text-nowrap text-warning">
+                <dt class="col-sm-4 text-warning">
                     <twig:ux:icon name="mdi:alert-outline" height="14" />
                     {{ problem }}
                 </dt>
