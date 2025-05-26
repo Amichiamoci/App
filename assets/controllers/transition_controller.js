@@ -2,9 +2,13 @@ import { Controller } from '@hotwired/stimulus';
 import $ from 'jquery';
 
 const CURIOSITIES = [
-    // Sul cristianesimo in generale e sulla Chiesa
-    'Papa Leone XIV è un grande appassionato di Tennis',
+    // Sul cristianesimo in generale
     'La Bibbia non è un unico libro, bensì una raccolta di 73 diversi volumi',
+    'La parola "vangelo" significa buona notizia',
+
+    // Sui papi e lo sport
+    'Papa Leone XIV è un grande appassionato di Tennis',
+    'Papa Francesco definì lo Sport con 7 termini: Lealtà, Impegno, Sacrificio, Inclusione, Spirito di Gruppo, Ascesi, Riscatto',
 
     // Su Amichiamoci e Livorno
     'I calzini più originali sono quelli di Pietro',
