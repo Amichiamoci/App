@@ -127,7 +127,7 @@ trait SubscriptionManager
         {
             $parameters['Document-Url'] = 'app:///' . $documentFile;
         }
-        if (!empty($anagraphical->Document->hasCode()))
+        if ($anagraphical->Document->hasCode())
         {
             $parameters['Document-Code'] = $anagraphical->Document->Code;
         }
