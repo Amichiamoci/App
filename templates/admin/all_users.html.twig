@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tutti gli utenti{% endblock %}
+{% block description %}La lista di tutti gli utenti dell'App{% endblock %}
+
+{% block body %}
+
+<h1 class="h3 mb-3 font-weight-normal">
+    Tutti gli utenti
+</h1>
+<div class="row">
+    {% for user in users %}
+        <div class="col col-sm-6 col-md-4">
+            <div class="card m-1">
+                <div class="card-header font-monospace user-select-none">
+                    #{{ user.Id }} 
+                    {% if app.user.Id == user.Id %}
+                        <span class="text-body-secondary">(Tu)</span>
+                    {% endif %}
+                    {% if user.isAdmin() %}
+                        &nbsp;
+                        <span class="text-body-secondary">(Admin)</span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <div class="card-title font-monospace">
+                        <twig:ux:icon name="bi:envelope-at" height="15" /> 
+                        {{ user.email }}
+                    </div>
+                    {% if not user.isVerified() %}
+                        <h6 class="card-subtitle mb-2 user-select-none text-body-secondary">
+                            Non verificato!
+                        </h6>
+                    {% endif %}
+                </div>
+                <ul class="card-body list-group list-group-flush">
+                    {% for role in user.Roles %}
+                        <li class="list-group-item font-monospace">{{ role }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+    
+{% endblock %}

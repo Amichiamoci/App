@@ -102,7 +102,7 @@ class RefereeController extends AbstractController
                 'users' => array_filter(
                     array: $userRepository->findAll(), 
                     callback: function (User $u): bool {
-                        return !$u->isReferee();
+                        return !$u->isReferee() && $u->isVerified();
                     },
                 )
             ]

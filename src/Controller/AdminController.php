@@ -63,7 +63,7 @@ class AdminController extends AbstractController
                 'users' => array_filter(
                     array: $userRepository->findAll(), 
                     callback: function (User $u): bool {
-                        return !$u->isAdmin();
+                        return !$u->isAdmin() && $u->isVerified();
                     },
                 )
             ]
@@ -109,6 +109,19 @@ class AdminController extends AbstractController
                 'addAdminForm' => $form,
             ],
             response: new Response(content: null, status: $status_code),
+        );
+    }
+
+    #[Route(path: '/admin/users', name: 'all_users',)]
+    public function users(
+        UserRepository $userRepository, 
+    ): Response
+    {
+        return $this->render(
+            view: 'admin/all_users.html.twig', 
+            parameters: [
+                'users' => $userRepository->findAll(),
+            ],
         );
     }
 }
