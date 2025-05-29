@@ -164,6 +164,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->isInRole(role: self::REFEREE);
     }
+    public function isExternal(): bool
+    {
+        return $this->isInRole(role: self::EXTERNAL_PROVIDER);
+    }
 
     /**
      * @see PasswordAuthenticatedUserInterface

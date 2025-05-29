@@ -5,10 +5,10 @@
 
 {% block body %}
 
-<h1 class="h3 mb-3 font-weight-normal">
-    Tutti gli utenti
+<h1 class="h3 m-2 font-weight-normal">
+    Tutti gli utenti ({{ users|length }})
 </h1>
-<div class="row">
+<div class="row m-1">
     {% for user in users %}
         <div class="col col-sm-6 col-md-4">
             <div class="card m-1">
@@ -17,9 +17,50 @@
                     {% if app.user.Id == user.Id %}
                         <span class="text-body-secondary">(Tu)</span>
                     {% endif %}
+                    {% if user.isExternal() %}
+                        <button 
+                            class="btn btn-link p-0 text-reset link-underline link-underline-opacity-0"
+                            type="button" 
+                            data-bs-toggle="popover" 
+                            data-bs-trigger="focus" 
+                            data-bs-container="body" 
+                            data-bs-placement="top" 
+                            data-bs-title="Account esterno"
+                            data-bs-content="L'utente è ha effettuato l'accesso tramite un provider OAuth"
+                            title="OAuth"
+                        >
+                            <twig:ux:icon name="hugeicons:authorized" height="16" />
+                        </button>
+                    {% endif %}
+                    {% if user.isReferee() %}
+                        <button 
+                            class="btn btn-link p-0 text-reset link-underline link-underline-opacity-0"
+                            type="button" 
+                            data-bs-toggle="popover" 
+                            data-bs-trigger="focus" 
+                            data-bs-container="body" 
+                            data-bs-placement="top" 
+                            data-bs-title="Arbitro"
+                            data-bs-content="L'utente è un arbitro"
+                            title="Arbitro"
+                        >
+                            <twig:ux:icon name="game-icons:whistle" height="16" />
+                        </button>
+                    {% endif %}
                     {% if user.isAdmin() %}
-                        &nbsp;
-                        <span class="text-body-secondary">(Admin)</span>
+                        <button 
+                            class="btn btn-link p-0 text-reset link-underline link-underline-opacity-0"
+                            type="button" 
+                            data-bs-toggle="popover" 
+                            data-bs-trigger="focus" 
+                            data-bs-container="body" 
+                            data-bs-placement="top" 
+                            data-bs-title="Amministratore"
+                            data-bs-content="L'utente è un amministratore"
+                            title="Amministratore"
+                        >
+                            <twig:ux:icon name="material-symbols:fingerprint" height="16" />
+                        </button>
                     {% endif %}
                 </div>
                 <div class="card-body">
@@ -28,14 +69,16 @@
                         {{ user.email }}
                     </div>
                     {% if not user.isVerified() %}
-                        <h6 class="card-subtitle mb-2 user-select-none text-body-secondary">
+                        <h6 class="card-subtitle mb-2 user-select-none text-warning">
                             Non verificato!
                         </h6>
                     {% endif %}
                 </div>
                 <ul class="card-body list-group list-group-flush">
                     {% for role in user.Roles %}
-                        <li class="list-group-item font-monospace">{{ role }}</li>
+                        {% if role != 'ROLE_USER' %}
+                            <li class="list-group-item font-monospace">{{ role }}</li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </div>

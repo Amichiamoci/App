@@ -1,4 +1,4 @@
-<div class="card" id="anagrafica-{{ anagraphical.Id }}">
+<div class="card m-1" id="anagrafica-{{ anagraphical.Id }}">
     <div class="card-body">
         <div class="card-title">
             <strong>
@@ -93,9 +93,9 @@
                 Documento
             </dt>
             <dd class="col-8">
-                <a class="text-reset"
-                    href="#"
-                    role="button" 
+                <button 
+                    class="btn btn-link p-0 text-reset"
+                    type="button" 
                     data-bs-toggle="popover" 
                     data-bs-trigger="focus" 
                     data-bs-container="body" 
@@ -105,7 +105,7 @@
                     title="{{ anagraphical.Document.Type.Label }}"
                 >
                     {{ anagraphical.Document.Type.Label }}
-                </a>
+                </button>
             </dd>
 
             {% if anagraphical.Subscription %}
@@ -116,9 +116,9 @@
                 {% if anagraphical.hasStatus() %}
                     <dd class="col-8 text-warning">
                         <twig:ux:icon name="mdi:alert-outline" height="14" />
-                        <a  href="#"
-                            class="font-monospace text-reset"
-                            role="button" 
+                        <button
+                            class="btn btn-link p-0 font-monospace text-reset"
+                            type="button" 
                             data-bs-toggle="popover" 
                             data-bs-trigger="focus" 
                             data-bs-container="body" 
@@ -128,7 +128,7 @@
                             title="Ci sono problemi"
                         >
                             #{{ anagraphical.Subscription.Id }}
-                        </a>
+                        </button>
                     </dd>
                 {% else %}
                     <dd class="col-8 text-success">
