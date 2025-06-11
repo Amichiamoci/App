@@ -1,66 +1,16 @@
-<nav class="upper border-bottom w-100 position-fixed top-0 bg-body-tertiary">
+<nav class="upper border-bottom w-100 position-fixed top-0 bg-body-tertiary overflow-hidden">
     <div class="row w-100">
         <div class="col col-2 p-1 d-flex justify-content-center align-items-center">
             {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isReferee() %}
-                <div class="dropend d-flex align-items-center ">
-                    <a href="#"
-                        data-bs-toggle="dropdown" 
-                        aria-expanded="false"
-                        class="d-flex align-items-center text-decoration-none text-reset"
-                        title="Arbitro"
+                <div class="d-flex align-items-center ">
+                    <button 
+                        class="btn btn-link link-underline link-underline-opacity-0 text-reset"
+                        type="button" 
+                        data-bs-toggle="modal"
+                        data-bs-target="#refereeModal"
                     >
                         <twig:ux:icon name="game-icons:whistle" height="25" />
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item" 
-                                href="{{ path('referee_dashboard') }}"
-                            >
-                                <twig:ux:icon name="fluent:run-16-regular" height="15" />
-                                Partite
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" 
-                                href="{{ path('referee_teams') }}"
-                            >
-                                <twig:ux:icon name="fluent-mdl2:teamwork" height="15" />
-                                Squadre
-                            </a>
-                        </li>
-                        {% if app.user.isAdmin() %}
-                            <li>
-                                <hr class="dropdown-divider" />
-                            </li>
-                            <li>
-                                <a class="dropdown-item" 
-                                    href="{{ path('new_referee') }}"
-                                    title="Aggiungi o rimuovi gli arbitri"
-                                >
-                                    <twig:ux:icon name="material-symbols:add-task-rounded" height="15" />
-                                    Gestisci Arbitri
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" 
-                                    href="{{ path('admin') }}"
-                                    title="Aggiungi o rimuovi gli amministratori"
-                                >
-                                    <twig:ux:icon name="ri:admin-line" height="15" />
-                                    Gestisci Amministratori
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" 
-                                    href="{{ path('all_users') }}"
-                                    title="Vedi tutti gli utenti"
-                                >
-                                    <twig:ux:icon name="clarity:users-line" height="15" />
-                                    Tutti gli utenti
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
+                    </button>
                 </div>
             {% endif %}
         </div>
@@ -93,3 +43,79 @@
         </div>
     </div>
 </nav>
+
+{% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isReferee() %}
+    <div class="modal fade" 
+        id="refereeModal" 
+        tabindex="-1" 
+        aria-labelledby="refereeModalLabel" 
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="refereeModalLabel">
+                        Menù {% if app.user.isAdmin() %}amministratore{% else %}arbitro{% endif %}
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a class="link-underline link-underline-opacity-0 text-reset" 
+                                href="{{ path('referee_dashboard') }}"
+                                title="Vedi le partite"
+                            >
+                                <twig:ux:icon name="fluent:run-16-regular" height="18" />
+                                &nbsp;
+                                Partite
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a class="link-underline link-underline-opacity-0 text-reset" 
+                                href="{{ path('referee_teams') }}"
+                                title="Tutte le squadre"
+                            >
+                                <twig:ux:icon name="fluent-mdl2:teamwork" height="18" />
+                                &nbsp;
+                                Squadre
+                            </a>
+                        </li>
+                        {% if app.user.isAdmin() %}
+                            <li class="list-group-item">
+                                <a class="link-underline link-underline-opacity-0 text-reset" 
+                                    href="{{ path('new_referee') }}"
+                                    title="Aggiungi o rimuovi gli arbitri"
+                                >
+                                    <twig:ux:icon name="material-symbols:add-task-rounded" height="18" />
+                                    &nbsp;
+                                    Gestisci Arbitri
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a class="link-underline link-underline-opacity-0 text-reset" 
+                                    href="{{ path('admin') }}"
+                                    title="Aggiungi o rimuovi gli amministratori"
+                                >
+                                    <twig:ux:icon name="ri:admin-line" height="18" />
+                                    &nbsp;
+                                    Gestisci Amministratori
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a class="link-underline link-underline-opacity-0 text-reset" 
+                                    href="{{ path('all_users') }}"
+                                    title="Vedi tutti gli utenti"
+                                >
+                                    <twig:ux:icon name="clarity:users-line" height="18" />
+                                    &nbsp;
+                                    Tutti gli utenti
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

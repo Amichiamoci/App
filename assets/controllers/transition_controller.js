@@ -13,6 +13,7 @@ const CURIOSITIES = [
     // Su Amichiamoci e Livorno
     'I calzini più originali sono quelli di Pietro',
     'Ogni edizione di Amichiamoci ha un diverso logo e slogan',
+    'La scritta Amichiamoci colorata che vedi in quest\'App è una parte del logo 2014',
     'Amichiamoci anima da decenni il settembre della Diocesi di Livorno',
     '"Amicare" è un vero verbo della lingua italiana',
     'Negli anni, Amichiamoci ha sostenuto diversi enti benefici o religiosi, quali l\'UNHCR, le Figlie del Crocifisso o V.I.P. clown di corsia',

@@ -311,7 +311,7 @@ class ProfileController extends AbstractController
 
             $this->addFlash(
                 type: 'error', 
-                message: 'Non è stato possibile caricare i dati anagrafici. Si prega di riprova più tardi',
+                message: 'Non è stato possibile caricare i dati anagrafici. Si prega di riprovare più tardi',
             );
             $status_code = 500;
         }

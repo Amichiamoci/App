@@ -36,7 +36,7 @@
     {% for anagraphical in anagraphicals %}
         {% include '/profile/anagraphical.html.twig' with { 'anagraphical': anagraphical } %}
     {% else %}
-        <div class="alert alert-info d-flex align-items-left" role="alert">
+        <div class="alert alert-info d-flex align-items-left m-1" role="alert">
             <p class="m-0 user-select-none">
                 Nessuna anagrafica associata alla mail corrente.<br />
                 Se hai partecipato alle ultime edizioni e non vedi qui i tuoi dati
@@ -75,8 +75,8 @@
                 </li>
                 <li class="list-group-item pe-0 d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
-                        Un genitore, una volta associato potrà modificare i dati
-                        del/della figlio/a tramite il suo account e fornire eventuali
+                        Un genitore, una volta associato, potrà modificare i dati
+                        del/la figlio/a tramite il suo account e fornire eventuali
                         documenti mancanti (come il certificato medico).
                     </div>
                 </li>

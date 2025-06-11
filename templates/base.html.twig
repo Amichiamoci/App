@@ -28,7 +28,7 @@
     <div class="container p-0 overflow-y-auto position-relative" id="content">
         {% include('nav-upper.html.twig') %}
 
-        <main role="main" class="w-100 pt-3 pb-3 ps-1 pe-1 position-absolute">
+        <main role="main" class="w-100 pt-3 pb-4 ps-1 pe-1 position-absolute">
             {% for flash in app.flashes('success') %}
                 <div class="alert alert-success d-flex align-items-center" role="alert">
                     <twig:ux:icon name="mdi:success-circle" height="25" />
