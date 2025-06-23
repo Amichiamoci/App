@@ -311,7 +311,16 @@ class ProfileController extends AbstractController
 
             $this->addFlash(
                 type: 'error', 
-                message: 'Non è stato possibile caricare i dati anagrafici. Si prega di riprovare più tardi',
+                message: 'Non è stato possibile caricare i dati anagrafici. Si prega di riprovare più tardi. ',
+            );
+            $this->addFlash(
+                type: 'warn', 
+                message: 
+                'Se hai già partecipato in passato, e non vedi i tuoi dati, ' . 
+                'è possibile che siano già presenti ma associati ad una mail diversa da quella da quella che stai usando. ' .
+                'Nel caso non ti ricordassi quale email potresti aver usato alla tua prima iscrizione, ' . 
+                'prova a contattare uno staffista: sarà in grado di dirti l\'email corretta e, ' . 
+                'se serve, spostare i dati dal vecchio account a questo.',
             );
             $status_code = 500;
         }

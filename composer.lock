@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e309c05f22535615d1b689b3b6825206",
+    "content-hash": "b8fb7f5d081d4b2d441f9e8e0fb4115b",
     "packages": [
         {
             "name": "amphp/amp",
@@ -5292,16 +5292,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v2.5.0",
+            "version": "v2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "8ce1acd9842abe0e9b4c4a0bd3f259859516c018"
+                "reference": "4ae50d368415a06820739e54d38a4a29d6df9155"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/8ce1acd9842abe0e9b4c4a0bd3f259859516c018",
-                "reference": "8ce1acd9842abe0e9b4c4a0bd3f259859516c018",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/4ae50d368415a06820739e54d38a4a29d6df9155",
+                "reference": "4ae50d368415a06820739e54d38a4a29d6df9155",
                 "shasum": ""
             },
             "require": {
@@ -5340,7 +5340,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v2.5.0"
+                "source": "https://github.com/symfony/flex/tree/v2.7.1"
             },
             "funding": [
                 {
@@ -5356,7 +5356,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-03-03T07:50:46+00:00"
+            "time": "2025-05-28T14:22:54+00:00"
         },
         {
             "name": "symfony/form",
@@ -8965,88 +8965,17 @@
             "time": "2025-03-24T09:03:36+00:00"
         },
         {
-            "name": "symfony/ux-google-map",
-            "version": "v2.24.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-google-map.git",
-                "reference": "2e155114f1fbb26465b44ca50fbd34728209ed93"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-google-map/zipball/2e155114f1fbb26465b44ca50fbd34728209ed93",
-                "reference": "2e155114f1fbb26465b44ca50fbd34728209ed93",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.3",
-                "symfony/stimulus-bundle": "^2.18.1",
-                "symfony/ux-map": "^2.19"
-            },
-            "require-dev": {
-                "spatie/phpunit-snapshot-assertions": "^5.1.8",
-                "symfony/phpunit-bridge": "^6.4|^7.0",
-                "symfony/ux-icons": "^2.18"
-            },
-            "type": "symfony-ux-map-bridge",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\UX\\Map\\Bridge\\Google\\": "src/"
-                },
-                "exclude-from-classmap": []
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Hugo Alliaume",
-                    "email": "hugo@alliau.me"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony UX Map GoogleMaps Bridge",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "google-maps",
-                "map",
-                "symfony-ux"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/ux-google-map/tree/v2.24.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2025-03-27T17:10:30+00:00"
-        },
-        {
             "name": "symfony/ux-icons",
-            "version": "v2.24.0",
+            "version": "v2.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-icons.git",
-                "reference": "39f689b41081f7788ee9c4a188817599d546bfb2"
+                "reference": "e5c1e5b5093ae26dba45d0f3390a1e21f305c47a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-icons/zipball/39f689b41081f7788ee9c4a188817599d546bfb2",
-                "reference": "39f689b41081f7788ee9c4a188817599d546bfb2",
+                "url": "https://api.github.com/repos/symfony/ux-icons/zipball/e5c1e5b5093ae26dba45d0f3390a1e21f305c47a",
+                "reference": "e5c1e5b5093ae26dba45d0f3390a1e21f305c47a",
                 "shasum": ""
             },
             "require": {
@@ -9106,7 +9035,7 @@
                 "twig"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-icons/tree/v2.24.0"
+                "source": "https://github.com/symfony/ux-icons/tree/v2.26.0"
             },
             "funding": [
                 {
@@ -9122,20 +9051,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-04-04T17:32:18+00:00"
+            "time": "2025-05-30T02:07:34+00:00"
         },
         {
             "name": "symfony/ux-leaflet-map",
-            "version": "v2.25.2",
+            "version": "v2.26.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-leaflet-map.git",
-                "reference": "288f55281291a87374a1113f8507ae31a35ea2b9"
+                "reference": "1dd25d65b8d63ff6d14f92be1d0674259cb6c89e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-leaflet-map/zipball/288f55281291a87374a1113f8507ae31a35ea2b9",
-                "reference": "288f55281291a87374a1113f8507ae31a35ea2b9",
+                "url": "https://api.github.com/repos/symfony/ux-leaflet-map/zipball/1dd25d65b8d63ff6d14f92be1d0674259cb6c89e",
+                "reference": "1dd25d65b8d63ff6d14f92be1d0674259cb6c89e",
                 "shasum": ""
             },
             "require": {
@@ -9178,7 +9107,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-leaflet-map/tree/v2.25.2"
+                "source": "https://github.com/symfony/ux-leaflet-map/tree/v2.26.1"
             },
             "funding": [
                 {
@@ -9194,20 +9123,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-05-19T11:54:27+00:00"
+            "time": "2025-06-05T17:25:17+00:00"
         },
         {
             "name": "symfony/ux-map",
-            "version": "v2.25.2",
+            "version": "v2.26.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-map.git",
-                "reference": "698357494dd36fc4b3726a8883505348883000e3"
+                "reference": "6064968cfb9cd3b4a133b3d83b87ad570a036b16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-map/zipball/698357494dd36fc4b3726a8883505348883000e3",
-                "reference": "698357494dd36fc4b3726a8883505348883000e3",
+                "url": "https://api.github.com/repos/symfony/ux-map/zipball/6064968cfb9cd3b4a133b3d83b87ad570a036b16",
+                "reference": "6064968cfb9cd3b4a133b3d83b87ad570a036b16",
                 "shasum": ""
             },
             "require": {
@@ -9218,6 +9147,8 @@
                 "symfony/ux-twig-component": "<2.21"
             },
             "require-dev": {
+                "phpunit/phpunit": "^9.6.22",
+                "spatie/phpunit-snapshot-assertions": "^4.2.17",
                 "symfony/asset-mapper": "^6.4|^7.0",
                 "symfony/framework-bundle": "^6.4|^7.0",
                 "symfony/phpunit-bridge": "^7.2",
@@ -9261,7 +9192,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-map/tree/v2.25.2"
+                "source": "https://github.com/symfony/ux-map/tree/v2.26.1"
             },
             "funding": [
                 {
@@ -9277,7 +9208,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-05-20T08:17:01+00:00"
+            "time": "2025-06-05T17:25:17+00:00"
         },
         {
             "name": "symfony/ux-turbo",
@@ -12368,7 +12299,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -12376,6 +12307,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }

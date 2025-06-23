@@ -41,12 +41,6 @@ return [
     '@symfony/ux-map/abstract-map-controller' => [
         'path' => './vendor/symfony/ux-map/assets/dist/abstract_map_controller.js',
     ],
-    '@googlemaps/js-api-loader' => [
-        'version' => '1.16.8',
-    ],
-    '@symfony/ux-google-map/map-controller' => [
-        'path' => './vendor/symfony/ux-google-map/assets/dist/map_controller.js',
-    ],
     'leaflet' => [
         'version' => '1.9.4',
     ],
@@ -56,9 +50,6 @@ return [
     ],
     '@symfony/ux-leaflet-map/map-controller' => [
         'path' => './vendor/symfony/ux-leaflet-map/assets/dist/map_controller.js',
-    ],
-    '@symfony/ux-google-map' => [
-        'path' => './vendor/symfony/ux-google-map/assets/dist/map_controller.js',
     ],
     '@symfony/ux-leaflet-map' => [
         'path' => './vendor/symfony/ux-leaflet-map/assets/dist/map_controller.js',

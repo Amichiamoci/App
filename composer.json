@@ -26,7 +26,7 @@
         "symfony/doctrine-messenger": "7.2.*",
         "symfony/dotenv": "7.2.*",
         "symfony/expression-language": "7.2.*",
-        "symfony/flex": "^2",
+        "symfony/flex": "^2.7",
         "symfony/form": "7.2.*",
         "symfony/framework-bundle": "7.2.*",
         "symfony/http-client": "7.2.*",
@@ -47,10 +47,9 @@
         "symfony/string": "7.2.*",
         "symfony/translation": "7.2.*",
         "symfony/twig-bundle": "7.2.*",
-        "symfony/ux-google-map": "^2.19",
-        "symfony/ux-icons": "^2.19",
-        "symfony/ux-leaflet-map": "^2.19",
-        "symfony/ux-map": "^2.19",
+        "symfony/ux-icons": "^2.26",
+        "symfony/ux-leaflet-map": "^2.26",
+        "symfony/ux-map": "^2.26",
         "symfony/ux-turbo": "^2.18",
         "symfony/ux-twig-component": "^2.19",
         "symfony/validator": "7.2.*",
@@ -59,7 +58,7 @@
         "symfonycasts/reset-password-bundle": "^1.22",
         "symfonycasts/verify-email-bundle": "^1.17",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^3.21"
     },
     "config": {
         "allow-plugins": {
