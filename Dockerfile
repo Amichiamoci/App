@@ -58,6 +58,7 @@ COPY --chown=www-data . .
 RUN chmod +x bin/console
 
 # Volumes setup
+RUN mkdir -p /app/var
 VOLUME [ "/app/var" ]
 RUN chown -R www-data /app/var
 
