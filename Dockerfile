@@ -49,7 +49,7 @@ RUN chmod +x ./entrypoint.sh
 
 # Move the downloaded dependencies to the actual place they need to be
 COPY --from=builder --chown=www-data /app/vendor ./vendor
-COPY --from=builder --chown=www-data /app/var ./var
+# COPY --from=builder --chown=www-data /app/var ./var
 
 # Actually copy the code
 COPY --chown=www-data . .
