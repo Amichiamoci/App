@@ -10,6 +10,4 @@ demo/*
 .git
 assets/vendor
 Dockerfile
-.vscode
-.github
 migrations/*
