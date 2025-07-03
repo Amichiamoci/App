@@ -12,6 +12,7 @@ const CURIOSITIES = [
 
     // Su Amichiamoci e Livorno
     'I calzini più originali sono quelli di Pietro',
+    'Tra gli staffisti, il miglior ballerino è senza dubbio Dario',
     'Ogni edizione di Amichiamoci ha un diverso logo e slogan',
     'La scritta Amichiamoci colorata che vedi in quest\'App è una parte del logo 2014',
     'Amichiamoci anima da decenni il settembre della Diocesi di Livorno',

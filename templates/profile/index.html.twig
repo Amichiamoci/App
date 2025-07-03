@@ -99,9 +99,10 @@
                 <strong>NON AGONISTICO</strong>.<br />
 
                 <em>Amichiamoci</em> è convenzionata con 
+                
                 {#
                 <button 
-                    class="" 
+                    class="btn btn-link p-0 d-inline link-primary link-underline link-underline-opacity-75" 
                     type="button" 
                     data-bs-toggle="modal"
                     data-bs-target="#modal-svs"
@@ -120,6 +121,7 @@
                 >
                     SVS Livorno
                 </button>
+                
                 per le visite di rilascio di certificato medico, sia agonistico, sia non agonistico.<br />
 
                 Per il ottenere certificato sarà necessario presentare compilata la
@@ -133,9 +135,8 @@
             </a>
         </div>
     </div>
-{% endblock %}
 
-{#  
+    {#
     <div class="modal fade" 
         id="modal-svs" 
         tabindex="-1" 
@@ -163,10 +164,10 @@
                         </a>
                     </p>
                     {{ ux_map(
-                        center: [43.5519013, 10.305073],
+                        center: [43.5519, 10.3050],
                         zoom: 6,
                         markers: [
-                            { position: [43.5519013, 10.305073], title: 'Centro medico SVS' },
+                            { position: [43.551901, 10.305073], title: 'Centro medico SVS' },
                         ],
                         attributes: {
                             class: 'w-100',
@@ -177,4 +178,6 @@
             </div>
         </div>
     </div>
-#}
+    #}
+
+{% endblock %}
