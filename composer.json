@@ -24,7 +24,7 @@
         "symfony/asset-mapper": "7.2.*",
         "symfony/console": "7.2.*",
         "symfony/doctrine-messenger": "7.2.*",
-        "symfony/dotenv": "7.2.*",
+        "symfony/dotenv": "7.3.*",
         "symfony/expression-language": "7.3.*",
         "symfony/flex": "^2.7",
         "symfony/form": "7.2.*",
