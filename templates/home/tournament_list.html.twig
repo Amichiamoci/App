@@ -10,7 +10,7 @@
     <ul class="list-group">
     {% for tournament in tournaments %}
         <li class="list-group-item">
-            <a href="{{ path('home_tourney_view', { 'id': tournament.Id }) }}"
+            <a href="{{ path('home_tournament_view', { 'id': tournament.Id }) }}"
                 class="link-underline link-secondary"
             >{{ tournament.Name }} - {{ tournament.Sport }}</a>
         </li>

@@ -3,7 +3,7 @@
 # Amichiamoci App
 [![Docker image](https://github.com/Amichiamoci/App/actions/workflows/docker-build.yml/badge.svg)](https://github.com/Amichiamoci/App/actions/workflows/docker-build.yml)
 
-Questo è il codice sorgente della App di Amichiamoci, disponibile come repository ed anche come immagine docker.
+Questo è il codice sorgente della [App di Amichiamoci](https://app.amichiamoci.it "Vai alla App"), disponibile come repository ed anche come immagine docker.
 
 ## Scaricare con Docker
 ```bash
@@ -18,7 +18,7 @@ git clone https://github.com/Amichiamoci/App && cd App
 
 Ed esegui
 ```bash
-cd demo && docker-compose down && docker-compose up -d --build && cd ..
+cd demo && docker-compose up -d --build && cd ..
 ```
 
 ## Costruire con composer
