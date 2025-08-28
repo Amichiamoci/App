@@ -7,7 +7,7 @@ Questo è il codice sorgente della [App di Amichiamoci](https://app.amichiamoci.
 
 ## Scaricare con Docker
 ```bash
-docker pull gchr.io/amichiamoci/app:latest
+docker pull ghcr.io/amichiamoci/app:latest
 ```
 
 ### Testa localmente con Docker
