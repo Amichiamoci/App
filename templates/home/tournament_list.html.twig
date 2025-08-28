@@ -11,8 +11,11 @@
     {% for tournament in tournaments %}
         <li class="list-group-item">
             <a href="{{ path('home_tournament_view', { 'id': tournament.Id }) }}"
-                class="link-underline link-secondary"
-            >{{ tournament.Name }} - {{ tournament.Sport }}</a>
+                class="link-underline link-primary"
+                title="Vedi i dettagli del torneo"
+            >
+                {{ tournament.Name }} - {{ tournament.Sport }}
+            </a>
         </li>
     {% else %}
         <li class="list-group-item">

@@ -49,7 +49,9 @@
                     <tr>
                         <td>
                             <a href="{{ path ('home_team_view', {'id': team.Id }) }}"
-                                class="link-underline link-underline-opacity-0">
+                                class="link-underline link-underline-opacity-0"
+                                title="{{ team.Church }}"
+                            >
                                 {{ team.Name }}
                             </a>
                         </td>
@@ -75,12 +77,16 @@
             {% for match in tournament.Matches %}
                 <li class="list-group-item">
                     <a href="{{ path('home_team_view', {'id': match.HomeTeam.Id })}}" 
-                        class="link-secondary link-underline link-underline-opacity-0">
+                        class="link-primary link-underline link-underline-opacity-0"
+                        title="{{ match.HomeTeam.Church }}"
+                    >
                         {{ match.HomeTeam.Name }}
                     </a>
                      - 
                     <a href="{{ path('home_team_view', {'id': match.GuestTeam.Id })}}" 
-                        class="link-secondary link-underline link-underline-opacity-0">
+                        class="link-primary link-underline link-underline-opacity-0"
+                        title="{{ match.GuestTeam.Church }}"
+                    >
                         {{ match.GuestTeam.Name }}
                     </a>
                     
