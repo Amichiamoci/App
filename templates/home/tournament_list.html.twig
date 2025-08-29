@@ -7,21 +7,39 @@
 
     <h1> Tornei di {{ sport|upper }}</h1>
 
-    <ul class="list-group">
-    {% for tournament in tournaments %}
-        <li class="list-group-item">
-            <a href="{{ path('home_tournament_view', { 'id': tournament.Id }) }}"
-                class="link-underline link-primary"
-                title="Vedi i dettagli del torneo"
-            >
-                {{ tournament.Name }} - {{ tournament.Sport }}
-            </a>
-        </li>
-    {% else %}
-        <li class="list-group-item">
-            Nessuna torneo in programma
-        </li>
-    {% endfor %}
-    </ul>
+    <div class="row">
+        {% for tournament in tournaments %}
+            <div class="col col-xs-12 col-sm-6 col-lg-4 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <a href="{{ path('home_tournament_view', { 'id': tournament.Id }) }}"
+                                class="link-underline link-underline-opacity-75"
+                                title="Vedi i dettagli del torneo"
+                            >
+                                {{ tournament.Name }} - {{ tournament.Sport }}
+                            </a>
+                        </div>
+
+                        <ul class="list-group list-group-flush">
+                            {% for team in tournament.Teams %}
+                                <li class="list-group-item">
+                                    {{ team }}
+                                </li>
+                            {% else %}
+                                <li class="list-group-item">
+                                    Nessuna squadra iscritta
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>
+                Nessun torneo in programma.
+            </p>
+        {% endfor %}
+    </div>
 
 {% endblock %}

@@ -10,11 +10,13 @@
         </h1>
         <p>
             Tipologia: <strong>{{ tournament.Type }}</strong><br />
-            Sport: {{ tournament.Sport }}
+            Sport: {{ tournament.Sport }}<br />
+            Squadre partecipanti: <output>{{ tournament.Teams|length }}</output>
         </p>
 
         <hr />
         
+        {#
         <h3>
             Squadre partecipanti
         </h3>
@@ -25,6 +27,7 @@
         </ul>
         
         <hr />
+        #}
 
         {% if tournament.hasLeaderboard() %}
             <h3> Classifica </h3>
@@ -56,57 +59,63 @@
                             </a>
                         </td>
                         <td>
-                            {{ team.Points }}
+                            <output>{{ team.Points }}</output>
                         </td>
                         <td>
-                            {{ team.MatchesToPlay }}
+                            <output>{{ team.MatchesToPlay }}</output>
                         </td>
                         <td>
-                            {{ team.PlannedMatches }}
+                            <output>{{ team.PlannedMatches }}</output>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
             </table>
+
+            <hr />
         {% endif %}
 
         <h3>
-            Parite
+            Parite ({{ tournament.Matches|length }})
         </h3>
-        <ul class="list-group">
+        <div class="row">
             {% for match in tournament.Matches %}
-                <li class="list-group-item">
-                    <a href="{{ path('home_team_view', {'id': match.HomeTeam.Id })}}" 
-                        class="link-underline link-underline-opacity-0"
-                        title="{{ match.HomeTeam.Church }}"
-                    >
-                        {{ match.HomeTeam.Name }}
-                    </a>
-                     - 
-                    <a href="{{ path('home_team_view', {'id': match.GuestTeam.Id })}}" 
-                        class="link-underline link-underline-opacity-0"
-                        title="{{ match.GuestTeam.Church }}"
-                    >
-                        {{ match.GuestTeam.Name }}
-                    </a>
-                    
-                    {% if match.hasScores() %}
-                        &nbsp;
-                        <span class="text-muted user-select-none">
-                            {{ match.ScoresRow }}
-                        </span>
-                    {% elseif match.hasDate() %}
-                        &nbsp;
-                        <span class="text-muted user-select-none">
-                            Prevista per il {{ match.Date }}
-                        </span>
-                    {% endif %}
-                </li>
+                <div class="col col-xs-12 col-sm-6 col-lg-4 mb-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <a href="{{ path('home_team_view', {'id': match.HomeTeam.Id })}}" 
+                                    class="link-underline link-underline-opacity-0"
+                                    title="{{ match.HomeTeam.Church }}"
+                                >
+                                    {{ match.HomeTeam.Name }}
+                                </a>
+                                - 
+                                <a href="{{ path('home_team_view', {'id': match.GuestTeam.Id })}}" 
+                                    class="link-underline link-underline-opacity-0"
+                                    title="{{ match.GuestTeam.Church }}"
+                                >
+                                    {{ match.GuestTeam.Name }}
+                                </a>
+                            </div>
+
+                            {% if match.hasScores() %}
+                                <p class="text-muted user-select-none">
+                                    {{ match.ScoresRow }}
+                                </p>
+                            {% elseif match.hasDate() %}
+                                <p class="text-muted user-select-none">
+                                    Prevista per il {{ match.Date }}
+                                </p>
+                            {% endif %}
+                       </div>
+                    </div> 
+                </div>
             {% else %}
-                <li class="list-group-item">
+                <p class="list-group-item">
                     Calendario non ancora creato
-                </li>
+                </p>
             {% endfor %}
-        </ul>
+        </div>
     </div>
 {% endblock %}
