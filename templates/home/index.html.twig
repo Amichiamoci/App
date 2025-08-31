@@ -43,12 +43,14 @@
                     <strong>iscriverti</strong> e molto altro.
                 </p>
             </div>
-            <div class="alert alert-warning d-flex align-items-left fs-4" role="alert">
-                <p class="m-0 user-select-none">
-                    Non sei ancora iscritto ad Amichiamoci!<br />
-                    Rimedia <a href="{{ path('profile') }}" class="text-reset link-underline link-underline-secondary fw-bold">qui</a>.
-                </p>
-            </div>
+            {% if showSubscriptionReminder %}
+                <div class="alert alert-warning d-flex align-items-left fs-4" role="alert">
+                    <p class="m-0 user-select-none">
+                        Non sei ancora iscritto ad Amichiamoci!<br />
+                        Rimedia <a href="{{ path('profile') }}" class="text-reset link-underline link-underline-secondary fw-bold">qui</a>.
+                    </p>
+                </div>
+            {% endif %}
         {% endif %}
     {% endfor %}
 

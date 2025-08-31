@@ -12,16 +12,20 @@
         {% for church in leaderboard %}
             <tr>
                 <th scope="row">
-                    {{ church.Position }}
+                    <output class="user-select-none">
+                        {{ church.Position }}
+                    </otuput>
                 </th>
                 <td>
                     <a href="{{ path('church_view', {'id': church.Id })}}" 
-                        class="link-secondary link-underline link-underline-opacity-0">
+                        class="link-underline link-underline-opacity-0"
+                        title="Vai alla Parrocchia"
+                    >
                         {{ church.Name }}
                     </a>
                 </td>
-                <td>
-                    <output>
+                <td class="text-center">
+                    <output class="user-select-none">
                         {{ church.Score }}
                     </output>
                 </td>
