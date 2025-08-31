@@ -17,7 +17,8 @@
                                     type="button" data-bs-toggle="collapse" 
                                     data-bs-target="#sport-{{ id }}-body" 
                                     aria-expanded="false"
-                                    aria-controls="sport-{{ id }}-body">
+                                    aria-controls="sport-{{ id }}-body"
+                            >
                                 <strong>
                                     {{ sport }}
                                 </strong>
@@ -27,13 +28,14 @@
                             id="sport-{{ id }}-body" 
                             class="accordion-collapse collapse" 
                             aria-labelledby="accordion-header" 
-                            data-parent="#sport-{{ id }}-list">
+                            data-parent="#sport-{{ id }}-list"
+                        >
                             <div class="accordion-body">
                                 <ul class="list-group list-group-flush">
                                     {% for match in matches %}
-                                    <li class="list-group-item">
-                                        {% include 'match/small.html.twig' with { 'match': match } %}
-                                    </li>
+                                        <li class="list-group-item">
+                                            {% include 'match/small.html.twig' with { 'match': match } %}
+                                        </li>
                                     {% endfor %}
                                 </ul>
                             </div>

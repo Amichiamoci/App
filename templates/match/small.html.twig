@@ -2,8 +2,9 @@
 
     <div class="row">
         <div class="col h4 text-center">
-            <a href="{{ path('home_tourney_view', {'id': match.TourneyId }) }}" 
-                class="link-primary link-underline">{{ match.TourneyName }}</a>
+            <a href="{{ path('home_tournament_view', {'id': match.TournamentId }) }}" 
+                class="link-underline link-underline-opacity-0 link-underline-opacity-50-hover"
+            >{{ match.TournamentName }}</a>
             &nbsp;
             <span class="user-select-none text-muted">
                 ({{ match.SportName|upper }})
@@ -15,7 +16,8 @@
         <div class="row">
             <div class="col text-center">
                 <a href="{{ path('home_team_view', {'id': match.HomeTeam.Id })}}" 
-                    class="link-secondary link-underline link-underline-opacity-0">
+                    class="text-reset link-underline link-offset-2 link-underline-opacity-0 link-underline-opacity-25-hover"
+                >
                     <twig:ux:icon name="bi:house" height="15" />
                     {{ match.HomeTeam.Name }}
                 </a>
@@ -23,7 +25,8 @@
             
             <div class="col text-center">
                 <a href="{{ path('home_team_view', {'id': match.GuestTeam.Id })}}" 
-                    class="link-secondary link-underline link-underline-opacity-0">
+                    class="text-reset link-underline link-offset-2 link-underline-opacity-0 link-underline-opacity-25-hover"
+                >
                     <twig:ux:icon name="bi:car-front" height="15" />
                     {{ match.GuestTeam.Name }}
                 </a>
@@ -32,7 +35,8 @@
         <div class="row">
             <div class="col text-center">
                 <a href="{{ path('church_view', {'id': match.HomeTeam.ChurchId })}}" 
-                    class="link-secondary link-underline link-underline-opacity-0">
+                    class="text-reset link-underline link-underline-opacity-0"
+                >
                     <twig:ux:icon name="mdi:church-outline" height="15" />
                     {{ match.HomeTeam.Church }}
                 </a>
@@ -40,7 +44,8 @@
             
             <div class="col text-center">
                 <a href="{{ path('church_view', {'id': match.GuestTeam.ChurchId })}}" 
-                    class="link-secondary link-underline link-underline-opacity-0">
+                    class="text-reset link-underline link-underline-opacity-0"
+                >
                     <twig:ux:icon name="mdi:church-outline" height="15" />
                     {{ match.GuestTeam.Church }}
                 </a>
@@ -50,23 +55,24 @@
 
     {% if match.hasScores() %}
         {% for score in match.Scores.Parsed %}
-        <div class="row">
-            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isReferee() %}
-                <div class="col text-center">
-                    {{ score.Home }} - {{ score.Guest }}
-                    &nbsp;
-                    <a href="{{ path('delete_result', {'id': score.Id })}}"
-                        class="link-danger link-underline link-underline-opacity-0"
-                        title="Rimuovi">
-                        <twig:ux:icon name="bi:trash" height="14" />
-                    </a>
-                </div>
-            {% else %}
-                <div class="col text-center user-select-none">
-                    {{ score.Home }} - {{ score.Guest }}
-                </div>
-            {% endif %}
-        </div>
+            <div class="row">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isReferee() %}
+                    <div class="col text-center">
+                        {{ score.Home }} - {{ score.Guest }}
+                        &nbsp;
+                        <a href="{{ path('delete_result', {'id': score.Id })}}"
+                            class="link-danger link-underline link-underline-opacity-0"
+                            title="Rimuovi"
+                        >
+                            <twig:ux:icon name="bi:trash" height="14" />
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="col text-center user-select-none">
+                        {{ score.Home }} - {{ score.Guest }}
+                    </div>
+                {% endif %}
+            </div>
         {% endfor %}
     {% endif %}
     {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isReferee() and match.canHaveOtherResults %}
@@ -75,7 +81,8 @@
                 <button 
                     type="button"
                     data-bs-toggle="modal" 
-                    data-bs-target="#modal-new-result-{{ match.Id }}">
+                    data-bs-target="#modal-new-result-{{ match.Id }}"
+                >
                     Aggiungi risultato
                 </button>
             </div>
@@ -83,7 +90,8 @@
         <div class="modal fade" id="modal-new-result-{{ match.Id }}" 
             tabindex="-1" 
             aria-hidden="true"
-            aria-labelledby="modal-new-result-label-{{ match.Id }}">
+            aria-labelledby="modal-new-result-label-{{ match.Id }}"
+        >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -136,11 +144,9 @@
     {% if match.hasField() %}
         <div class="row">
             <div class="col text-center">
-                <a href="#"
-                    role="button" 
+                <a href="{{ path('home_field_view', { 'id': match.Field.Id }) }}"
                     class="link-secondary link-underline link-underline-opacity-0" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#modal-{{ match.Id }}-field-{{ match.Field.Id }}"
+                    title="Vedi dettagli"
                 >    
                     <twig:ux:icon name="bi:geo-alt" height="16" />
                     {{ match.Field.Name }}
@@ -148,25 +154,6 @@
             </div>
         </div>
 
-        <div class="modal fade" id="modal-{{ match.Id }}-field-{{ match.Field.Id }}" 
-            tabindex="-1" 
-            aria-hidden="true"
-            aria-labelledby="modal-{{ match.Id }}-field-label-{{ match.Field.Id }}"
-        >
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modal-{{ match.Id }}-field-label-{{ match.Field.Id }}">
-                            Campo {{ match.Field.Name }}
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
-                    </div>
-                    <div class="modal-body">
-                        {% include 'match/field.html.twig' with {'field': match.Field } %}
-                    </div>
-                </div>
-            </div>
-        </div>
     {% endif %}
 
     {% if match.WhoPlays is defined %}

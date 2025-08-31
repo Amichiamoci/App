@@ -10,10 +10,10 @@ class SportMatch
     public int $Id;
     public function getId(): int { return $this->Id; }
 
-    public int $TourneyId;
-    public string $TourneyName;
-    public function getTourneyId(): int { return $this->TourneyId; }
-    public function getTourneyName(): string { return $this->TourneyName; }
+    public int $TournamentId;
+    public string $TournamentName;
+    public function getTournamentId(): int { return $this->TournamentId; }
+    public function getTournamentName(): string { return $this->TournamentName; }
 
     public int $SportId;
     public string $SportName;
