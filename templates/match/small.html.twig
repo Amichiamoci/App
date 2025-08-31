@@ -140,22 +140,23 @@
                     role="button" 
                     class="link-secondary link-underline link-underline-opacity-0" 
                     data-bs-toggle="modal" 
-                    data-bs-target="#modal-field-{{ match.Field.Id }}">
-                    
+                    data-bs-target="#modal-{{ match.Id }}-field-{{ match.Field.Id }}"
+                >    
                     <twig:ux:icon name="bi:geo-alt" height="16" />
                     {{ match.Field.Name }}
                 </a>
             </div>
         </div>
 
-        <div class="modal fade" id="modal-field-{{ match.Field.Id }}" 
+        <div class="modal fade" id="modal-{{ match.Id }}-field-{{ match.Field.Id }}" 
             tabindex="-1" 
             aria-hidden="true"
-            aria-labelledby="modal-field-label-{{ match.Field.Id }}">
+            aria-labelledby="modal-{{ match.Id }}-field-label-{{ match.Field.Id }}"
+        >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modal-field-label-{{ match.Field.Id }}">
+                        <h5 class="modal-title" id="modal-{{ match.Id }}-field-label-{{ match.Field.Id }}">
                             Campo {{ match.Field.Name }}
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>

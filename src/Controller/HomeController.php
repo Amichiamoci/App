@@ -99,6 +99,35 @@ class HomeController extends AbstractController
         ]);
     }
 
+    #[Route(path: '/home/fields', name: 'home_fields_list',)]
+    public function fields_list(ApiManager $apiManager): Response
+    {
+        $fields = $apiManager->Fields();
+        return $this->render(
+            view: 'home/field_list.html.twig', 
+            parameters: [
+                'fields' => $fields,
+            ],
+        );
+    }
+
+    #[Route(path: '/home/field/{id}', name: 'home_field_view',)]
+    public function field_view(ApiManager $apiManager, int $id): Response
+    {
+        $field = $apiManager->Field(id: $id);
+        if (!isset($field))
+        {
+            throw new NotFoundHttpException(message: "Campo '$id' non trovato");
+        }
+
+        return $this->render(
+            view: 'home/field_view.html.twig', 
+            parameters: [
+                'field' => $field,
+            ],
+        );
+    }
+
     //
     // Static pages
     //

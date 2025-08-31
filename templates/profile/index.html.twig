@@ -100,14 +100,6 @@
 
                 <em>Amichiamoci</em> è convenzionata con 
                 
-                {#
-                <button 
-                    class="btn btn-link p-0 d-inline link-primary link-underline link-underline-opacity-75" 
-                    type="button" 
-                    data-bs-toggle="modal"
-                    data-bs-target="#modal-svs"
-                >SVS Livorno</button> 
-                #}
                 <button 
                     class="btn btn-link p-0 d-inline link-primary link-underline link-underline-opacity-75"
                     type="button" 
@@ -135,49 +127,5 @@
             </a>
         </div>
     </div>
-
-    {#
-    <div class="modal fade" 
-        id="modal-svs" 
-        tabindex="-1" 
-        aria-hidden="true"
-        aria-labelledby="modal-svs-label"
-    >
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal-svs-label">
-                        Centro medico SVS Livorno
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        Si trova in 
-                        <a 
-                            href="https://www.google.it/maps/place/SVS+Polo+Salute+livorno/@43.5518747,10.3052837,146m/data=!3m2!1e3!5s0x12d5e97f775c682d:0x289e528fc154d4a8!4m6!3m5!1s0x12d5e9da405f6057:0x6d7435a252b013e2!8m2!3d43.551827!4d10.3057133!16s%2Fg%2F11rfc4xg8x"
-                            target="_blank"
-                            class="link-underline link-underline-opacity-0 text-reset"
-                            title="Apri in Google Maps"
-                        >
-                            via San Giovanni 30
-                        </a>
-                    </p>
-                    {{ ux_map(
-                        center: [43.5519, 10.3050],
-                        zoom: 6,
-                        markers: [
-                            { position: [43.551901, 10.305073], title: 'Centro medico SVS' },
-                        ],
-                        attributes: {
-                            class: 'w-100',
-                            style: 'height: 300px;',
-                        }
-                    ) }}
-                </div>
-            </div>
-        </div>
-    </div>
-    #}
 
 {% endblock %}

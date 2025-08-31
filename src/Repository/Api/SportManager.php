@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Repository\Api;
+
+use App\Entity\Match\MatchField;
 use App\Entity\Match\SportMatch;
 use App\Entity\Match\TodaySportMatch;
 use App\Entity\Match\Score;
@@ -75,7 +77,7 @@ trait SportManager
             className: SportMatch::class, 
             params: [
                 'Sport' => $sport,
-            ]
+            ],
         );
     }
     
@@ -207,4 +209,33 @@ trait SportManager
         return array_values(array: $scores)[0];
     }
 
+    //
+    // Fields handling
+    //
+    
+    /**
+     * @return MatchField[]
+     */
+    public function Fields(): array
+    {
+        return $this->_getObjectCollection(
+            collectionName: 'all-fields', 
+            className: MatchField::class, 
+        );
+    }
+
+    public function Field(int $id): ?MatchField
+    {
+        $filtered = array_filter(
+            array: $this->Fields(), 
+            callback: function (MatchField $f) use($id): bool {
+                return $f->Id === $id;
+            },
+        );
+        if (count(value: $filtered) === 0)
+        {
+            return null;
+        }
+        return array_values(array: $filtered)[0];
+    }
 }

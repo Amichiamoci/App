@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ field.Name }}{% endblock %}
+{% block description %}Campo sportivo{% endblock %}
+
+{% block body %}
+
+    <h1>
+        {{ field.Name }}
+    </h1>
+
+    {% if field.hasAddress() %}
+        <p>
+            {{ field.Address }}
+        </p>
+    {% endif %}
+
+    {% if field.hasLatitude() %}
+        <div class="row">
+            <div class="col">
+                {{ ux_map(field.Map, { style: 'height: 300px' }) }}
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
