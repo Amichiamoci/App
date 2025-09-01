@@ -65,6 +65,20 @@ trait SportManager
     //
     // Matches handling
     //
+
+    /**
+     * Duration of the cache, set to 5 minutes
+     * @var int
+     */
+    const int MATCHES_CACHE = 300;
+
+    private function InvalidateTodayYesterdayMatchesCache(): bool
+    {
+        return $this->_cacheInvalidate(
+            collectionName: 'today-yesterday-matches', 
+            duration: self::MATCHES_CACHE,
+        );
+    }
     
     /**
      * @param string $sport
@@ -78,6 +92,7 @@ trait SportManager
             params: [
                 'Sport' => $sport,
             ],
+            cache: self::MATCHES_CACHE / 2,
         );
     }
     
@@ -122,7 +137,8 @@ trait SportManager
             className: SportMatch::class, 
             params: [
                 'Id' => $id
-            ]
+            ],
+            cache: self::MATCHES_CACHE / 2,
         );
 
         $tourney->Leaderboard = $this->_getObjectCollection(
@@ -130,7 +146,8 @@ trait SportManager
             className: TeamPosition::class, 
             params: [
                 'Id' => $id
-            ]
+            ],
+            cache: self::MATCHES_CACHE / 2,
         );
 
         return $tourney;
@@ -151,7 +168,8 @@ trait SportManager
     {
         $array = $this->_getObjectCollection(
             collectionName: 'today-yesterday-matches', 
-            className: SportMatch::class
+            className: SportMatch::class,
+            cache: self::MATCHES_CACHE,
         );
         if (count(value: $array) === 0)
         {
@@ -186,7 +204,9 @@ trait SportManager
             ],
             cache: false,
         );
-        return count(value: $result) === 0;
+        return 
+            $this->InvalidateTodayYesterdayMatchesCache() &&
+            count(value: $result) === 0;
     }
 
     public function AddResult(int $id, string $home, string $guest): ?Score
@@ -206,6 +226,7 @@ trait SportManager
             return null;
         }
 
+        $this->InvalidateTodayYesterdayMatchesCache();
         return array_values(array: $scores)[0];
     }
 
