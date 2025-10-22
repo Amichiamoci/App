@@ -1,71 +1,67 @@
-FROM php:8.4-apache AS base
-RUN apt update && \
-    apt install -y --no-install-recommends --upgrade \
-        libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
-        libzip-dev zip unzip \
-        curl libcurl4 libcurl4-openssl-dev wget \
-        apache2-utils \
-        libicu-dev libonig-dev \
-        # libc-client-dev libkrb5-dev \
-        libsqlite3-dev sqlite3 libpq-dev && \
-    apt clean && \
-    rm -rf /var/lib/apt/lists/*
+FROM php:8.4-fpm-alpine AS base
+
+LABEL author="Riccardo Ciucci <riccardo@ciucci.dev>" \
+    description="Amichiamoci web app"
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+FROM base AS build
+RUN apk add --no-cache \
+    bash \
+    git curl \
+    autoconf g++ make libtool \
+    icu-dev \
+    zlib-dev libzip-dev \
+    gettext-dev oniguruma-dev \
+    freetype-dev jpeg-dev libpng-dev libwebp-dev libjpeg-turbo-dev \
+    sqlite-dev postgresql-dev mariadb-dev
 
 # Install php extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp && \
     docker-php-ext-configure intl && \
-    # docker-php-ext-configure imap --with-kerberos --with-imap-ssl && \
     docker-php-ext-install -j$(nproc) \
-        zip \
-        fileinfo \
-        ftp \
-        gettext \
-        intl \
-        mbstring \
-        sockets \
+        gd intl opcache \
+        pcntl zip \
+        gettext mbstring \
         mysqli pdo_mysql \
         pgsql pdo_pgsql \
-        pdo \
-        curl \
-        # imap \
-        pdo_sqlite
+        pdo_sqlite \
+        exif \
+        && \
+    docker-php-ext-enable opcache  
 
-# Use composer to build the dependencies
-FROM composer:latest AS builder
+FROM base
+
+RUN apk add --no-cache \
+    nginx curl \
+    icu oniguruma \
+    libintl libzip \
+    freetype jpeg libpng libwebp libjpeg-turbo \
+    sqlite-libs postgresql-libs mariadb-connector-c
+
+
+RUN mkdir -p /run/nginx /app /app/var /app/var/log /app/var/data /app/var/cache
 WORKDIR /app
-COPY composer.json .
-RUN composer update --no-interaction --no-progress --ignore-platform-reqs
+VOLUME [ "/app/var/log", "/app/var/data" ]
 
-# Build the final image
-FROM base AS final
-RUN mkdir -p /app
-WORKDIR /app
+COPY ./docker_files/nginx.conf /etc/nginx/http.d/default.conf
+COPY ./docker_files/php.conf /usr/local/etc/php-fpm.d/www-app.conf
+COPY --from=build /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
+COPY --from=build /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 
-# Enable the site in apache
-COPY ./docker_files/apache.conf /etc/apache2/sites-enabled/app.conf
-COPY ./docker_files/php.ini /usr/local/etc/php/
 COPY --chown=www-data ./docker_files/entrypoint.sh .
 RUN chmod +x ./entrypoint.sh
 
-# Move the downloaded dependencies to the actual place they need to be
-COPY --from=builder --chown=www-data /app/vendor ./vendor
-# COPY --from=builder --chown=www-data /app/var ./var
-
 # Actually copy the code
 COPY --chown=www-data . .
-
-# Enable cache handling
 RUN chmod +x bin/console
-
-# Volumes setup
-RUN mkdir -p /app/var
-VOLUME [ "/app/var" ]
+RUN composer install --no-interaction --no-progress --optimize-autoloader
+# RUN composer install --no-interaction --no-progress --optimize-autoloader --no-dev
 RUN chown -R www-data /app/var
 
-# Download packages
 RUN php bin/console importmap:install
-RUN php bin/console asset-map:compile
+# RUN php bin/console asset-map:compile
 
 # Start the server
-EXPOSE 80
-ENTRYPOINT [ "./entrypoint.sh" ]
+EXPOSE 8080
+CMD [ "./entrypoint.sh" ]

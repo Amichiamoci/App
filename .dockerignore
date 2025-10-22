@@ -1,5 +1,5 @@
-vendor/*
-var/*
+vendor
+var
 .env.test
 .env.local
 .gitignore

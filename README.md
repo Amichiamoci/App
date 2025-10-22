@@ -18,23 +18,5 @@ git clone https://github.com/Amichiamoci/App && cd App
 
 Ed esegui
 ```bash
-cd demo && docker-compose up -d --build && cd ..
+docker-compose up -d --build
 ```
-
-## Costruire con composer
-Clona la repo
-```bash
-git clone https://github.com/Amichiamoci/App && cd App
-```
-
-Scarica le librerie
-```bash
-composer update --no-interaction --no-progress
-```
-
-Scarica i moduli node e compila gli asset
-```bash
-php bin/console importmap:install && php bin/console asset-map:compile
-```
-
-Riempi il file `.env` con le variabili necessarie

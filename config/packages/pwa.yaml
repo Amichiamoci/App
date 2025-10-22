@@ -1,5 +1,10 @@
-
 pwa:
+  image_processor: pwa.image_processor.gd
+
+  #favicons:
+  #  enabled: true
+  #  src: assets/logos/favicon.png
+
   manifest:
     enabled: true
 

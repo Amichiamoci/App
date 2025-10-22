@@ -164,7 +164,7 @@ class ProfileController extends AbstractController
         ApiManager $apiManager, 
         Request $request,
         int $id,
-        #[Autowire('%kernel.project_dir%/var/uploads')] string $uploadDirectory
+        #[Autowire('%kernel.project_dir%/var/data/uploads')] string $uploadDirectory
     ): Response
     {
         $anagraphical = array_find(
@@ -248,7 +248,7 @@ class ProfileController extends AbstractController
     public function signup(
         ApiManager $apiManager,
         Request $request,
-        #[Autowire('%kernel.project_dir%/var/uploads')] string $uploadDirectory,
+        #[Autowire('%kernel.project_dir%/var/data/uploads')] string $uploadDirectory,
 
         ?int $id = null,
     ): Response

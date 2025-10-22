@@ -3,3 +3,11 @@ framework:
         # The paths to make available to the asset mapper.
         paths:
             - assets/
+        
+        precompress:
+            format: 'gzip'
+
+        importmap_script_attributes:
+            crossorigin: 'anonymous'
+
+        # image_processor: 'imagick'

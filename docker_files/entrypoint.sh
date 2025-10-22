@@ -2,13 +2,16 @@
 
 set -e
 
-UPLOAD_DIRECTORY=/app/var/uploads
-LOGS_DIRECTORY=/app/var/log
-CACHE_DIRECTORY=/app/var/cache
+APP_PATH=/app/var
 
-mkdir -p $UPLOAD_DIRECTORY $LOGS_DIRECTORY $CACHE_DIRECTORY
-echo 'deny from all' > $UPLOAD_DIRECTORY/.htaccess
-chown -R www-data:www-data $UPLOAD_DIRECTORY $LOGS_DIRECTORY
-chown www-data:www-data /app/var
+LOGS_DIRECTORY=$APP_PATH/log
+CACHE_DIRECTORY=$APP_PATH/cache
 
-apache2ctl -D FOREGROUND
+APP_DATA=$APP_PATH/data
+UPLOAD_DIRECTORY=$APP_DATA/uploads
+
+mkdir -p $UPLOAD_DIRECTORY $LOGS_DIRECTORY/nginx
+chown -R www-data:www-data $APP_DATA $LOGS_DIRECTORY
+
+php-fpm -D
+nginx -g "daemon off;"
