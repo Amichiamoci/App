@@ -1,0 +1,48 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "docker-compose up (Production)",
+      "type": "shell",
+      "command": "docker-compose",
+      "args": [
+        "-f",
+        ".vscode/docker-compose.yml",
+        "--profile",
+        "prod",
+        "up",
+        "--build"
+      ],
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "docker-compose up (Development)",
+      "type": "shell",
+      "command": "docker-compose",
+      "args": [
+        "-f",
+        ".vscode/docker-compose.yml",
+        "--profile",
+        "dev",
+        "up",
+        "--build"
+      ],
+      "isBackground": false,
+      "problemMatcher": []
+    },
+    {
+      "label": "docker-compose down",
+      "type": "shell",
+      "command": "docker-compose",
+      "args": [
+        "-f",
+        ".vscode/docker-compose.yml",
+        "--profile",
+        "\"*\"",
+        "down"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

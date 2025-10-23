@@ -23,8 +23,6 @@
 /assets/vendor/
 ###< symfony/asset-mapper ###
 
-.vscode
-
 !/var/uploads/.htaccess
 
 demo/*.env

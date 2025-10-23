@@ -44,6 +44,11 @@ RUN mkdir -p /run/nginx /app /app/var /app/var/log /app/var/data /app/var/cache
 WORKDIR /app
 VOLUME [ "/app/var/log", "/app/var/data" ]
 
+ARG APP_ENV=prod
+#RUN if [ "$APP_ENV" = "dev" ]; then \
+#      curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg; \
+#    fi
+
 COPY ./docker_files/nginx.conf /etc/nginx/http.d/default.conf
 COPY ./docker_files/php.conf /usr/local/etc/php-fpm.d/www-app.conf
 COPY --from=build /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/

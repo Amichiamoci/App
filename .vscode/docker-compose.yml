@@ -1,0 +1,15 @@
+services:
+  app:
+    build:
+      context: ../
+      args:
+        APP_ENV: ${APP_ENV:-dev}
+    profiles: [dev, prod, test]
+    restart: always
+    container_name: app
+    env_file: ../.env.local
+    volumes:
+      - ../var/log:/app/var/log:rw
+      - ../var/data:/app/var/data:rw
+    ports:
+      - 8080:8080
