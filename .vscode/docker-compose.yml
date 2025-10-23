@@ -3,7 +3,7 @@ services:
     build:
       context: ../
       args:
-        APP_ENV: ${APP_ENV:-dev}
+        APP_ENV: ${APP_ENV:-prod}
     profiles: [dev, prod, test]
     restart: always
     container_name: app
@@ -13,3 +13,9 @@ services:
       - ../var/data:/app/var/data:rw
     ports:
       - 8080:8080
+      - 9003:9003
+    healthcheck:
+      test: ["CMD", "php", "-v"]
+      interval: 5s
+      timeout: 3s
+      retries: 5

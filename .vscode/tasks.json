@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "docker-compose up (Production)",
+      "label": "Start container (Production)",
       "type": "shell",
       "command": "docker-compose",
       "args": [
@@ -11,13 +11,14 @@
         "--profile",
         "prod",
         "up",
-        "--build"
+        "--build",
+        "-d"
       ],
-      "isBackground": true,
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": { "reveal": "always" }
     },
     {
-      "label": "docker-compose up (Development)",
+      "label": "Start container (Development)",
       "type": "shell",
       "command": "docker-compose",
       "args": [
@@ -26,13 +27,19 @@
         "--profile",
         "dev",
         "up",
-        "--build"
+        "--build",
+        "-d"
       ],
-      "isBackground": false,
-      "problemMatcher": []
+      "options": {
+        "env": {
+          "APP_ENV": "dev"
+        }
+      },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always" }
     },
     {
-      "label": "docker-compose down",
+      "label": "Stop container",
       "type": "shell",
       "command": "docker-compose",
       "args": [
@@ -42,7 +49,23 @@
         "\"*\"",
         "down"
       ],
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "Wait for container",
+      "type": "shell",
+      "command": "docker-compose -f .vscode/docker-compose.yml --profile \"*\" wait app",
+      "problemMatcher": [],
+      "presentation": { "reveal": "never" }
+    },
+    {
+      "label": "Debug container and wait",
+      "dependsOn": [
+        "Start container (Development)",
+        "Wait for Container"
+      ],
+      "dependsOrder": "sequence"
     }
   ]
 }

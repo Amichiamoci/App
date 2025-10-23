@@ -45,12 +45,15 @@ WORKDIR /app
 VOLUME [ "/app/var/log", "/app/var/data" ]
 
 ARG APP_ENV=prod
-#RUN if [ "$APP_ENV" = "dev" ]; then \
-#      curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg; \
-#    fi
+RUN if [ "$APP_ENV" = "dev" ]; then \
+      apk add --no-cache --update linux-headers autoconf g++ make; \
+      pecl install xdebug && docker-php-ext-enable xdebug; \
+    fi; \
+    echo "APP_ENV=$APP_ENV" > .env.local
 
 COPY ./docker_files/nginx.conf /etc/nginx/http.d/default.conf
 COPY ./docker_files/php.conf /usr/local/etc/php-fpm.d/www-app.conf
+COPY ./docker_files/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY --from=build /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=build /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 
@@ -60,13 +63,19 @@ RUN chmod +x ./entrypoint.sh
 # Actually copy the code
 COPY --chown=www-data . .
 RUN chmod +x bin/console
-RUN composer install --no-interaction --no-progress --optimize-autoloader
-# RUN composer install --no-interaction --no-progress --optimize-autoloader --no-dev
+RUN composer install \
+    --no-interaction \
+    --no-progress \
+    --optimize-autoloader \
+    $([ "$APP_ENV" = "prod" ] && echo "--no-dev")
 RUN chown -R www-data /app/var
 
 RUN php bin/console importmap:install
-# RUN php bin/console asset-map:compile
+RUN if [ "$APP_ENV" = "prod" ]; then \
+      php bin/console asset-map:compile; \
+    fi
 
 # Start the server
 EXPOSE 8080
+EXPOSE 9003
 CMD [ "./entrypoint.sh" ]
