@@ -3,20 +3,18 @@
 # Amichiamoci App
 [![Docker image](https://github.com/Amichiamoci/App/actions/workflows/docker-build.yml/badge.svg)](https://github.com/Amichiamoci/App/actions/workflows/docker-build.yml)
 
-Questo è il codice sorgente della [App di Amichiamoci](https://app.amichiamoci.it "Vai alla App"), disponibile come repository ed anche come immagine docker.
+Questo è il codice sorgente dell'[App di Amichiamoci](https://app.amichiamoci.it "Vai alla App"), disponibile come repository ed anche come immagine docker.
 
-## Scaricare con Docker
 ```bash
-docker pull ghcr.io/amichiamoci/app:latest
+docker pull amichiamoci/app:latest
 ```
 
-### Testa localmente con Docker
+## Testa localmente con VS Code
 Clona la repo
 ```bash
 git clone https://github.com/Amichiamoci/App && cd App
 ```
 
-Ed esegui
-```bash
-docker-compose up -d --build
-```
+Crea, nella root del progetto, un file `.env.local` e riempilo con le variabili d'ambiente necessarie per far funzionare l'applicazione.
+
+Dal menù di debug esegui `Debug PHP and container`, ci costruirà il container e lo avvierà, collegando anche VS Code al debugger XDebug di PHP.
