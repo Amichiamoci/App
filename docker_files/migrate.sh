@@ -2,5 +2,5 @@
 
 set -e
 
-php /var/www/html/bin/console make:migration
-php /var/www/html/bin/console doctrine:migrations:migrate
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate

@@ -30,6 +30,7 @@
                 <li class="list-group-item">
                     {{ staff.Name }}
 
+                    {#
                     {% if staff.hasEmail %}
                         <a href="mailto:{{ staff.Email }}" 
                             class="link-secondary link-underline link-underline-opacity-0"
@@ -49,6 +50,7 @@
                             <twig:ux:icon name="bi:whatsapp" height="15" />
                         </a>
                     {% endif %}
+                    #}
                 </li>
             {% endfor %}
         </ul>

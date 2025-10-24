@@ -17,4 +17,4 @@ git clone https://github.com/Amichiamoci/App && cd App
 
 Crea, nella root del progetto, un file `.env.local` e riempilo con le variabili d'ambiente necessarie per far funzionare l'applicazione.
 
-Dal menù di debug esegui `Debug PHP and container`, ci costruirà il container e lo avvierà, collegando anche VS Code al debugger XDebug di PHP.
+Dal menù di debug esegui `Debug PHP and container`, comando che costruirà il container e lo avvierà, collegando anche VS Code al debugger XDebug di PHP.
