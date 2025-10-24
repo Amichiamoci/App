@@ -48,6 +48,7 @@ ARG APP_ENV=prod
 RUN if [ "$APP_ENV" = "dev" ]; then \
       apk add --no-cache --update linux-headers autoconf g++ make; \
       pecl install xdebug && docker-php-ext-enable xdebug; \
+      apk remove g++ make autoconf linux-headers; \
     fi; \
     echo "APP_ENV=$APP_ENV" > .env.local
 

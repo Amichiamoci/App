@@ -4,7 +4,6 @@ var
 .env.local
 .gitignore
 *.md
-demo/*
 .github
 .vscode
 .git

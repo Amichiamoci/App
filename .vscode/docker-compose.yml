@@ -1,3 +1,5 @@
+name: amichiamoci
+
 services:
   app:
     build:
