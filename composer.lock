@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3aa9ba38b3c5881ee6156f4d0f9aa816",
+    "content-hash": "cce31bc7bfdf25bdd9d40d54b99b1fea",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1089,16 +1089,16 @@
         },
         {
             "name": "davidepastore/codice-fiscale",
-            "version": "v0.9.1",
+            "version": "v0.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DavidePastore/codice-fiscale.git",
-                "reference": "6579ccec9ec81415b68e2c2e4b9f4ee8f4f41342"
+                "reference": "a2835dd43583ad82df496f46073f09dd86a64720"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DavidePastore/codice-fiscale/zipball/6579ccec9ec81415b68e2c2e4b9f4ee8f4f41342",
-                "reference": "6579ccec9ec81415b68e2c2e4b9f4ee8f4f41342",
+                "url": "https://api.github.com/repos/DavidePastore/codice-fiscale/zipball/a2835dd43583ad82df496f46073f09dd86a64720",
+                "reference": "a2835dd43583ad82df496f46073f09dd86a64720",
                 "shasum": ""
             },
             "require": {
@@ -1136,9 +1136,9 @@
             ],
             "support": {
                 "issues": "https://github.com/DavidePastore/codice-fiscale/issues",
-                "source": "https://github.com/DavidePastore/codice-fiscale/tree/v0.9.1"
+                "source": "https://github.com/DavidePastore/codice-fiscale/tree/v0.10.0"
             },
-            "time": "2023-01-30T00:38:36+00:00"
+            "time": "2025-08-05T17:02:36+00:00"
         },
         {
             "name": "doctrine/collections",
