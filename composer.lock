@@ -9481,16 +9481,16 @@
         },
         {
             "name": "symfony/ux-leaflet-map",
-            "version": "v2.30.0",
+            "version": "v2.31.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-leaflet-map.git",
-                "reference": "6e4c320ed4fd3433394735e1ec8a5db211b3a813"
+                "reference": "258f2bfd081cbedad55ced9fd82e9014b0f5f488"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-leaflet-map/zipball/6e4c320ed4fd3433394735e1ec8a5db211b3a813",
-                "reference": "6e4c320ed4fd3433394735e1ec8a5db211b3a813",
+                "url": "https://api.github.com/repos/symfony/ux-leaflet-map/zipball/258f2bfd081cbedad55ced9fd82e9014b0f5f488",
+                "reference": "258f2bfd081cbedad55ced9fd82e9014b0f5f488",
                 "shasum": ""
             },
             "require": {
@@ -9533,7 +9533,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-leaflet-map/tree/v2.30.0"
+                "source": "https://github.com/symfony/ux-leaflet-map/tree/v2.31.0"
             },
             "funding": [
                 {
@@ -9553,7 +9553,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-27T15:25:48+00:00"
+            "time": "2025-10-16T07:24:06+00:00"
         },
         {
             "name": "symfony/ux-map",
