@@ -26,7 +26,7 @@
         "symfony/console": "7.3.*",
         "symfony/doctrine-messenger": "^8.0",
         "symfony/dotenv": "7.3.*",
-        "symfony/expression-language": "7.3.*",
+        "symfony/expression-language": "8.0.*",
         "symfony/flex": "^2.8",
         "symfony/form": "^7.3",
         "symfony/framework-bundle": "7.3.*",
