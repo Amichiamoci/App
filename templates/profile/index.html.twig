@@ -40,7 +40,7 @@
             <p class="m-0 user-select-none">
                 Nessuna anagrafica associata alla mail corrente.<br />
                 Se hai partecipato alle ultime edizioni e non vedi qui i tuoi dati
-                contatta uno staffista: è possibile che, nelle tue iscrizioni passate, tu non abbia
+                <strong>contatta uno staffista</strong>: è possibile che, nelle tue iscrizioni passate, tu non abbia
                 comunicato un'email oppure tu abbia comunicato un'email diversa da 
                 {{ app.user.email }}.
             </p>
@@ -118,9 +118,10 @@
 
                 Per il ottenere certificato sarà necessario presentare compilata la
             </p>
-            <a href="{{ asset('documents/richiesta-certificato-medico.pdf') }}" 
+            <a  href="{{ asset('documents/richiesta-certificato-medico.pdf') }}" 
                 class="btn btn-primary m-2" 
                 download="richiesta-certificato-medico-amichiamoci.pdf"
+                title="Scarica il modulo di richiesta del certificato medico"
             >
                 <span>Richiesta della Società</span>
                 <twig:ux:icon name="fa-regular:file-pdf" height="17" />

@@ -51,7 +51,7 @@
                 {% for team in tournament.Leaderboard %}
                     <tr>
                         <td>
-                            <a href="{{ path ('home_team_view', {'id': team.Id }) }}"
+                            <a  href="{{ path ('home_team_view', {'id': team.Id }) }}"
                                 class="link-underline link-underline-opacity-0"
                                 title="{{ team.Church }}"
                             >
@@ -84,14 +84,14 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title">
-                                <a href="{{ path('home_team_view', {'id': match.HomeTeam.Id })}}" 
+                                <a  href="{{ path('home_team_view', {'id': match.HomeTeam.Id })}}" 
                                     class="link-underline link-underline-opacity-0"
                                     title="{{ match.HomeTeam.Church }}"
                                 >
                                     {{ match.HomeTeam.Name }}
                                 </a>
                                 - 
-                                <a href="{{ path('home_team_view', {'id': match.GuestTeam.Id })}}" 
+                                <a  href="{{ path('home_team_view', {'id': match.GuestTeam.Id })}}" 
                                     class="link-underline link-underline-opacity-0"
                                     title="{{ match.GuestTeam.Church }}"
                                 >

@@ -40,20 +40,18 @@ class Anagraphical
     public function getPhoneLinkHref(): ?string
     {
         if (!$this->hasPhone())
-        {
             return null;
-        }
+
         $number = str_replace(search: ' ', replace: '', subject: $this->Phone);
+
+        // Remove italian +39 prefix
         if (str_starts_with(haystack: $number, needle: "+39"))
-        {
-            // Remove italian +39 prefix
             $number = substr(string: $number, offset: 3);
-        }
+
+        // Other prefixes, just use tel: protocol
         if (str_starts_with(haystack: $number, needle: '+'))
-        {
-            // Other prefixes, just use tel: protocol
             return "tel:$number";
-        }
+
         return "https://wa.me/$number";
     }
 
@@ -64,9 +62,8 @@ class Anagraphical
     public function getBirthDateItalian(): ?string
     { 
         if (!$this->hasBirtDateItalian())
-        {
             return null;
-        }
+
         return (new \DateTime(datetime: $this->BirthDate))->format(format: 'd/m/Y');
     }
 
@@ -88,9 +85,7 @@ class Anagraphical
     public function reverseTaxCode(): bool
     {
         if (strlen(string: $this->TaxCode) === 0)
-        {
             return false;
-        }
 
         try {
             $cf = new InverseCalculator(codiceFiscale: $this->TaxCode)->getSubject();
@@ -117,9 +112,8 @@ class Anagraphical
 
             $places = (new ComuneCollection())->matching(criteria: $criteria);
             if ($places->isEmpty())
-            {
                 return false;
-            }
+
             $place = $places->first();
             $this->BirthPlace = $place['name_it'] . ', ' . $place['provincial_code'];
             
@@ -132,9 +126,7 @@ class Anagraphical
     public function getSex(): ?string
     {
         if (strlen(string: $this->TaxCode) === 0)
-        {
             return null;
-        }
 
         try {
             return 

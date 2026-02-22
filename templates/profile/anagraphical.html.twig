@@ -15,8 +15,7 @@
                 {% set edit_path = path('signup', {'id': anagraphical.Id }) %}
             {% endif %}
 
-            <a 
-                href="{{ edit_path }}"
+            <a  href="{{ edit_path }}"
                 class="link-underline link-underline-opacity-0 link-primary text-end"
                 title="Modifica i dati"
             >
@@ -100,7 +99,7 @@
                     data-bs-trigger="focus" 
                     data-bs-container="body" 
                     data-bs-placement="top" 
-                    data-bs-title="{{ anagraphical.Document.Type.Label }}{% if anagraphical.Document.Code %} {{ anagraphical.Document.Code }}{% endif %}"
+                    data-bs-title="{{ anagraphical.Document.Type.Label }}"
                     data-bs-content="Scadenza: {{ anagraphical.Document.ExpirationItalian }}"
                     title="{{ anagraphical.Document.Type.Label }}"
                 >
@@ -152,7 +151,7 @@
                     Parrocchia
                 </dt>
                 <dd class="col-sm-8">
-                    <a href="{{ path('church_view', {'id': anagraphical.Subscription.Church.Id }) }}" 
+                    <a  href="{{ path('church_view', {'id': anagraphical.Subscription.Church.Id }) }}" 
                         class="text-reset link-underline link-underline-opacity-50"
                         title="Vedi {{ anagraphical.Subscription.Church.Name }}"
                     >

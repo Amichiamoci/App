@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Entity\Fanta\Participation;
 use App\Entity\Fanta\PlayerChoice;
 use App\Repository\UserRepository;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,7 +18,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'Esiste già un account con questa email')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User
+implements UserInterface, PasswordAuthenticatedUserInterface
 {
     const ADMIN = 'ROLE_ADMIN';
     const USER = 'ROLE_USER';

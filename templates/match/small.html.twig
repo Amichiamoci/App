@@ -2,7 +2,7 @@
 
     <div class="row">
         <div class="col h4 text-center">
-            <a href="{{ path('home_tournament_view', {'id': match.TournamentId }) }}" 
+            <a  href="{{ path('home_tournament_view', {'id': match.TournamentId }) }}" 
                 class="link-underline link-underline-opacity-0 link-underline-opacity-50-hover"
             >{{ match.TournamentName }}</a>
             &nbsp;
@@ -15,8 +15,9 @@
     {% if match.hasHomeTeam() and match.hasGuestTeam() %}
         <div class="row">
             <div class="col text-center">
-                <a href="{{ path('home_team_view', {'id': match.HomeTeam.Id })}}" 
+                <a  href="{{ path('home_team_view', {'id': match.HomeTeam.Id })}}" 
                     class="text-reset link-underline link-offset-2 link-underline-opacity-0 link-underline-opacity-25-hover"
+                    title="Vedi {{ match.HomeTeam.Name }}"
                 >
                     <twig:ux:icon name="bi:house" height="15" />
                     {{ match.HomeTeam.Name }}
@@ -24,8 +25,9 @@
             </div>
             
             <div class="col text-center">
-                <a href="{{ path('home_team_view', {'id': match.GuestTeam.Id })}}" 
+                <a  href="{{ path('home_team_view', {'id': match.GuestTeam.Id })}}" 
                     class="text-reset link-underline link-offset-2 link-underline-opacity-0 link-underline-opacity-25-hover"
+                    title="Vedi {{ match.GuestTeam.Name }}"
                 >
                     <twig:ux:icon name="bi:car-front" height="15" />
                     {{ match.GuestTeam.Name }}
@@ -34,8 +36,9 @@
         </div>
         <div class="row">
             <div class="col text-center">
-                <a href="{{ path('church_view', {'id': match.HomeTeam.ChurchId })}}" 
+                <a  href="{{ path('church_view', {'id': match.HomeTeam.ChurchId })}}" 
                     class="text-reset link-underline link-underline-opacity-0"
+                    title="Vedi {{ match.HomeTeam.Church }}"
                 >
                     <twig:ux:icon name="mdi:church-outline" height="15" />
                     {{ match.HomeTeam.Church }}
@@ -43,8 +46,9 @@
             </div>
             
             <div class="col text-center">
-                <a href="{{ path('church_view', {'id': match.GuestTeam.ChurchId })}}" 
+                <a  href="{{ path('church_view', {'id': match.GuestTeam.ChurchId })}}" 
                     class="text-reset link-underline link-underline-opacity-0"
+                    title="Vedi {{ match.GuestTeam.Church }}"
                 >
                     <twig:ux:icon name="mdi:church-outline" height="15" />
                     {{ match.GuestTeam.Church }}
@@ -60,7 +64,7 @@
                     <div class="col text-center">
                         {{ score.Home }} - {{ score.Guest }}
                         &nbsp;
-                        <a href="{{ path('delete_result', {'id': score.Id })}}"
+                        <a  href="{{ path('delete_result', {'id': score.Id })}}"
                             class="link-danger link-underline link-underline-opacity-0"
                             title="Rimuovi"
                         >
@@ -87,10 +91,11 @@
                 </button>
             </div>
         </div>
-        <div class="modal fade" id="modal-new-result-{{ match.Id }}" 
-            tabindex="-1" 
-            aria-hidden="true"
-            aria-labelledby="modal-new-result-label-{{ match.Id }}"
+        <div class="modal fade"
+             id="modal-new-result-{{ match.Id }}" 
+             tabindex="-1" 
+             aria-hidden="true"
+             aria-labelledby="modal-new-result-label-{{ match.Id }}"
         >
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -110,7 +115,8 @@
                                     class="form-control"  
                                     required autofocus 
                                     placeholder="1 - 1"
-                                    pattern="[0-9]+\s{0,}-\s{0,}[0-9]+">
+                                    pattern="[0-9]+\s{0,}-\s{0,}[0-9]+"
+                                />
                                 <label for="match-content-{{ match.Id }}">Risulato</label>
                             </div>
                             
@@ -144,7 +150,7 @@
     {% if match.hasField() %}
         <div class="row">
             <div class="col text-center">
-                <a href="{{ path('home_field_view', { 'id': match.Field.Id }) }}"
+                <a  href="{{ path('home_field_view', { 'id': match.Field.Id }) }}"
                     class="link-secondary link-underline link-underline-opacity-0" 
                     title="Vedi dettagli"
                 >    

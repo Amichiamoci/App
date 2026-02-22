@@ -21,6 +21,7 @@ class IdentityDocumentType extends AbstractType
                 'label' => false,
                 'document_types'  => $options['document_types'],
             ])
+            /*
             ->add(child: 'Code', type: TextType::class, options: [
                 'required' => false,
                 'label' => 'Codice Documento (facoltativo)',
@@ -32,6 +33,7 @@ class IdentityDocumentType extends AbstractType
                 ],
                 'invalid_message' => 'Per favore, indica il codice o il numero del tuo documento',
             ])
+            */
             ->add(child: 'Expiration', type: DateType::class, options: [
                 'required' => true,
                 'label' => 'Scadenza Documento',
@@ -48,9 +50,9 @@ class IdentityDocumentType extends AbstractType
                 'required' => $options['require_file'],
                 'label' => 'File Documento',
                 'constraints' => [
-                    new File(options: [
-                        'maxSize' => '64M',
-                        'mimeTypes' => [
+                    new File(
+                        maxSize: '64M',
+                        mimeTypes: [
                             // PDF types
                             'application/pdf',
                             'application/x-pdf',
@@ -68,8 +70,8 @@ class IdentityDocumentType extends AbstractType
                             'image/tiff',
                             'image/webp',
                         ],
-                        'mimeTypesMessage' => 'Per favore, invia un file PDF, immagine o Documento Word',
-                    ])
+                        mimeTypesMessage: 'Per favore, carica un file PDF, immagine o Documento Word',
+                    ),
                 ],
                 'attr' => [
                     'placeholder' => 'Carica il file',

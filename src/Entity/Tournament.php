@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Attribute\Ignore;
 
 class Tournament
 {

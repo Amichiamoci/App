@@ -1,7 +1,7 @@
 <nav class="lower border-top w-100 ms-0 me-0 position-fixed bottom-0 bg-secondary-subtle">
     <div class="row w-100">
         <div class="col p-1 d-flex justify-content-center align-items-center">
-            <a href="{{ path('home') }}" 
+            <a  href="{{ path('home') }}" 
                 class="d-flex align-items-center text-decoration-none text-reset"
                 title="Home"
             >
@@ -10,7 +10,7 @@
         </div>
         <div class="col p-1 d-flex justify-content-center align-items-center">
             <div class="dropup dropup-center d-flex align-items-center">
-                <a href="#"
+                <a  href="#"
                     data-bs-toggle="dropdown" 
                     aria-expanded="false"
                     class="d-flex align-items-center text-decoration-none text-reset"
@@ -30,7 +30,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item"
+                        <a  class="dropdown-item"
                             href="#" 
                             role="button" 
                             data-bs-toggle="modal"
@@ -42,7 +42,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item"
+                        <a  class="dropdown-item"
                             href="#" 
                             role="button" 
                             data-bs-toggle="modal"
@@ -77,14 +77,14 @@
         </div>
         <div class="col p-1 d-flex justify-content-center align-items-center">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a href="{{ path('profile') }}" 
+                <a  href="{{ path('profile') }}" 
                     class="d-flex align-items-center text-decoration-none text-reset"
                     title="{{ app.user.getName() }}"
                 >
                     <twig:ux:icon name="uil:user" height="20" />
                 </a>
             {% else %}
-                <a href="{{ path('app_login') }}" 
+                <a  href="{{ path('app_login') }}" 
                     class="d-flex align-items-center text-decoration-none text-reset"
                     title="Accedi"
                 >

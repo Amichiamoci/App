@@ -26,14 +26,14 @@
             class="col col-2 p-1 d-flex justify-content-center align-items-center"
             {{ stimulus_controller('theme') }}
         >
-            <a class="text-reset link-underline link-underline-opacity-0 hide-if-same-theme" 
+            <a  class="text-reset link-underline link-underline-opacity-0 hide-if-same-theme" 
                 href="#"
                 data-turbo="false"
                 data-bs-theme-value="light"
             >
                 <twig:ux:icon name="bi:moon" height="25" />
             </a>
-            <a class="text-reset link-underline link-underline-opacity-0 hide-if-same-theme" 
+            <a  class="text-reset link-underline link-underline-opacity-0 hide-if-same-theme" 
                 href="#"
                 data-turbo="false"
                 data-bs-theme-value="dark"
@@ -62,7 +62,7 @@
                 <div class="modal-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <a class="link-underline link-underline-opacity-0 text-reset" 
+                            <a  class="link-underline link-underline-opacity-0 text-reset" 
                                 href="{{ path('referee_dashboard') }}"
                                 title="Vedi le partite"
                             >
@@ -72,7 +72,7 @@
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <a class="link-underline link-underline-opacity-0 text-reset" 
+                            <a  class="link-underline link-underline-opacity-0 text-reset" 
                                 href="{{ path('referee_teams') }}"
                                 title="Tutte le squadre"
                             >
@@ -83,7 +83,7 @@
                         </li>
                         {% if app.user.isAdmin() %}
                             <li class="list-group-item">
-                                <a class="link-underline link-underline-opacity-0 text-reset" 
+                                <a  class="link-underline link-underline-opacity-0 text-reset" 
                                     href="{{ path('new_referee') }}"
                                     title="Aggiungi o rimuovi gli arbitri"
                                 >
@@ -93,7 +93,7 @@
                                 </a>
                             </li>
                             <li class="list-group-item">
-                                <a class="link-underline link-underline-opacity-0 text-reset" 
+                                <a  class="link-underline link-underline-opacity-0 text-reset" 
                                     href="{{ path('admin') }}"
                                     title="Aggiungi o rimuovi gli amministratori"
                                 >
@@ -103,7 +103,7 @@
                                 </a>
                             </li>
                             <li class="list-group-item">
-                                <a class="link-underline link-underline-opacity-0 text-reset" 
+                                <a  class="link-underline link-underline-opacity-0 text-reset" 
                                     href="{{ path('all_users') }}"
                                     title="Vedi tutti gli utenti"
                                 >

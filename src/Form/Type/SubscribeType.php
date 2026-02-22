@@ -49,9 +49,9 @@ class SubscribeType extends AbstractType
                 'required' => false,
                 'label' => 'Certificato medico',
                 'constraints' => [
-                    new File(options: [
-                        'maxSize' => '64M',
-                        'mimeTypes' => [
+                    new File(
+                        maxSize: '64M',
+                        mimeTypes: [
                             // PDF types
                             'application/pdf',
                             'application/x-pdf',
@@ -69,8 +69,8 @@ class SubscribeType extends AbstractType
                             'image/tiff',
                             'image/webp',
                         ],
-                        'mimeTypesMessage' => 'Per favore, invia un file PDF, immagine o Documento Word',
-                    ])
+                        mimeTypesMessage: 'Per favore, carica un file PDF, immagine o Documento Word',
+                    ),
                 ],
                 'attr' => [
                     'placeholder' => 'Carica il file',

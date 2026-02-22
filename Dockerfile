@@ -46,9 +46,9 @@ VOLUME [ "/app/var/log", "/app/var/data" ]
 
 ARG APP_ENV=prod
 RUN if [ "$APP_ENV" = "dev" ]; then \
-      apk add --no-cache --update linux-headers autoconf g++ make; \
+      apk add --no-cache --update g++ make linux-headers autoconf; \
       pecl install xdebug && docker-php-ext-enable xdebug; \
-      apk remove g++ make autoconf linux-headers; \
+      apk del g++ make linux-headers autoconf; \
     fi; \
     echo "APP_ENV=$APP_ENV" > .env.local
 
@@ -78,5 +78,4 @@ RUN if [ "$APP_ENV" = "prod" ]; then \
 
 # Start the server
 EXPOSE 8080
-EXPOSE 9003
 CMD [ "./entrypoint.sh" ]

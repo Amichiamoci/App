@@ -60,12 +60,11 @@ class RegistrationFormType extends AbstractType
                     new NotBlank(options: [
                         'message' => 'Per favore, inserisci una password',
                     ]),
-                    new Length(exactly: [
-                        'min' => 10,
-                        'minMessage' => 'La password deve avere almeno {{ limit }} caratteri',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
+                    new Length(
+                        min: 10, 
+                        minMessage: 'La password deve avere almeno {{ limit }} caratteri',
+                        max: 4096,
+                    ),
                     new PasswordStrength(options: [
                         'message' => 'Password troppo debole. Prova ad aggiungere cifre e caratteri speciali (es: !$%&?.=-)',
                     ]),

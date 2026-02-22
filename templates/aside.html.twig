@@ -1,12 +1,12 @@
 <aside class="d-flex flex-column flex-shrink-0 p-3 h-100">
-    <a 
-        href="{{ path('home') }}" 
+    <a  href="{{ path('home') }}" 
         class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none"
     >
         <img src="{{ asset('logos/logo.png') }}" 
-            alt="Logo di Amichiamoci" 
-            title="Vai alla pagina principale" 
-            class="d-inline-block align-text-top w-100 h-auto" />
+             alt="Logo di Amichiamoci" 
+             title="Vai alla pagina principale" 
+             class="d-inline-block align-text-top w-100 h-auto"
+        />
     </a>
     <hr />
     <ul class="list-unstyled ps-0">
@@ -22,7 +22,7 @@
             <div class="collapse" id="navbar-sport-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-4">
                     <li>
-                        <a class="text-reset link-underline link-underline-opacity-0" 
+                        <a  class="text-reset link-underline link-underline-opacity-0" 
                             href="{{ path('matches', {'sport': 'calcio'}) }}"
                             title="Le partite di Calcio"
                         >
@@ -31,7 +31,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="text-reset link-underline link-underline-opacity-0" 
+                        <a  class="text-reset link-underline link-underline-opacity-0" 
                             href="{{ path('matches', {'sport': 'pallavolo'}) }}"
                             title="Le partite di Pallavolo"
                         >
@@ -40,7 +40,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="text-reset link-underline link-underline-opacity-0" 
+                        <a  class="text-reset link-underline link-underline-opacity-0" 
                             href="{{ path('matches', {'sport': 'basket'}) }}"
                             title="Le partite di Basket"
                         >
@@ -63,7 +63,7 @@
             <div class="collapse" id="navbar-tournaments-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-4">
                     <li>
-                        <a class="text-reset link-underline link-underline-opacity-0" 
+                        <a  class="text-reset link-underline link-underline-opacity-0" 
                             href="{{ path('home_tournament_list', {'sport': 'calcio'}) }}"
                             title="I Tornei di Calcio"
                         >
@@ -72,7 +72,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="text-reset link-underline link-underline-opacity-0" 
+                        <a  class="text-reset link-underline link-underline-opacity-0" 
                             href="{{ path('home_tournament_list', {'sport': 'pallavolo'}) }}"
                             title="I Tornei di Pallavolo"
                         >
@@ -81,7 +81,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="text-reset link-underline link-underline-opacity-0" 
+                        <a  class="text-reset link-underline link-underline-opacity-0" 
                             href="{{ path('home_tournament_list', {'sport': 'basket'}) }}"
                             title="I Tornei di Basket"
                         >
@@ -90,7 +90,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="text-reset link-underline link-underline-opacity-0" 
+                        <a  class="text-reset link-underline link-underline-opacity-0" 
                             href="{{ path('home_fields_list') }}"
                             title="La lista dei campi dell'edizione corrente"
                         >
@@ -113,7 +113,7 @@
             <div class="collapse" id="navbar-leaderboards-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-4">
                     <li>
-                        <a class="text-reset link-underline link-underline-opacity-0" 
+                        <a  class="text-reset link-underline link-underline-opacity-0" 
                             href="{{ path('leaderboard') }}"
                             title="Classifica delle Parrocchie"
                         >
@@ -137,7 +137,7 @@
                     <div class="collapse" id="navbar-referee-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-4">
                             <li>
-                                <a class="text-reset link-underline link-underline-opacity-0" 
+                                <a  class="text-reset link-underline link-underline-opacity-0" 
                                     href="{{ path('referee_dashboard') }}"
                                 >
                                     <twig:ux:icon name="fluent:run-16-regular" height="15" />
@@ -145,7 +145,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="text-reset link-underline link-underline-opacity-0" 
+                                <a  class="text-reset link-underline link-underline-opacity-0" 
                                     href="{{ path('referee_teams') }}"
                                 >
                                     <twig:ux:icon name="fluent-mdl2:teamwork" height="15" />
@@ -169,7 +169,7 @@
                     <div class="collapse" id="navbar-admin-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-4">
                             <li>
-                                <a class="text-reset link-underline link-underline-opacity-0" 
+                                <a  class="text-reset link-underline link-underline-opacity-0" 
                                     href="{{ path('new_referee') }}"
                                 >
                                     <twig:ux:icon name="material-symbols:add-task-rounded" height="15" />
@@ -177,7 +177,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="text-reset link-underline link-underline-opacity-0" 
+                                <a  class="text-reset link-underline link-underline-opacity-0" 
                                     href="{{ path('admin') }}"
                                 >
                                     <twig:ux:icon name="ri:admin-line" height="15" />
@@ -185,7 +185,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="text-reset link-underline link-underline-opacity-0" 
+                                <a  class="text-reset link-underline link-underline-opacity-0" 
                                     href="{{ path('all_users') }}"
                                 >
                                     <twig:ux:icon name="clarity:users-line" height="15" />
@@ -209,7 +209,7 @@
             <div class="collapse" id="navbar-theme-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-4" {{ stimulus_controller('theme') }}>
                     <li>
-                        <a class="text-reset link-underline link-underline-opacity-0" 
+                        <a  class="text-reset link-underline link-underline-opacity-0" 
                             href="#"
                             data-bs-theme-value="light"
                         >
@@ -218,7 +218,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="text-reset link-underline link-underline-opacity-0" 
+                        <a  class="text-reset link-underline link-underline-opacity-0" 
                             href="#"
                             data-bs-theme-value="dark"
                         >
@@ -248,14 +248,14 @@
     {% else %}
         <ul class="nav nav-pills flex-column mb-auto">
             <li>
-                <a class="nav-link text-reset" 
+                <a  class="nav-link text-reset" 
                     href="{{ path('app_login') }}"
                 >
                     Login
                 </a>
             </li>
             <li>
-                <a class="nav-link text-reset" 
+                <a  class="nav-link text-reset" 
                     href="{{ path('app_register') }}"
                 >
                     Registrati

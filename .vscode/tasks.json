@@ -55,7 +55,15 @@
     {
       "label": "Wait for container",
       "type": "shell",
-      "command": "docker-compose -f .vscode/docker-compose.yml --profile \"*\" wait app",
+      "command": "docker-compose",
+      "args": [
+        "-f",
+        ".vscode/docker-compose.yml",
+        "--profile",
+        "\"*\"",
+        "wait",
+        "app"
+      ],
       "problemMatcher": [],
       "presentation": { "reveal": "never" }
     },

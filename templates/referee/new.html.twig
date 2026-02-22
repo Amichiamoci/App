@@ -23,12 +23,17 @@
 
                     {{ referee.Name }}
 
-                    <a href="mailto:{{ referee.Email }}" class="link-secondary link-underline link-underline-opacity-0">
+                    <a href="mailto:{{ referee.Email }}" 
+                       class="link-secondary link-underline link-underline-opacity-0"
+                    >
                         <twig:ux:icon name="bi:envelope-at" height="14" />
                     </a>
                     &nbsp;
 
-                    <form class="d-inline m-0 p-0" method="POST" action="{{ path('referee_remove', { 'id': referee.Id }) }}">
+                    <form class="d-inline m-0 p-0" 
+                          method="POST" 
+                          action="{{ path('referee_remove', { 'id': referee.Id }) }}"
+                    >
                         <button
                             type="submit"
                             class="p-0 btn btn-link link-danger link-underline link-underline-opacity-0"

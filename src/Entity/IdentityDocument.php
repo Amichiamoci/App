@@ -16,9 +16,7 @@ class IdentityDocument
     public function getExpiration(): \DateTimeInterface { return $this->Expiration; }
     public function getExpirationItalian(): string {
         if (empty($this->Expiration))
-        {
             return '';
-        }
         
         return $this->Expiration->format(format: 'd/m/Y');
     }
