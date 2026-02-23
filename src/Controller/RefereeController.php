@@ -9,14 +9,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\User;
-use App\Entity\AddUserRole;
-use App\Form\AddMatchResultFormType;
 use App\Repository\ApiManager;
-use App\Repository\UserRepository;
-use App\Form\AddRoleToUserFormType;
 
 #[IsGranted(
     attribute: new Expression(
@@ -52,103 +47,6 @@ class RefereeController extends AbstractController
         return $this->render(view: 'teams/team.html.twig', parameters: [
             'team' => $team
         ]);
-    }
-
-    #[Route(path: '/referee/remove/{id}', name: 'referee_remove',)]
-    #[IsGranted(attribute: User::ADMIN)]
-    public function remove(
-        int $id,
-        Request $request,
-        EntityManagerInterface $entityManager, 
-        UserRepository $userRepository, 
-    ): Response
-    {
-        if ($request->isMethod(method: 'POST'))
-        {
-            /**
-             * @var ?User
-             */
-            $user = $userRepository->find(id: $id);
-            if ($user === null)
-            {
-                $this->addFlash(type: 'error', message: "Utente '$id' non trovato");
-            } else {
-                
-                $user->removeRole(role: User::REFEREE);
-                $entityManager->persist(object: $user);
-                $entityManager->flush();
-
-                $fullName = $user->getName();
-                $this->addFlash(type: 'success', message: "'$fullName' non è più un arbitro.");
-            }
-        }
-
-        return $this->redirectToRoute(route: 'new_referee');
-    }
-
-    
-    #[Route(path: '/referee/new', name: 'new_referee')]
-    #[IsGranted(attribute: User::ADMIN)]
-    public function new (
-        Request $request,
-        UserRepository $userRepository, 
-        EntityManagerInterface $entityManager,
-    ): Response
-    {
-        $form = $this->createForm(
-            type: AddRoleToUserFormType::class, 
-            data: new AddUserRole(role: User::REFEREE),
-            options:[
-                'users' => array_filter(
-                    array: $userRepository->findAll(), 
-                    callback: function (User $u): bool {
-                        return !$u->isReferee() && $u->isVerified();
-                    },
-                )
-            ]
-        );
-        $form->handleRequest(request: $request);
-        $status_code = $form->isSubmitted() && !$form->isValid() ? 422 : 200;
-
-        if ($form->isSubmitted() && $form->isValid()) 
-        {
-            /**
-             * @var AddUserRole
-             */
-            $add_role = $form->getData();
-            if ($add_role->Role !== User::REFEREE)
-            {
-                throw new \InvalidArgumentException(message: 'Trying to set unallowed role via this form');
-            }
-
-            /**
-             * @var ?User
-             */
-            $user = $userRepository->findOneBy(criteria: ['email' => $add_role->User]);
-            if ($user !== null)
-            {
-                // All ok
-                $user->addRole(role: $add_role->Role);
-                $entityManager->persist(object: $user);
-                $entityManager->flush();
-
-                $fullName = $user->getName();
-                $this->addFlash(type: 'success', message: "'$fullName' è ora un arbitro");
-                return $this->redirectToRoute(route: 'new_referee');
-            }
-
-            $this->addFlash(type: 'error', message: "Utente non trovato");
-            $status_code = 500;
-        }
-
-        return $this->render(
-            view: 'referee/new.html.twig', 
-            parameters: [
-                'addRefereeForm' => $form,
-                'referees' => $userRepository->findByRole(role: User::REFEREE),
-            ],
-            response: new Response(content: null, status: $status_code),
-        );
     }
 
     #[Route(path: '/referee/result/delete/{id}', name: 'delete_result',)]

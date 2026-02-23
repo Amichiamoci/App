@@ -29,7 +29,7 @@ final readonly class FormHandler implements RegistrationFormHandlerInterface
             name: $userInformation->getRealName() ?? 
                 ($userInformation->getFirstName() . ' ' . $userInformation->getLastName()));
 
-        $user->setVerified(isVerified: true);
+        $user->setIsVerified(isVerified: true);
         $user->addRole(role: User::EXTERNAL_PROVIDER);
 
         $external_claims = $this->apiManager->CheckClaims(email: $user->getEmail());

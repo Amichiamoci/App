@@ -78,7 +78,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             name: $response->getRealName() ?? 
                 ($response->getFirstName() . ' ' . $response->getLastName()));
 
-        $user->setVerified(isVerified: true);
+        $user->setIsVerified(isVerified: true);
         $user->addRole(role: User::EXTERNAL_PROVIDER);
 
         $external_claims = $this->apiManager->CheckClaims(email: $user->getEmail());

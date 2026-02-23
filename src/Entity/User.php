@@ -21,10 +21,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User
 implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    const ADMIN = 'ROLE_ADMIN';
-    const USER = 'ROLE_USER';
-    const REFEREE = 'ROLE_REFEREE';
-    const EXTERNAL_PROVIDER = 'ROLE_EXTERNAL_PROVIDER';
+    public const ADMIN = 'ROLE_ADMIN';
+    public const USER = 'ROLE_USER';
+    public const REFEREE = 'ROLE_REFEREE';
+    public const EXTERNAL_PROVIDER = 'ROLE_EXTERNAL_PROVIDER';
+
+    public const CONNECT_GOOGLE = 'ROLE_GOOGLE';
+    public const CONNECT_FACEBOOK = 'ROLE_FACEBOOK';
+    public const CONNECT_MICROSOFT = 'ROLE_MICROSOFT';
+    public const CONNECT_GITHUB = 'ROLE_GITHUB';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -224,11 +229,10 @@ implements UserInterface, PasswordAuthenticatedUserInterface
             self::PASSWORD_DIGITS .
             self::PASSWORD_SYMBOLS; 
 
-        $pass = array();
+        $pass = [];
         for ($i = 0; $i < $length; $i++)
-        {
             $pass[] = $alphabet[random_int(min: 0, max: strlen(string: $alphabet) - 1)];
-        }
+        
         return join(array: $pass, separator: '');
     }
 
@@ -243,12 +247,12 @@ implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->name;
     }
 
-    public function isVerified(): bool
+    public function getIsVerified(): bool
     {
         return $this->isVerified;
     }
 
-    public function setVerified(bool $isVerified): static
+    public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
 

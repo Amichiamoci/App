@@ -31,7 +31,7 @@ class UserChecker implements UserCheckerInterface
             return;
         }
 
-        if (!$user->isVerified()) {
+        if (!$user->getIsVerified()) {
             $email = $user->getEmail();
             throw new CustomUserMessageAccountStatusException(
                 message: "Account non verificato: controlla le email inviate a $email e clicca sul link per attivare l'account!");
