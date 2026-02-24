@@ -5,18 +5,25 @@ namespace App\Controller;
 use App\Entity\Anagraphical;
 use App\Form\AnagraphicalFormType;
 use App\Repository\ApiManager;
-use InvalidArgumentException;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 
 class ProfileController extends AbstractController
 {
+    private string $uploadDirectory;
+
+    public function __construct(ParameterBagInterface $params)
+    {
+        $this->uploadDirectory = $params->get(name: 'app.upload_dir');
+    }
+
+
     #[Route(path: '/profile', name: 'profile')]
     public function index(ApiManager $apiManager): Response
     {
@@ -34,27 +41,12 @@ class ProfileController extends AbstractController
 
         Anagraphical $anagraphical,
         ?Anagraphical $original = null,
-
-        ?string $uploadDirectory = null,
     ): ?Anagraphical {
-        if ($anagraphical === null)
-        {
-            throw new InvalidArgumentException(
-                message: 'È necessario fornire dei dati.',
-            );
-        }
-        if ($uploadDirectory === null)
-        {
-            throw new InvalidArgumentException(
-                message: 'Directory dove salvare temporaneamente il file non fornita.',
-            );
-        }
-
         if ($original === null && !$anagraphical->Document->hasFile())
         {
             // We are creating the data, but a document was not provided
 
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 message: 'È necessario fornire un proprio documento quando si creano i propri dati.',
             );
         }
@@ -66,7 +58,7 @@ class ProfileController extends AbstractController
             $ext = '.' . $document->guessExtension();
             $file_name = 'document-' . uniqid(more_entropy: true) . $ext;
             try {
-                $document->move(directory: $uploadDirectory, name: $file_name);
+                $document->move(directory: $this->uploadDirectory, name: $file_name);
             } catch (FileException) {
                 return null;
             }
@@ -101,7 +93,10 @@ class ProfileController extends AbstractController
             $ext = '.' . $anagraphical->Subscription->Certificate->guessExtension();
             $file_name = 'certificate-' . uniqid(more_entropy: true) . $ext;
             try {
-                $anagraphical->Subscription->Certificate->move(directory: $uploadDirectory, name: $file_name);
+                $anagraphical->Subscription->Certificate->move(
+                    directory: $this->uploadDirectory, 
+                    name: $file_name
+                );
             } catch (FileException) {
 
                 $this->addFlash(
@@ -163,8 +158,7 @@ class ProfileController extends AbstractController
     public function get_involved(
         ApiManager $apiManager, 
         Request $request,
-        int $id,
-        #[Autowire('%kernel.project_dir%/var/data/uploads')] string $uploadDirectory
+        int $id
     ): Response
     {
         $anagraphical = array_find(
@@ -219,8 +213,6 @@ class ProfileController extends AbstractController
                 
                 anagraphical: $anagraphical,
                 original: $original_anagraphical,
-
-                uploadDirectory: $uploadDirectory,
             );
             if ($anagraphical !== null)
             {
@@ -248,7 +240,6 @@ class ProfileController extends AbstractController
     public function signup(
         ApiManager $apiManager,
         Request $request,
-        #[Autowire('%kernel.project_dir%/var/data/uploads')] string $uploadDirectory,
 
         ?int $id = null,
     ): Response
@@ -301,8 +292,6 @@ class ProfileController extends AbstractController
                 
                 anagraphical: $anagraphical,
                 original: $original_anagraphical,
-
-                uploadDirectory: $uploadDirectory,
             );
             if ($anagraphical !== null)
             {

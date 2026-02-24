@@ -1,0 +1,52 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block title %}File Browser{% endblock %}
+
+{% block content %}
+    <div class="content-panel">
+        <div class="content-panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Dimensione</th>
+                        <th>Ultima modifica</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for file in files %}
+                        <tr>
+                            <td>
+                                {% if file.type != 'directory' %}
+                                    {% if file.type == 'pdf' %}
+                                        <twig:ux:icon name="fa7-regular:file-pdf" height="18" />
+                                    {% elseif file.type == 'word' %}
+                                        <twig:ux:icon name="fa7-regular:file-word" height="18" />
+                                    {% elseif file.type == 'image' %}
+                                        <twig:ux:icon name="fa7-regular:file-image" height="18" />
+                                    {% else %}
+                                        <twig:ux:icon name="fa7-regular:file" height="18" />
+                                    {% endif %}
+                                    
+                                    <a href="{{ path('admin_file_download', { file: file.name }) }}"
+                                        title="Scarica {{ file.name }}"
+                                        class="link-underline link-underline-opacity-0"
+                                    >
+                                        {{ file.name }}
+                                    </a>
+                                {% else %}
+                                    <twig:ux:icon name="fa7-regular:folder-open" height="18" />
+                                    {{ file.name }}
+                                {% endif %}
+                            </td>
+                            <td>{{ file.size }}</td>
+                            <td>{{ file.modifiedAt|date('Y-m-d H:i') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

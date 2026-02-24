@@ -1,10 +1,6 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     app.image_processor: 'gd'
+    app.upload_dir: '%kernel.project_dir%/var/data/uploads'
 
 services:
     # default configuration for services in *this* file
@@ -37,8 +33,4 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 100 }
 
-    
-    #App\Service\ImageProcessor:
-    #    arguments:
-    #        $processor: '%app.image_processor%'
     
