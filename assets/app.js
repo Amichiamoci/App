@@ -19,9 +19,6 @@ document.addEventListener('turbo:load', () => {
     });
 });
 
-//import handleScroll from './scroll.js';
-//window.onscroll = handleScroll;
-
 import { themeHandlerInit } from './theme-handling.js';
 themeHandlerInit(); // Run only on first page load
 

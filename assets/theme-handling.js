@@ -16,9 +16,8 @@ function themeHandlerInit()
 
     const getPreferredTheme = () => {
         const storedTheme = getStoredTheme();
-        if (storedTheme) {
+        if (storedTheme)
             return storedTheme;
-        }
 
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
