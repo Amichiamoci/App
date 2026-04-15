@@ -28,6 +28,7 @@ services:
     App\Repository\ApiManager:
         arguments:
             $environment: '%kernel.environment%'
+            $cache: '@cache.amichiamoci_api'
 
     App\EventListener\RequestListener:
         tags:

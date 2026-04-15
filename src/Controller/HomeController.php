@@ -24,8 +24,8 @@ class HomeController extends AbstractController
         if ($user !== null)
         {
             $todayMatches = $apiManager->TodayMatchesOfUser(email: $user->getUserIdentifier());
-            // Subscriptions are closed
-            // $show_sub_reminder = !$apiManager->IsSubscribedOrParentOfSubscribed(email: $user->getUserIdentifier());
+            // Subscriptions are open
+            $show_sub_reminder = !$apiManager->IsSubscribedOrParentOfSubscribed(email: $user->getUserIdentifier());
             $subscription_problems = $apiManager->SubscriptionsWithProblems(email: $user->getUserIdentifier());
         }
         return $this->render(view: 'home/index.html.twig', parameters: [

@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -28,7 +29,10 @@ class ApiManager
 {
     public function __construct(
         private HttpClientInterface $client,
+
+        #[Autowire(service: 'cache.amichiamoci_api')]
         private CacheInterface $cache,
+        
         private readonly string $environment = 'dev',
     ) { 
         $this->client = $this->client->withOptions(

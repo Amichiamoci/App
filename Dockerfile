@@ -28,7 +28,8 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp && \
         pdo_sqlite \
         exif \
         && \
-    docker-php-ext-enable opcache  
+    pecl install redis && \
+    docker-php-ext-enable opcache redis
 
 FROM base
 
@@ -40,9 +41,9 @@ RUN apk add --no-cache \
     sqlite-libs postgresql-libs mariadb-connector-c
 
 
-RUN mkdir -p /run/nginx /app /app/var /app/var/log /app/var/data /app/var/cache
+RUN mkdir -p /run/nginx /app /app/var /app/var/log /app/var/data /app/var/cache /app/var/sessions
 WORKDIR /app
-VOLUME [ "/app/var/log", "/app/var/data" ]
+VOLUME [ "/app/var/log", "/app/var/data", "/app/var/sessions" ]
 
 ARG APP_ENV=prod
 RUN if [ "$APP_ENV" = "dev" ]; then \
