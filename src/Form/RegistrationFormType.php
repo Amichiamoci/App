@@ -57,26 +57,26 @@ class RegistrationFormType extends AbstractType
                 ],
                 'label' => 'Password',
                 'constraints' => [
-                    new NotBlank(options: [
-                        'message' => 'Per favore, inserisci una password',
-                    ]),
+                    new NotBlank(
+                        message: 'Per favore, inserisci una password',
+                    ),
                     new Length(
                         min: 10, 
                         minMessage: 'La password deve avere almeno {{ limit }} caratteri',
                         max: 4096,
                     ),
-                    new PasswordStrength(options: [
-                        'message' => 'Password troppo debole. Prova ad aggiungere cifre e caratteri speciali (es: !$%&?.=-)',
-                    ]),
+                    new PasswordStrength(
+                        message: 'Password troppo debole. Prova ad aggiungere cifre e caratteri speciali (es: !$%&?.=-)',
+                    ),
                 ],
             ])
             ->add(child: 'agreeTerms', type: CheckboxType::class, options: [
                 'mapped' => false,
                 'required' => true,
                 'constraints' => [
-                    new IsTrue(options: [
-                        'message' => 'Ho letto l\'informativa sulla Privacy.',
-                    ]),
+                    new IsTrue(
+                        message: 'Ho letto l\'informativa sulla Privacy.',
+                    ),
                 ],
                 'label' => 'Accetto l\'informativa sulla privacy'
             ])

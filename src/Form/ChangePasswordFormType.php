@@ -30,16 +30,18 @@ class ChangePasswordFormType extends AbstractType
                 ],
                 'first_options' => [
                     'constraints' => [
-                        new NotBlank(options: [
-                            'message' => 'Immetti una password',
-                        ]),
+                        new NotBlank(
+                            message: 'Immetti una password',
+                        ),
                         new Length(
                             min: 12,
                             minMessage: 'La password deve avere almeno {{ limit }} caratteri',
                             // max length allowed by Symfony for security reasons
                             max: 4096,
                         ),
-                        new PasswordStrength(),
+                        new PasswordStrength(
+                            message: 'Password troppo debole. Prova ad aggiungere cifre e caratteri speciali (es: !$%&?.=-)',
+                        ),
                         new NotCompromisedPassword(),
                     ],
                     'label' => 'Nuova password',
