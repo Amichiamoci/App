@@ -2,6 +2,7 @@
 
 # Amichiamoci App
 [![Docker image](https://github.com/Amichiamoci/App/actions/workflows/docker-build.yml/badge.svg)](https://github.com/Amichiamoci/App/actions/workflows/docker-build.yml)
+![Website](https://img.shields.io/website?url=https%3A%2F%2Fapp.amichiamoci.it)
 
 Questo è il codice sorgente dell'[App di Amichiamoci](https://app.amichiamoci.it "Vai alla App"), disponibile come repository ed anche come immagine docker.
 
