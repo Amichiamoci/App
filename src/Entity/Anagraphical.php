@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Entity;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use CodiceFiscale\InverseCalculator;
 use nicholasricci\AnagraficheANPRISTAT\Collection\ComuneCollection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Expr\Comparison;
 use Doctrine\Common\Collections\Order;
 
 class Anagraphical
@@ -93,21 +93,11 @@ class Anagraphical
             $this->BirthDate = $cf->getBirthDate()->format(format: 'Y-m-d');
             $belfiore = $cf->getBelfioreCode();
 
-            $criteria = new Criteria();
-            $criteria
-                ->where(expression: new Comparison(
-                    field: 'registry_code', 
-                    op: Comparison::IS, 
-                    value: $belfiore,
-                ))
-                ->andWhere(expression: new Comparison(
-                    field: 'status', 
-                    op: Comparison::IS, 
-                    value: 'active',
-                ))
-                ->orderBy(orderings: [
-                    'last_update' => Order::Ascending,
-                ])
+            $criteria = Criteria::create()
+                ->where(Criteria::expr()->eq('registry_code', $belfiore))
+                ->andWhere(Criteria::expr()->eq('status', 'active'))
+                ->orderBy(['last_update' => Order::Ascending])
+                ->setMaxResults(1)
             ;
 
             $places = (new ComuneCollection())->matching(criteria: $criteria);
