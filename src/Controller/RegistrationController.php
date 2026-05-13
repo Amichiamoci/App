@@ -9,6 +9,7 @@ use App\Security\EmailVerifier;
 
 use Doctrine\ORM\EntityManagerInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,11 +19,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Psr\Log\LoggerInterface;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct(private EmailVerifier $emailVerifier)
+    public function __construct(private EmailVerifier $emailVerifier, private LoggerInterface $importantLogger)
     {
     }
 
@@ -44,6 +45,12 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist(object: $user);
             $entityManager->flush();
+
+            $this->importantLogger->info('User account created', [
+                'user_id' => $user->getId(),
+                'email' => $user->getEmail(),
+                'ip' => $request->getClientIp(),
+            ]);
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation(
@@ -69,7 +76,11 @@ class RegistrationController extends AbstractController
     }
 
     #[Route(path: '/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator, UserRepository $userRepository): Response
+    public function verifyUserEmail(
+        Request $request, 
+        TranslatorInterface $translator, 
+        UserRepository $userRepository,
+    ): Response
     {
         $id = $request->query->get(key: 'id');
 

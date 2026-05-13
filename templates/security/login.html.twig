@@ -19,17 +19,18 @@
         >qui</a>.
     </p>
 
+
+    {% include 'security/external_login.html.twig' with { 'label': 'Accedi' }  %}
+
     <h2>
-        Non hai un account?
+        Non hai un account e nemmeno un account Google?
     </h2>
     <p class="mb-1 small">
-        Registrati
+        Registrati con password
         <a  href="{{ path('app_register') }}" 
             class="link-underline link-underline-opacity-0 link-primary"
             title="Registrati"
-        >qui</a>
-        oppure
+        >qui</a>.
     </p>
 
-    {% include 'security/external_login.html.twig' with { 'label': 'Accedi' }  %}
 {% endblock %}

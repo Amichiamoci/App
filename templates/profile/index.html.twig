@@ -36,13 +36,18 @@
     {% for anagraphical in anagraphicals %}
         {% include '/profile/anagraphical.html.twig' with { 'anagraphical': anagraphical } %}
     {% else %}
-        <div class="alert alert-info d-flex align-items-left m-1" role="alert">
+        <div class="alert alert-info align-items-left m-1" role="alert">
+            <h2>
+                Hai partecipato in passato ma non vedi i tuoi dati?
+            </h2>
             <p class="m-0 user-select-none">
-                Nessuna anagrafica associata alla mail corrente.<br />
-                Se hai partecipato alle ultime edizioni e non vedi qui i tuoi dati
-                <strong>contatta uno staffista</strong>: è possibile che, nelle tue iscrizioni passate, tu non abbia
-                comunicato un'email oppure tu abbia comunicato un'email diversa da 
-                {{ app.user.email }}.
+                Nessuna anagrafica risulta associata alla mail <otuput>{{ app.user.email }}</output>.<br />
+                È possibile che i tuoi dati siano presenti, ma legati ad un'altra email.
+                Prova ad 
+                <a href="{{ path('app_logout') }}" 
+                   class="text-reset link-underline link-underline-opacity-50"
+                   title="Esci e rientra con un altro account"
+                >accedere con un altro account</a>.
             </p>
         </div>
     {% endfor %}
@@ -55,7 +60,7 @@
 
             <p class="m-0">
                 I dati saranno associati all'email 
-                <span class="font-monospace user-select-none">{{ app.user.email }}</span>,
+                <span class="font-monospace user-select-none">{{ app.user.email }}</span>:
                 solo con questo account sarà possibile modificarli in futuro.<br />
 
                 In caso di iscrizione di un <strong>minore</strong> è necessario che 

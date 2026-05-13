@@ -27,9 +27,7 @@ class SecurityController extends AbstractController
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         if ($error !== null)
-        {
             $this->addFlash(type: 'error', message: $error->getMessage());
-        }
 
         $csrfToken = $csrfTokenManager->getToken(tokenId: 'authenticate')->getValue();
         $form = $this->createForm(
@@ -50,6 +48,8 @@ class SecurityController extends AbstractController
     #[Route(path: '/app_logout', name: 'app_logout')]
     public function logout(): void
     {
-        throw new \LogicException(message: 'This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new \LogicException(
+            message: 'This method can be blank - it will be intercepted by the logout key on your firewall.'
+        );
     }
 }

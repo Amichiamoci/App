@@ -19,6 +19,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
+use Psr\Log\LoggerInterface;
 
 #[Route(path: '/reset-password')]
 class ResetPasswordController extends AbstractController
@@ -27,7 +28,8 @@ class ResetPasswordController extends AbstractController
 
     public function __construct(
         private ResetPasswordHelperInterface $resetPasswordHelper,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private LoggerInterface $importantLogger
     ) {
     }
 
@@ -41,6 +43,11 @@ class ResetPasswordController extends AbstractController
         $form->handleRequest(request: $request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $email = $form->get(name: 'email')->getData();
+            $this->importantLogger->info('Password reset requested', [
+                'email' => $email,
+                'ip' => $request->getClientIp(),
+            ]);
             return $this->processSendingPasswordResetEmail(
                 emailFormData: $form->get(name: 'email')->getData(),
                 mailer: $mailer,
@@ -129,6 +136,12 @@ class ResetPasswordController extends AbstractController
 
             $user->setPassword(password: $encodedPassword);
             $this->entityManager->flush();
+
+            $this->importantLogger->info('Password changed', [
+                'user_id' => $user->getId(),
+                'email' => $user->getEmail(),
+                'ip' => $request->getClientIp(),
+            ]);
 
             // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();

@@ -1,36 +1,36 @@
-<h3>
+<h2>
     {{ label }} tramite provider esterni
-</h3>
+</h2>
 
 <div class="row m-1">
     <div class="input-group" 
-        role="group" 
-        aria-label="Accedi tramite provider esterni"
+         role="group" 
+         aria-label="Accedi tramite provider esterni"
     >
         <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}" 
-            class="btn border" 
-            role="button"
+           class="btn border" 
+           role="button"
         >
             <twig:ux:icon name="logos:google-icon" height="18" />
             Google
         </a>
-        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" 
-            class="btn border"
-            role="button"
-        >
-            <twig:ux:icon name="logos:facebook" height="18" />
-            Facebook
-        </a>
         <a href="{{ path('hwi_oauth_service_redirect', {'service': 'microsoft' }) }}" 
-            class="btn border" 
-            role="button"
+           class="btn border" 
+           role="button"
         >
             <twig:ux:icon name="logos:microsoft-icon" height="18" />
             Microsoft
         </a>
+        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" 
+           class="btn border"
+           role="button"
+        >
+            <twig:ux:icon name="logos:facebook" height="18" />
+            Facebook
+        </a>
         <a href="{{ path('hwi_oauth_service_redirect', {'service': 'github' }) }}" 
-            class="btn border" 
-            role="button"
+           class="btn border" 
+           role="button"
         >
             <twig:ux:icon name="mdi:microsoft-github" height="18" />
             GitHub
