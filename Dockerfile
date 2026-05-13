@@ -56,6 +56,7 @@ RUN if [ "$APP_ENV" = "dev" ]; then \
 COPY ./docker_files/nginx.conf /etc/nginx/http.d/default.conf
 COPY ./docker_files/php.conf /usr/local/etc/php-fpm.d/www-app.conf
 COPY ./docker_files/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+COPY ./docker_files/php-limits.ini /usr/local/etc/php/conf.d/php-limits.ini
 COPY --from=build /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=build /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 
@@ -73,6 +74,7 @@ RUN composer install \
 RUN chown -R www-data /app/var
 
 RUN php bin/console importmap:install
+RUN php bin/console pwa:compile
 RUN if [ "$APP_ENV" = "prod" ]; then \
       php bin/console asset-map:compile; \
     fi

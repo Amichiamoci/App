@@ -3,7 +3,9 @@ pwa:
 
   #favicons:
   #  enabled: true
-  #  src: assets/logos/favicon.png
+  #  default:
+  #    src: assets/logos/favicon.png
+  #    background_color: '#ffffff'
 
   manifest:
     enabled: true
@@ -14,7 +16,11 @@ pwa:
     categories: ['event', 'fundraising', 'sports']
     
     scope: "/"
-    start_url: "./"
+    start_url: 
+      path: "home"
+      params:
+        utm_source: "pwa"
+    
     display: "standalone"
     background_color: "#ffffff"
 

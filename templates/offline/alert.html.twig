@@ -1,0 +1,36 @@
+
+<div class="modal fade" id="offline-game-modal" tabindex="-1" aria-labelledby="offlineGameModalLabel" aria-hidden="true" data-offline-game-target="offlineModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="offlineGameModalLabel">Connessione assente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+            </div>
+            <div class="modal-body">
+                <p>Non c'è connessione internet al momento. Vuoi giocare un semplice gioco mentre aspetti?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-action="offline-game#skipOffline">No, grazie</button>
+                <button type="button" class="btn btn-primary" data-action="offline-game#startGame">Sì, voglio giocare</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="online-resume-modal" tabindex="-1" aria-labelledby="onlineResumeModalLabel" aria-hidden="true" data-offline-game-target="onlineModal" style="z-index: 9999;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="onlineResumeModalLabel">Connessione ripristinata</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+            </div>
+            <div class="modal-body">
+                <p id="online-resume-message" data-offline-game-target="resumeMessage">Connessione ripristinata. Vuoi continuare a giocare o tornare alla home?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-action="offline-game#continuePlaying">Continua a giocare</button>
+                <button type="button" class="btn btn-primary" data-action="offline-game#goHome">Vai alla home</button>
+            </div>
+        </div>
+    </div>
+</div>

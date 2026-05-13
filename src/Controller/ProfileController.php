@@ -83,9 +83,7 @@ class ProfileController extends AbstractController
         }
 
         if (!$anagraphical->hasSubscription())
-        {
             return $anagraphical;
-        }
 
         $file_name = null;
         if ($anagraphical->Subscription->hasCertificate())
@@ -167,7 +165,7 @@ class ProfileController extends AbstractController
                 return $a->Id === $id;
             },
         );
-        if ($anagraphical === null)
+        if (!isset($anagraphical)) // Do not change with "=== null"
         {
             // Record not found or not accessible
             throw $this->createAccessDeniedException(message: 'Dati non trovati o non accessibili');
@@ -215,9 +213,7 @@ class ProfileController extends AbstractController
                 original: $original_anagraphical,
             );
             if ($anagraphical !== null)
-            {
                 return $this->redirectToRoute(route: 'profile');
-            }
 
             $this->addFlash(
                 type: 'error', 

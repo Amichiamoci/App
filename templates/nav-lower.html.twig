@@ -5,7 +5,7 @@
                 class="d-flex align-items-center text-decoration-none text-reset"
                 title="Home"
             >
-                <twig:ux:icon name="bi:house" height="20" />
+                <twig:ux:icon name="bi:house" height="25" />
             </a>
         </div>
         <div class="col p-1 d-flex justify-content-center align-items-center">
@@ -67,28 +67,30 @@
             </div>
             
         </div>
+        {#
         <div class="col p-1 d-flex justify-content-center align-items-center">
             <a href="{{ path('fanta') }}" 
                 class="d-flex align-items-center text-decoration-none text-reset"
                 title="Fanta Amichiamoci"
             >
-                <twig:ux:icon name="bi:star" height="20" />
+                <twig:ux:icon name="bi:star" height="25" />
             </a>
         </div>
+        #}
         <div class="col p-1 d-flex justify-content-center align-items-center">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <a  href="{{ path('profile') }}" 
                     class="d-flex align-items-center text-decoration-none text-reset"
                     title="{{ app.user.getName() }}"
                 >
-                    <twig:ux:icon name="uil:user" height="20" />
+                    <twig:ux:icon name="uil:user" height="25" />
                 </a>
             {% else %}
                 <a  href="{{ path('app_login') }}" 
                     class="d-flex align-items-center text-decoration-none text-reset"
                     title="Accedi"
                 >
-                    <twig:ux:icon name="material-symbols:login" height="20" />
+                    <twig:ux:icon name="material-symbols:login" height="25" />
                 </a>
             {% endif %}
         </div>

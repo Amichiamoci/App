@@ -41,10 +41,10 @@ nav.upper {
         max-height: 75px !important;
     }
 nav.lower {
-    max-height: 90px !important;
+    max-height: 110px !important;
 }
     nav.lower :is(a, img) {
-        max-height: 90px !important;
+        max-height: 110px !important;
     }
 @media only screen and (max-width: 576px) {
     header {

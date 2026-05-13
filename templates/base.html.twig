@@ -16,9 +16,11 @@
     </title>
     {% block stylesheets %}{% endblock %}
 
+    {% include('offline/game-preload.html.twig') %}
+
     {{ pwa() }}
 </head>
-<body class="p-0 m-0">
+<body class="p-0 m-0" {{ stimulus_controller('offline-game') }}>
     {% include('transition.html.twig') %}
     
     <header class="border border-1 border-left-0 overflow-x-hidden overflow-y-auto">
@@ -70,25 +72,19 @@
             #}
         </main>
 
+        {% include('offline/alert.html.twig') %}
+        {% include('offline/game-body.html.twig') %}
+
         {% include('nav-lower.html.twig') %}
 
         <footer class="border-top bg-body-secondary user-select-none position-fixed bottom-0 pb-1 w-100 z-3 overflow-hidden">
             {% include('footer.html.twig') %}
         </footer>
-
-        {#
-        <button type="button"
-                class="btn btn-secondary btn-floating btn-lg d-none position-fixed z-3"
-                data-btn-to-top="true"
-                style="bottom: 20px; right: 20px;"
-                title="Torna su">
-            <twig:ux:icon name="bi:arrow-up" width="16" />
-        </button>
-        #}
     </div>
     
     {% block javascripts %}
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
+
 </body>
 </html>

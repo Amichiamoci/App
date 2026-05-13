@@ -1,0 +1,42 @@
+
+<div id="offline-game-panel" 
+     class="d-none position-fixed top-0 start-0 w-100 h-100 user-select-none" 
+     style="z-index: 1200;" 
+     data-offline-game-target="gamePanel"
+>
+    
+    {% set gameAssetMap = game_assets() %}
+    <div id="offline-game-content" 
+         class="w-100 h-100 day"
+         {{ stimulus_controller('balloon-game') }}
+         data-balloon-game-image-paths-value='{{ gameAssetMap|json_encode()|raw }}'
+        >
+        
+        <!-- Counter -->
+        <div class="counter" data-balloon-game-target="counter">0</div>
+        
+        <!-- Error Bar -->
+        <div class="errors" data-balloon-game-target="errorBar"></div>
+        
+        <!-- Game Area -->
+        <div id="game" data-balloon-game-target="game"></div>
+        
+        <!-- Restart Button -->
+        <button id="restart-button" data-balloon-game-target="restartButton">
+            <span>🔄 Ricomincia</span>
+        </button>
+        
+        <!-- Hidden container for baloon logos -->
+        <div id="baloon-keeper" class="d-none" data-balloon-game-target="baloonKeeper">
+            {% set gameyearsAndUrls = game_years_to_logos() %}
+            {% for year, logo in gameyearsAndUrls %}
+                <img src="{{ logo.asset }}" 
+                     alt="Logo {{ year }}" 
+                     data-bg="FFFFFF" 
+                     data-motto="{{ year }}" 
+                     data-dist="2" 
+                     />
+            {% endfor %}
+        </div>
+    </div>
+</div>

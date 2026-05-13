@@ -1,0 +1,6 @@
+
+{% set gameAssetList = game_asset_list() %}
+{% for gameAsset in gameAssetList %}
+    <link rel="preload" as="image" href="{{ gameAsset }}" />
+{% endfor %}
+<link rel="preload" as="style" href="{{ asset('styles/game.css') }}" />

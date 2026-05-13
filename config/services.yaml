@@ -30,6 +30,10 @@ services:
             $environment: '%kernel.environment%'
             $cache: '@cache.amichiamoci_api'
 
+    App\Twig\GameAssetsExtension:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     App\EventListener\RequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 100 }
