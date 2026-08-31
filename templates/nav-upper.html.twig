@@ -1,18 +1,7 @@
 <nav class="upper border-bottom w-100 position-fixed top-0 bg-body-tertiary overflow-hidden">
     <div class="row w-100">
         <div class="col col-2 p-1 d-flex justify-content-center align-items-center">
-            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isReferee() %}
-                <div class="d-flex align-items-center ">
-                    <button 
-                        class="btn btn-link link-underline link-underline-opacity-0 text-reset"
-                        type="button" 
-                        data-bs-toggle="modal"
-                        data-bs-target="#refereeModal"
-                    >
-                        <twig:ux:icon name="game-icons:whistle" height="25" />
-                    </button>
-                </div>
-            {% endif %}
+            <span></span>
         </div>
         <a class="d-block col col-8 px-4" href="{{ path('home') }}">
             <img src="{{ asset('logos/logo.png') }}" 
@@ -44,7 +33,7 @@
     </div>
 </nav>
 
-{% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isReferee() %}
+{% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isAdmin() %}
     <div class="modal fade" 
         id="refereeModal" 
         tabindex="-1" 
@@ -55,7 +44,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="refereeModalLabel">
-                        Menù {% if app.user.isAdmin() %}amministratore{% else %}arbitro{% endif %}
+                        Menù amministratore
                     </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -63,36 +52,14 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <a  class="link-underline link-underline-opacity-0 text-reset" 
-                                href="{{ path('referee_dashboard') }}"
-                                title="Vedi le partite"
+                                href="{{ path('admin') }}"
+                                title="Aggiungi o rimuovi gli amministratori"
                             >
-                                <twig:ux:icon name="fluent:run-16-regular" height="18" />
+                                <twig:ux:icon name="ri:admin-line" height="18" />
                                 &nbsp;
-                                Partite
+                                Menù Amministratore
                             </a>
                         </li>
-                        <li class="list-group-item">
-                            <a  class="link-underline link-underline-opacity-0 text-reset" 
-                                href="{{ path('referee_teams') }}"
-                                title="Tutte le squadre"
-                            >
-                                <twig:ux:icon name="fluent-mdl2:teamwork" height="18" />
-                                &nbsp;
-                                Squadre
-                            </a>
-                        </li>
-                        {% if app.user.isAdmin() %}
-                            <li class="list-group-item">
-                                <a  class="link-underline link-underline-opacity-0 text-reset" 
-                                    href="{{ path('admin') }}"
-                                    title="Aggiungi o rimuovi gli amministratori"
-                                >
-                                    <twig:ux:icon name="ri:admin-line" height="18" />
-                                    &nbsp;
-                                    Menù Amministratore
-                                </a>
-                            </li>
-                        {% endif %}
                     </ul>
                 </div>
             </div>

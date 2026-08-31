@@ -37,10 +37,6 @@ final readonly class FormHandler implements RegistrationFormHandlerInterface
         {
             $user->addRole(role: User::ADMIN);
         }
-        if ($external_claims->Referee)
-        {
-            $user->addRole(role: User::REFEREE);
-        }
 
         $form->setData(modelData: $user);
         $form->handleRequest(request: $request);

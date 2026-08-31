@@ -35,7 +35,6 @@ class UserCrudController extends AbstractCrudController
             ChoiceField::new( propertyName: 'roles',      label: 'Ruoli')
                 ->setChoices(choiceGenerator: [
                     'Utente' =>  User::USER,
-                    'Arbitro' => User::REFEREE,
                     'Admin' =>   User::ADMIN,
 
                     'Utente esterno' => User::EXTERNAL_PROVIDER,

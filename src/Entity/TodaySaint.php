@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use DateTime;
-
 class TodaySaint
 {
     public function __construct(

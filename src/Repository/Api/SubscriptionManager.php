@@ -67,7 +67,7 @@ trait SubscriptionManager
      * Returns true if the current email is associted to a subscribed person
      * or to a parent of a subscribed person
      * @param string $email The email to check for, case INSENSITIVE
-     * @return bool
+     * @return int
      */
     public function SubscriptionsWithProblems(string $email): int
     {

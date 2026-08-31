@@ -23,7 +23,6 @@ implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const ADMIN = 'ROLE_ADMIN';
     public const USER = 'ROLE_USER';
-    public const REFEREE = 'ROLE_REFEREE';
     public const EXTERNAL_PROVIDER = 'ROLE_EXTERNAL_PROVIDER';
 
     public const CONNECT_GOOGLE = 'ROLE_GOOGLE';
@@ -113,8 +112,7 @@ implements UserInterface, PasswordAuthenticatedUserInterface
         $roles[] = self::USER;
 
         // Detect if the user is admin from the environment
-        if (
-            in_array(needle: 'ADMIN_USER_EMAIL', haystack: $_ENV) && 
+        if (in_array(needle: 'ADMIN_USER_EMAIL', haystack: $_ENV) && 
             is_string(value: $_ENV['ADMIN_USER_EMAIL']) &&
             $this->email === $_ENV['ADMIN_USER_EMAIL']
         ) {
@@ -162,15 +160,12 @@ implements UserInterface, PasswordAuthenticatedUserInterface
     public function isInRole(string $role): bool
     {
         $roles = $this->getRoles();
-        return in_array(needle: self::ADMIN, haystack: $roles) || in_array(needle: $role, haystack: $roles);
+        return in_array(needle: self::ADMIN, haystack: $roles) || 
+            in_array(needle: $role, haystack: $roles);
     }
     public function isAdmin(): bool
     {
         return in_array(needle: self::ADMIN, haystack: $this->getRoles());
-    }
-    public function isReferee(): bool
-    {
-        return $this->isInRole(role: self::REFEREE);
     }
     public function isExternal(): bool
     {

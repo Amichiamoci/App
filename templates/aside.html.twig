@@ -123,63 +123,29 @@
                 </ul>
             </div>
         </li>
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            {% if app.user.isReferee() %}
-                <li>
-                    <button 
-                        class="btn btn-toggle align-items-center rounded collapsed" 
-                        data-bs-toggle="collapse" 
-                        data-bs-target="#navbar-referee-collapse" 
-                        aria-expanded="false"
-                    >
-                        Arbitro
-                    </button>
-                    <div class="collapse" id="navbar-referee-collapse">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-4">
-                            <li>
-                                <a  class="text-reset link-underline link-underline-opacity-0" 
-                                    href="{{ path('referee_dashboard') }}"
-                                >
-                                    <twig:ux:icon name="fluent:run-16-regular" height="15" />
-                                    Partite
-                                </a>
-                            </li>
-                            <li>
-                                <a  class="text-reset link-underline link-underline-opacity-0" 
-                                    href="{{ path('referee_teams') }}"
-                                >
-                                    <twig:ux:icon name="fluent-mdl2:teamwork" height="15" />
-                                    Squadre
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            {% endif %}
-            {% if app.user.isAdmin() %}
-                <li>
-                    <button 
-                        class="btn btn-toggle align-items-center rounded collapsed" 
-                        data-bs-toggle="collapse" 
-                        data-bs-target="#navbar-admin-collapse" 
-                        aria-expanded="false"
-                    >
-                        Admin
-                    </button>
-                    <div class="collapse" id="navbar-admin-collapse">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-4">
-                            <li>
-                                <a  class="text-reset link-underline link-underline-opacity-0" 
-                                    href="{{ path('admin') }}"
-                                >
-                                    <twig:ux:icon name="ri:admin-line" height="15" />
-                                    Menù Amministratore
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            {% endif %}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isAdmin() %}
+            <li>
+                <button 
+                    class="btn btn-toggle align-items-center rounded collapsed" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#navbar-admin-collapse" 
+                    aria-expanded="false"
+                >
+                    Admin
+                </button>
+                <div class="collapse" id="navbar-admin-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-4">
+                        <li>
+                            <a  class="text-reset link-underline link-underline-opacity-0" 
+                                href="{{ path('admin') }}"
+                            >
+                                <twig:ux:icon name="ri:admin-line" height="15" />
+                                Menù Amministratore
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
         {% endif %}
         <li>
             <button 

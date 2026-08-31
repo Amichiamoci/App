@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Entity\Team;
-use Symfony\Component\Serializer\Annotation\Ignore;
 
 class Team
 {
@@ -20,10 +19,6 @@ class Team
     public function getChurch(): string { return $this->Church; }
     public function getChurchId(): int { return $this->ChurchId; }
 
-    #[Ignore]
-    public array $Members = [];
-    public function getMembers(): array { return $this->Members; }
-    public function hasMembers(): bool { return count(value: $this->Members) > 0; }
 
     public ?string $Coach = null;
     public function getCoach(): ?string { return $this->Coach; }

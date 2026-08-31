@@ -86,10 +86,6 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         {
             $user->addRole(role: User::ADMIN);
         }
-        if ($external_claims->Referee)
-        {
-            $user->addRole(role: User::REFEREE);
-        }
 
         // Generate a random password that the user won't know
         $user->setPassword(

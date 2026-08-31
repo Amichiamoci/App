@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity\Church;
-use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Attribute\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Church
