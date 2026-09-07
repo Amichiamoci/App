@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Torneo {{ tournament.Name }}{% endblock %}
+{% block title %}{{ tournament.Name }}{% endblock %}
 {% block description %}Torneo di {{ tournament.Sport }}{% endblock %}
 
 {% block body %}
     <div class="m-1">
         <h1>
-            Torneo {{ tournament.Name }}
+            {{ tournament.Name }}
         </h1>
         <p>
             Tipologia: <strong>{{ tournament.Type }}</strong><br />
@@ -34,17 +34,9 @@
             <table class="table">
             <thead>
                 <tr>
-                    <th rowspan="2" class="align-middle"> Squadra </th>
-                    <th rowspan="2" class="align-middle"> Punti </th>
-                    <th colspan="2" class="text-center"> Partite </th>
-                </tr>
-                <tr>
-                    <th>
-                        Da Giocare
-                    </th>
-                    <th>
-                        Previste
-                    </th>
+                    <th class="align-middle"> Squadra </th>
+                    <th class="align-middle"> Punti </th>
+                    <th class="text-center"> Partite da giocare</th>
                 </tr>
             </thead>
             <tbody>
@@ -63,8 +55,7 @@
                         </td>
                         <td>
                             <output>{{ team.MatchesToPlay }}</output>
-                        </td>
-                        <td>
+                            /
                             <output>{{ team.PlannedMatches }}</output>
                         </td>
                     </tr>
@@ -76,7 +67,7 @@
         {% endif %}
 
         <h3>
-            Parite ({{ tournament.Matches|length }})
+            Partite ({{ tournament.Matches|length }})
         </h3>
         <div class="row">
             {% for match in tournament.Matches %}
@@ -113,7 +104,7 @@
                 </div>
             {% else %}
                 <p class="list-group-item">
-                    Calendario non ancora creato
+                    Calendario non ancora disponibile
                 </p>
             {% endfor %}
         </div>
