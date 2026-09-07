@@ -15,19 +15,6 @@
         </p>
 
         <hr />
-        
-        {#
-        <h3>
-            Squadre partecipanti
-        </h3>
-        <ul class="list-group">
-            {% for teamName in tournament.Teams %}
-                <li class="list-group-item">{{ teamName }}</li>
-            {% endfor %}
-        </ul>
-        
-        <hr />
-        #}
 
         {% if tournament.hasLeaderboard() %}
             <h3> Classifica </h3>
@@ -36,7 +23,7 @@
                 <tr>
                     <th class="align-middle"> Squadra </th>
                     <th class="align-middle"> Punti </th>
-                    <th class="text-center"> Partite da giocare</th>
+                    <th class="align-middle"> Partite da giocare</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,8 +49,6 @@
                 {% endfor %}
             </tbody>
             </table>
-
-            <hr />
         {% endif %}
 
         <h3>

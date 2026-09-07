@@ -3,13 +3,11 @@
     <p> 
         Squadra di <strong>{{ team.Sport }}</strong>
         della parrocchia
-        <a href="{{ path('church_view', {'id': team.ChurchId })}}" 
+        <a  href="{{ path('church_view', {'id': team.ChurchId })}}" 
             class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
             title="Vai alla parrocchia"
         >
             {{ team.Church }}
         </a>.
-        <br>
-        Vi giocano <output>{{ team.Members|length }}</output> membri.
     </p>
 </div>
