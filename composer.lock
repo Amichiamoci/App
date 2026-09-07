@@ -12846,16 +12846,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v8.1.1",
+            "version": "v8.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "3e1c9a9167e07474ec115555b632f0ffadb0f94d"
+                "reference": "abd3c4e35f06f98bc6e5e07c81f948bc77cd39bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/3e1c9a9167e07474ec115555b632f0ffadb0f94d",
-                "reference": "3e1c9a9167e07474ec115555b632f0ffadb0f94d",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/abd3c4e35f06f98bc6e5e07c81f948bc77cd39bd",
+                "reference": "abd3c4e35f06f98bc6e5e07c81f948bc77cd39bd",
                 "shasum": ""
             },
             "require": {
@@ -12907,7 +12907,7 @@
                 "testing"
             ],
             "support": {
-                "source": "https://github.com/symfony/phpunit-bridge/tree/v8.1.1"
+                "source": "https://github.com/symfony/phpunit-bridge/tree/v8.1.6"
             },
             "funding": [
                 {
@@ -12927,7 +12927,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-09T10:54:51+00:00"
+            "time": "2026-08-30T18:28:51+00:00"
         },
         {
             "name": "symfony/web-profiler-bundle",
